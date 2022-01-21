@@ -1,0 +1,31 @@
+/* General */  
+h1, h2 {
+    text-align: center;
+}
+
+/* Typography */  
+
+main {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+/* block styling */  
+body{
+    width: 800px; 
+    margin: 0 auto;
+    background-image: url(file:///C:/Users/Tiffany/Documents/GitHub/ITM352_S22_repo/Lab2/static/SmartPhoneProducts1/images/phone_globe.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+   
+}
+/* Form styling */  
+div {
+    border: 5px solid black;
+display: flex;
+}
+/* Styling the products display */ 
+img {
+    width: 200px;
+    height: 200px;
+}
