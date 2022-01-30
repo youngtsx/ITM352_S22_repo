@@ -9,22 +9,21 @@ body {
     width: 950px;
     background-color: ivory; 
 }
-
-img {
-    float: left;
-    margin-right: 10px;
-}
 ul {
     list-style-type: none;
-    margin: 0px;
-    padding: 0px 
 }
+
 li {
     display: inline;
 }
+
 #navbar a {
-    margin-left:50px;
+    margin-left: 50px;
     margin-right: 50px;
+
+}
+img {
+    float: left;
 }
 
 .left {
@@ -32,13 +31,15 @@ li {
     width: 300px;
     padding: 1em;
 }
+
 .right {
-    float:right;
+    float: right;
     width: 300px;
     padding: 1em;
 }
+
 .center {
     margin-left: 300px;
-    margin-right:300px;
+    margin-right: 300px;
     padding: 1em;
 }
