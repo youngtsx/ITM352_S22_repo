@@ -14,9 +14,8 @@ main {
 body{
     width: 800px; 
     margin: 0 auto;
-    background-image: url(file:///C:/Users/Tiffany/Documents/GitHub/ITM352_S22_repo/Lab2/static/SmartPhoneProducts1/images/phone_globe.jpg);
-    background-repeat: no-repeat;
-    background-position: center;
+    background-image: url(file:///C:/Users/Tiffany/Documents/GitHub/ITM352_S22_repo/Lab2/static/SmartPhoneProducts1/images/phone_globe.jpg) no-repeat 50% center;
+    
    
 }
 /* Form styling */  
