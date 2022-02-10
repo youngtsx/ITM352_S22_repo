@@ -10,8 +10,10 @@
     <link href="products-style.css" rel="stylesheet">
   <script>
       store_name = "Tiffany Young";
-     
-   
+      var hits = 0;
+      
+      var spins = 0;  
+      
 
   </script>
 
@@ -39,7 +41,8 @@
         </aside>
 
         <main>
-            <section class="item" onmouseover="spins_span.innerHTML = spins;" onclick="hits_span.innerHTML = hits;">
+            <section class="item" onmouseover="++spins; spins_span.innerHTML = spins;" 
+            onclick="++hits; hits_span.innerHTML = hits;">
                 <h2>HTC</h2>
                 <p>$40.00</p>
                 <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg">
@@ -80,9 +83,3 @@
 </body>
 
 </html>
-<script>
- var hits = 0;
-    hits++;
-var spins = 0;
-    spins++;
-</script>
