@@ -11,24 +11,25 @@
   <script>
       store_name = "Tiffany Young";
       var hits = 0;
-      
       var spins = 0;  
-      
-
+      var first_name = "Tiffany";
+      var last_name = "Young"; 
   </script>
 
   </head>
 
 <body onload="
+     hits_span.innerHTML = hits;
+     spins_span.innerHTML = spins;
      
-    
 ">
     
     <header>
-        <h1><script>document.write(store_name);</script>'s Used Smart Phone Store</h1>
+        <h1><script>document.write('<font size = "200%">' + <strong>' + first_name + '</strong>'+ " " + '<em>' + last_name + '</em>' + '</font>');</script>'s Used Smart Phone Store</h1>
         <p style="text-align: center; font-weight: bold;">
-            Hits:<span id="hits_span">0</span>
-            Spins:<span id="spins_span">0</span>
+            Hits:<span id="hits_span"></span>
+            Spins:<span id="spins_span"></span>
+            Hit/Spin:<span id="hit_spin_span">0</span>
             </p>
             
     </header>
@@ -41,8 +42,9 @@
         </aside>
 
         <main>
-            <section class="item" onmouseover="++spins; spins_span.innerHTML = spins;" 
-            onclick="++hits; hits_span.innerHTML = hits;">
+            <section class="item" 
+            onmouseover="spins++; spins_span.innerHTML= spins; hit_spin_span.innerHTML = hits/spins;" 
+            onclick="hits_span.innerHTML= ++hits; hit_spin_span.innerHTML = hits/spins;">
                 <h2>HTC</h2>
                 <p>$40.00</p>
                 <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg">
@@ -72,14 +74,18 @@
                 <p>$10.00</p>
                 <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg">
             </section>
-
         </main>
     </div>
     <footer>
-        <h1>
-            Your One Stop For Used Phones - <script>document.write(store_name)</script>'s
-        </h1>
-    </footer>
+    <script>
+    document.write(`
+        <table border="1" style="margin-left: auto; margin-right: auto; text-align: center;">
+    <tr><th colspan="2"><h1>Your One Stop For Used Phones - ${first_name[0].${last_name[0]}.'s</h1></th></tr>
+    <tr><td>1.</td><td><br />Copyright @ Dan Port</td></tr>
+    <tr><td>2.</td><td>2021</td></tr>
+    <tr><td>3.</td><td>11:15 AM</td></tr>
+        </table>
+   `);</script>
+   </footer>
 </body>
-
 </html>
