@@ -1,7 +1,7 @@
 require("./products_data.js");
 
 var num_products = 5;
-let counter = 1
+var counter = 1
 while(counter <= (num_products/2)) {
    counter++;
    console.log(`${counter}. ${eval('name' + counter)}`);

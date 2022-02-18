@@ -1,7 +1,7 @@
 require("./products_data.js");
 
 var num_products = 5;
-// let counter = 0
+// var counter = 0
 for (counter = 1; counter <= num_products; counter++){
 /*while(counter < num_products) {
     counter++;
