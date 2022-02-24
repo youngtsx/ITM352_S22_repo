@@ -25,10 +25,11 @@ document.write(`
 <tbody>
 <tr><th style="border: 1px solid black;">Product Name</th><th>Price</th></tr>
 `)
+for(let prodObj of products) {
 
+ document.write(`<tr><td>${prodObj.name}</td><td>${prodObj.price}</tr></td>
+ `);
+}
 
-
-
-
-document.write(`</tbody></table>`)
+document.write(`</tbody></table>`);
 </script>
