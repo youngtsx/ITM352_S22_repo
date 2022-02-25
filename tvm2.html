@@ -1,0 +1,498 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TVM Calculator</title>
+    <style>
+        h2 {
+            font-family: Arial, Helvetica, sans-serif ;
+            text-align: center ;
+        }
+        .smTb { 
+            width: 100px ;
+            height: 15px ;
+            text-align: center ;
+        }
+        .ans {
+            text-align: center ;
+        }
+        .msg {
+            text-align: left ;
+        }
+        .lineno { 
+            width: 30px ;
+            height: 15px ;
+            text-align: center ;
+        }
+    </style>
+</head>
+<body>
+    <script>
+    // Global Boolean: 'ordanary annuity' = true ; false = 'annuity due'
+    var bordann = true ;
+    function check_isnum(stval, msg = "message") {
+        if (Number.isNaN( Number(stval) )) {
+            document.getElementById(msg).innerHTML = "ERROR: " + stval + "  is NOT a number !" ;
+            throw exit ;
+        }
+    }
+    function cpt_n(nn, ni, nPV, nPMT, nFV) {
+        if (bordann) {
+            return round( Math.log( (-ni*nFV + nPMT)/(ni*nPV + nPMT)  )/Math.log(1 + ni) , 2) ;
+        } else {
+            return round( Math.log( (-ni*nFV + (1+ni)*nPMT)/(ni*nPV + (1+ni)*nPMT)  )/Math.log(1 + ni) , 2) ;
+        }
+    }
+    function cpt_i(nn, ni, nPV, nPMT, nFV) {
+        if (bordann) {
+            var ip = 1.1, iq = 1.0, epsilon = 0.000000001, counter = 0;
+            console.log('OK BEGIN...')
+            while (Math.abs(ip - iq) > epsilon && counter <= 1000) {
+                counter++ ;
+                // update: old becomes new
+                ip = iq ;
+                // compute new -- Newton-Raphson
+                func = ( nPV*Math.pow(1+ip,nn) + nPMT*(Math.pow(1+ip,nn)-1)/ip + nFV ) ;
+                fder = ( nn*nPV*Math.pow(1+ip, nn-1) + nPMT*( (ip*nn*Math.pow(1+ip,nn-1)-Math.pow(1+ip,nn)+1)/(ip*ip) ) ) ;
+                iq = ip - func / fder ;
+            }
+            return round( iq , 5) ;
+        } else {
+            var ip = 1.1, iq = 1.0, epsilon = 0.000000001, counter = 0;
+            console.log('OK BEGIN...')
+            while (Math.abs(ip - iq) > epsilon && counter <= 1000) {
+                counter++ ;
+                // update: old becomes new
+                ip = iq ;
+                // compute new -- Newton-Raphson
+                func = ( nPV*Math.pow(1+ip,nn) + nPMT*(1+ip)*(Math.pow(1+ip,nn)-1)/ip + nFV ) ;
+                fder = ( nn*nPV*Math.pow(1+ip, nn-1) + nPMT*( (1+ip)*(ip*nn*Math.pow(1+ip,nn-1)-Math.pow(1+ip,nn)+1)/(ip*ip) + (Math.pow(1+ip,nn)-1)/ip ) ) ;
+                iq = ip - func / fder ;
+            }
+            return round( iq , 5) ;
+        }
+    }
+    function cpt_PV(nn, ni, nPV, nPMT, nFV) {
+        if (bordann) {
+            // return round( -(nFV / Math.pow(1+ni, nn)) - nPMT * ( (1-Math.pow(1+ni, -nn))/ni ), 2) ;
+            return -(nFV / Math.pow(1+ni, nn)) - nPMT * ( (1-Math.pow(1+ni, -nn))/ni ) ;
+        } else {
+            // return round( -(nFV / Math.pow(1+ni, nn)) - nPMT * (1 + (1-Math.pow(1+ni, -(nn-1)))/ni ), 2) ;
+            return -(nFV / Math.pow(1+ni, nn)) - nPMT * (1 + (1-Math.pow(1+ni, -(nn-1)))/ni ) ;
+        }
+    }
+    function cpt_PMT(nn, ni, nPV, nPMT, nFV) {
+        if (bordann) {
+            return - nPV*ni /(1 - Math.pow(1+ni, -nn)) + nFV*ni /(Math.pow(1+ni, nn)-1) ;
+        } else {
+            return - nPV*ni /(ni+(1 - Math.pow(1+ni, -(nn-1)))) + nFV*ni /((1+ni)*(Math.pow(1+ni, nn)-1)) ;
+        }
+    }
+    function cpt_FV(nn, ni, nPV, nPMT, nFV) {
+        if (bordann) {
+            return round( -nPV * Math.pow(1+ni, nn) - nPMT * ( (Math.pow(1+ni, nn)-1)/ni ) , 2) ;
+        } else {
+            return round( -nPV * Math.pow(1+ni, nn) - nPMT * (1+ni) *((Math.pow(1+ni,nn)-1)/ni ) , 2) ;
+        }
+    }
+    function mainCompute() {
+        // Clear the results cells of the work table
+        clearRes() ;
+        // Annuity type:
+        if (bordann) {
+            document.getElementById('annuityType').innerHTML = "ordinary annuity" ;
+        } else{
+            document.getElementById('annuityType').innerHTML = "annuity due" ;
+        }
+        // Read strings, identify unknown, convert inputs to numbers, call fn
+        var cpt ;
+        var stn = document.getElementById('n').value ;
+        var sti = document.getElementById('i').value ;
+        var stPV = document.getElementById('PV').value ;
+        var stPMT = document.getElementById('PMT').value ;
+        var stFV = document.getElementById('FV').value ;
+        var outCell, numRes ;
+
+        // read inputs and make sure that there is only one blank, which will be CPT-ed
+        if (stn.length == 0) {
+            cpt = cpt_n ;
+            outCell = "n_res" ;
+        } else if (sti.length == 0) {
+            cpt = cpt_i ;
+            outCell = "i_res" ;
+        } else if (stPV.length == 0) {
+            cpt = cpt_PV ;
+            outCell = "PV_res" ;
+        } else if (stPMT.length == 0) {
+            cpt = cpt_PMT ;
+            outCell = "PMT_res" ;
+        } else if (stFV.length == 0) {
+            cpt = cpt_FV ;
+            outCell = "FV_res" ;
+        } else {
+            document.getElementById("message").innerHTML = "Please leave one box blank.  Pushing [CPT] will compute this value." ;
+            return 1 ;
+        }
+        // Clear message before proceeding...
+        document.getElementById("message").innerHTML = "" ;
+        document.getElementById("am_msg").innerHTML = "" ;
+
+        // The character that separates thousands (in a number)
+        var sep000 = "," ;
+        // Begin trying to convert input (strings) into numbers...
+        check_isnum(stn) ;
+        var nn = Number(stn) ;
+
+        check_isnum(sti) ;
+        var ni ;
+        if (sti.search("%") >= 0) {
+            ni = Number(sti.replace("%","")) / 100.0 ;
+        } else {
+            ni = Number(sti) / 100.0 ; // To be consistent with TI BA II 
+        } ;
+
+        check_isnum(stPV) ;
+        var nPV = Number(stPV) ;
+
+        check_isnum(stPMT) ;
+        var nPMT = Number(stPMT.replace(sep000, "")) ;
+
+        check_isnum(stFV) ;
+        var nFV = Number(stFV.replace(sep000, "")) ;
+
+        // document.getElementById("n_res").innerHTML = nn ;
+        // document.getElementById("i_res").innerHTML = ni ;
+        // document.getElementById("PV_res").innerHTML = nPV ;
+        // document.getElementById("PMT_res").innerHTML = nPMT ;
+        // document.getElementById("FV_res").innerHTML = nFV ;
+        // return 0 ;
+        numRes = cpt(nn, ni, nPV, nPMT, nFV) ;
+        if ( (outCell=='n_res')&&isNaN(numRes)) {
+            document.getElementById("message").innerHTML = "See HELP window." ;
+            help() ;
+        } else {
+            document.getElementById(outCell).innerHTML = numRes.toFixed(2) ;
+        }
+    }
+    function round(value, decimals) {
+        return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+    }
+    function clearRes() {
+        document.getElementById("n_res").innerHTML = "" ;
+        document.getElementById("i_res").innerHTML = "" ;
+        document.getElementById("PV_res").innerHTML = "" ;
+        document.getElementById("PMT_res").innerHTML = "" ;
+        document.getElementById("FV_res").innerHTML = "" ;
+    }
+    function clearBoxes() {
+        document.getElementById("n").value = "" ;
+        document.getElementById("i").value = "" ;
+        document.getElementById("PV").value = "" ;
+        document.getElementById("PMT").value = "" ;
+        document.getElementById("FV").value = "" ;
+        clearRes() ;
+    }
+    function pmtType() {
+        bordann = ! bordann
+        if (bordann) {
+            document.getElementById("annuityType").innerHTML = 'ordinary annuity' ;
+        } else {
+            document.getElementById("annuityType").innerHTML = 'annuity due' ;
+        } 
+        // Read cells
+        var stn = document.getElementById('n').value ;
+        var sti = document.getElementById('i').value ;
+        var stPV = document.getElementById('PV').value ;
+        var stPMT = document.getElementById('PMT').value ;
+        var stFV = document.getElementById('FV').value ;
+        numcells = 0 ; // count number of cells with data
+        if (stn.length > 0) {
+            numcells += 1 ;
+        } ;
+        if (sti.length > 0) {
+            numcells += 1 ;
+        } ;
+        if (stPV.length > 0) {
+            numcells += 1 ;
+        } ;
+        if (stPMT.length > 0) {
+            numcells += 1 ;
+        } ;
+        if (stFV.length > 0) {
+            numcells += 1 ;
+        } ;
+        if (numcells > 2 ) {
+            mainCompute() ;
+        } ;
+        
+        //mainCompute() ;
+        //return bordann ;
+    }
+    // bal
+    function bal(nk, nn, ni, nPMT) {
+        return nPMT * ( 1 - 1/((1 + ni)**(nn-nk)) ) / ni ;
+    }
+    // bal
+    // mainEnter()
+    // <td id="am_p1"  class="ans"></td>
+    // <td id="am_p2"  class="ans"></td>
+    // <td id="am_bal" class="msg"></td>
+    // <td id="am_prn" class="msg"></td>
+    // <td id="am_int" class="msg"></td>
+    function mainEnter() {
+        // Read strings from TVM problem
+        var stn = document.getElementById('n').value ;
+        var sti = document.getElementById('i').value ;
+        var stPV = document.getElementById('PV').value ;
+        var stPMT = document.getElementById('PMT').value ;
+        var stFV = document.getElementById('FV').value ;
+
+        // Does a TVM problem exist?
+        if (stn.length + sti.length + stPV.length + stPMT.length == 0) {
+            document.getElementById("am_msg").innerHTML = "ERROR: Complete TVM problem first !!!" ;
+            return 1 ;
+        }
+        document.getElementById("am_msg").innerHTML = "" ;
+
+        // cast TVM inputs into numbers
+        nn = Number(stn) ;
+        ni = Number(sti) / 100.0 ;
+        nPV = Number(stPV) ;
+        nPMT = Number(stPMT) ;
+        nFV = Number(stFV)
+        if (stn.length == 0) {
+            nn = Number(document.getElementById("n_res").innerHTML) ;
+        } else if (sti.length == 0) {
+            ni = Number(document.getElementById("i_res").innerHTML) ;
+        } else if (stPV.length == 0) {
+            nPV = Number(document.getElementById("PV_res").innerHTML) ;
+        } else if (stPMT.length == 0) {
+            // nPMT = Number(document.getElementById("PMT_res").innerHTML) ;
+            nPMT = cpt_PMT(nn, ni, nPV, nPMT, nFV)
+        } else {
+            document.getElementById("message").innerHTML = "Please leave one box blank.  Pushing [CPT] will compute this value." ;
+            return 1 ;
+        }
+        // Get P1 & P2 for AMORT
+        var stP1 = document.getElementById("am_p1").value ;
+        if (stP1.length = 0) {
+            document.getElementById("am_msg").innerHTML = "ERROR:  Please enter a value for P1." ;
+            throw exit ;
+        }
+        check_isnum(stP1, "am_msg") ;
+        var np1 = Number(stP1) ;
+        if (np1 < 1 || np1 > nn) {
+            document.getElementById("am_msg").innerHTML = "ERROR:  Should have 0 < P1 <= " + stn ;
+            throw exit ;
+        }
+
+        var stP2 = document.getElementById("am_p2").value ;
+        if (stP2.length = 0) {
+            document.getElementById("am_msg").innerHTML = "ERROR:  Please enter a value for P2." ;
+            throw exit ;
+        }
+        check_isnum(stP2, "am_msg") ;
+        var np2 = Number(stP2) ;
+        if (np2 < np1 || np2 > nn) {
+            document.getElementById("am_msg").innerHTML = "ERROR:  Should have " + stP1 + " <= P2 <= " + stn ;
+            throw exit ;
+        }
+        // var x = nPMT * (1 - 1/((1 + ni)**(nn-np2)))/ni  ;
+        // var y = np2 - nn ;
+        document.getElementById("am_msg").innerHTML = "" ;
+        // document.getElementById("am_msg").innerHTML = np2.toString() + " " + nn.toString() + " " + ni.toString() + " " + nPMT.toString() ; // "" ;
+        var b2 = bal(np2, nn, ni, nPMT) ; 
+        var b1 = bal(np1-1, nn, ni, nPMT) ;
+        var PRIN = b2 - b1 ; // nPV + b2 ;
+        var INT = (np1 - 1 -np2) * nPMT - PRIN ;
+        document.getElementById("am_bal").innerHTML = b2.toFixed(2).toString() ; 
+        document.getElementById("am_prn").innerHTML = (-PRIN).toFixed(2).toString() ; 
+        document.getElementById("am_int").innerHTML =  (-INT).toFixed(2).toString() ;
+        document.getElementById("am_msg").innerHTML = b1.toString() ;
+    }
+    // mainEnter()
+    function help() {
+        let params = 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=500,height=400,left=-1000,top=-1000'
+        var win = window.open("", "", params) ;
+        win.document.body.innerHTML="<html><head><title>Help for TVM Calculator</title><style>" +
+            "h3 {font-family:Arial, Helvetica, sans-serif; text-align=center;}" +
+            "th {width: 100px} td {width: 100px; text-align: center;} </style></head>" +
+            "<body><blockquote><h3>Help for the Finanical Calculator</h3><p>Of the five time value of money, TVM, variables:</p>" +
+            "<center><table><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>" +
+            "<tr><td>n</td><td>i</td><td>PV</td><td>PMT</td><td>FV</td></tr></table></center>" +
+            "<p>enter numerical values " +
+            "for <b><i>FOUR (4)</i></b> of them and <b><i>leave one box empty.</i></b></p>" +
+            "<p>Push the <button>CPT</button> button to compute the missing, unknown, value.</p>" +
+            "<p>The interest rate, i, must be expressed as a percent, e.g. 3 or 3%.</p>" +
+            "</blockquote></body></html>"
+    }
+    // ICONV BEGIN
+    function cpt_nom(nnom, neff, ncpy) {
+        return 0
+    }
+    function cpt_eff(nnom, neff, ncpy) {
+        return round( (Math.pow(1 + nnom/(ncpy * 100.0), ncpy) - 1 ) * 100.0 , 4 ) ;
+    }
+    function cpt_cpy(nnom, neff, ncpy) {
+        return 0
+    }
+    function iconvCompute() {
+        var cpt ;
+        var stnom = document.getElementById('efNOM').value ;
+        var steff = "" // document.getElementById('efEFF').value ;
+        var stcpy = document.getElementById('efCpY').value ;
+        var outCell, numRes ;
+        // read inputs and make sure that there is only one blank, which will be CPT-ed
+        if (stnom.length == 0) {
+            cpt = cpt_nom ;
+            outCell = "nom_res" ;
+        } else if (steff.length == 0) {
+            cpt = cpt_eff ;
+            outCell = "eff_res" ;
+        } else if (stcpy.length == 0) {
+            cpt = cpt_cpy ;
+            outCell = "cpy_res" ;
+        } else {
+            document.getElementById("message2").innerHTML = "Please leave one box blank.  Pushing [CPT] will compute this value." ;
+            return 1 ;
+        }
+        // Clear message before proceeding...
+        document.getElementById("message2").innerHTML = "" ;
+        // Cast input strings to numbers
+        var nnom = Number(stnom) ;
+        if ( Number.isNaN(nnom) ) {
+            document.getElementById("message2").innerHTML = "ERROR: " + stnom + "  is NOT a number !" ;
+            return 1 ;
+        }
+        var neff = Number(steff) ;
+        if ( Number.isNaN(neff) ) {
+            document.getElementById("message2").innerHTML = "ERROR: " + steff + "  is NOT a number !" ;
+            return 1 ;
+        }
+        var ncpy = Number(stcpy) ;
+        if ( Number.isNaN(ncpy) ) {
+            document.getElementById("message2").innerHTML = "ERROR: " + stcpy + "  is NOT a number !" ;
+            return 1 ;
+        }
+        document.getElementById("nom_res").innerHTML = "" ; // nnom ;
+        document.getElementById("eff_res").innerHTML = "" ; // neff ;
+        document.getElementById("cpy_res").innerHTML = "" ; // ncpy ;
+        numres = cpt(nnom, neff, ncpy)
+        document.getElementById(outCell).innerHTML = numres ;
+    }
+    </script>
+
+    <h2>Time Value of Money (TVM) Calculator</h2>
+    <center>
+        <table>
+            <col width="80"><col width="80"><col width="80"><col width="80"><col width="80">
+            <tr><th></th><th>n</th><th>i</th><th>PV</th><th>PMT</th><th>FV</th></tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input width="20" type="text" id="n" class="smTb">
+                </td>
+                <td>
+                    <input width="20" type="text" id="i" class="smTb">
+                </td>
+                <td>
+                    <input width="20" type="text" id="PV" class="smTb">
+                </td>
+                <td>
+                    <input width="20" type="text" id="PMT" class="smTb">
+                </td>
+                <td>
+                    <input width="20" type="text" id="FV" class="smTb">
+                </td>
+            </tr>
+            <tr> </tr>
+            <tr>
+                <td>
+                    <button onclick="mainCompute()">CPT</button>
+                </td>
+                <td id="n_res" class="ans"></td>
+                <td id="i_res" class="ans"></td>
+                <td id="PV_res" class="ans"></td>
+                <td id="PMT_res" class="ans"></td>
+                <td id="FV_res" class="ans"></td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="clearBoxes()">Clear</button>
+                </td>
+                <td id="message" colspan="4" class="msg"></td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="pmtType()">PMT type</button>
+                </td>
+                <td id="annuityType" colspan="2" class="msg">ordinary annuity</td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="help()">Help</button>
+                </td>
+                <td id="am_msg" colspan="4" class="msg"></td>
+            </tr>
+            <tr>
+                <th></th><th>P1</th><th>P2</th><th>BAL</th><th>PRN</th><th>INT</th>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="mainEnter()">AMORT</button>
+                </td>
+                <td align="center">
+                    <input width="5" type="text" id="am_p1" class="lineno">
+                </td>
+                <td align="center">
+                    <input width="5" type="text" id="am_p2" class="lineno">
+                </td>
+                <td id="am_bal" class="ans"></td>
+                <td id="am_prn" class="ans"></td>
+                <td id="am_int" class="ans"></td>
+            </tr>
+            <tr><td colspan="*">&nbsp;</td></tr>
+            <tr><td colspan="*">&nbsp;</td></tr>
+            <tr>
+                <th>&nbsp;</th><th>NOM</th><th>EFF</th><th>C/Y</th><th colspan="2">&nbsp;</th>
+            </tr>
+            <tr>
+                <th align="left">ICONV</th>
+                <td>
+                    <input width="20" type="text" id="efNOM" class="smTb">
+                </td>
+                <td>
+                    &nbsp; <!-- <input width="20" type="text" id="efEFF" class="smTb"> -->
+                </td>
+                <td>
+                    <input width="20" type="text" id="efCpY" class="smTb">
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="iconvCompute()">CPT</button>
+                </td>
+                <td id="nom_res" class="ans"></td>
+                <td id="eff_res" class="ans"></td>
+                <td id="cpy_res" class="ans"></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td id="message2" colspan="4" class="msg"></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan="4" class="ans">&copy; 2018-21 Eric Wen, Ph.D.</td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>
