@@ -1,0 +1,152 @@
+<script>
+/* This creates a completely realistic and definitely affordable receipt
+with product data*/
+
+//Product Data
+
+     // Product 1
+     var item1 = 'Telfar Medium Black Shopping Bag';
+     var quantity1 = 2;
+     var price1 = 220.00;
+
+     // Product 2
+     var item2 = 'Van Cleef and Arpels Alhambra Pendant';
+     var quantity2 = 1;
+     var price2 = 2620.00;
+
+     // Product 3
+     var item3 = 'Jo Malone Perfume';
+     var quantity3 = 1;
+     var price3 = 145.00;
+
+     // Product 4
+     var item4 = 'Nomos Tangente Watch';
+     var quantity4 = 3;
+     var price4 = 1900.00;
+
+     // Product 5
+     var item5 = 'Indomie Mi Goreng Instant Noodles';
+     var quantity5 = 12;
+     var price5 = 2.99;
+
+     // Compute extended prices
+     var extended_price1 = quantity1*price1;
+     var extended_price2 = quantity2*price2;
+     var extended_price3 = quantity3*price3;
+     var extended_price4 = quantity4*price4;
+     var extended_price5 = quantity5*price5;
+
+     // Compute Subtotal
+     var subtotal = extended_price1 + extended_price2 + extended_price3 + extended_price4 + extended_price5;
+
+     // Compute tax
+     var sales_tax = 0.0575;
+     var tax = sales_tax * subtotal;
+
+     //Compute Shipping
+     if(subtotal <=50) {
+        shipping = 2
+     }
+     else if (subtotal <=100){
+       shipping = 5
+     }
+     else {
+       shipping = 0.05 * subtotal
+     }
+     
+     // Compute grand total
+     var grand_total = subtotal + tax + shipping
+
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+  <div>
+    <table border="2" id="invoiceTable">
+      <tbody>
+        <tr>
+          <th style="text-align: center;" width="43%">Item</th>
+          <th style="text-align: center;" width="11%">quantity</th>
+          <th style="text-align: center;" width="13%">price</th>
+          <th style="text-align: center;" width="54%">extended price</th>
+        </tr>
+        <tr>
+          <script>
+              // item row 1
+   var row = invoiceTable.insertRow();
+   row.insertCell().innerHTML = item1; 
+   row.insertCell().innerHTML = quantity1;
+   row.insertCell().innerHTML = price1.toFixed(2);
+   row.insertCell().innerHTML = extended_price1;
+        </script>
+        </tr>
+        <tr>
+          <script>
+            // item row 2
+ var row = invoiceTable.insertRow();
+ row.insertCell().innerHTML = item2; 
+ row.insertCell().innerHTML = quantity2;
+ row.insertCell().innerHTML = price2.toFixed(2);
+ row.insertCell().innerHTML = extended_price2;
+      </script>
+        </tr>
+        <tr>
+          <script>
+            // item row 3
+ var row = invoiceTable.insertRow();
+ row.insertCell().innerHTML = item3; 
+ row.insertCell().innerHTML = quantity3;
+ row.insertCell().innerHTML = price3.toFixed(2);
+ row.insertCell().innerHTML = extended_price3;
+      </script>
+        </tr>
+        <tr>
+          <script>
+            // item row 4
+ var row = invoiceTable.insertRow();
+ row.insertCell().innerHTML = item4; 
+ row.insertCell().innerHTML = quantity4;
+ row.insertCell().innerHTML = price4.toFixed(2);
+ row.insertCell().innerHTML = extended_price4;
+      </script>
+        </tr>
+        <tr>
+          <script>
+            // item row 5
+ var row = invoiceTable.insertRow();
+ row.insertCell().innerHTML = item5; 
+ row.insertCell().innerHTML = quantity5;
+ row.insertCell().innerHTML = price5.toFixed(2);
+ row.insertCell().innerHTML = extended_price5;
+      </script>
+        </tr>
+        <tr>
+          <td colspan="4" width="100%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+          <td width="54%" id="subtotal_cell"><script>subtotal_cell.innerHTML = "$" + subtotal; </script></td>
+        </tr>
+        <tr>
+          <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ 5.75%</span></td>
+          <td width="54%" id="taxes"><script>taxes.innerHTML = "$" + tax.toFixed(2);</script></td>
+        </tr>
+        <tr>
+          <td style="text-align: center;" colspan="3" width="67%"><b>Shipping</b></td>
+          <td id="ship"><script>ship.innerHTML ='<strong>' + "$" + shipping.toFixed(2) + '</strong>'</script></td>
+        </tr>
+        <tr>
+          <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
+          <td width="54%" id="total"><script>total.innerHTML ='<strong>'+ "$" + grand_total.toFixed(2)+'</strong>'; </script></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    </div>
+</body>
+</html>
