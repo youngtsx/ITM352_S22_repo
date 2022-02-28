@@ -44,5 +44,11 @@
      `);
     }
     
-    document.write(`</tbody></table>`);
+    document.write(`</table></br>`);
     </script>
+    
+    <input type="button" value="Delete Last Row"
+    onclick = "tableBody = document.getElementsByTagName('table')[0];
+    tableBody.deleteRow(tableBody.rows.length - 1);
+    ">
+</tbody>
