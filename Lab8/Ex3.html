@@ -21,14 +21,14 @@ products = [
  { 'name': 'large jawbreaker', 'price': 0.10 }
 ];
 
-
 document.write(`
 <table style="border: 1px solid black; text-align: center;">
 <tbody>
-<tr><th style="border: 1px solid black;">Product Name</th><th style="border: 1px solid black;">Price</th><th style="border: 1px solid black;">Extended Price</th></tr>
+<tr><th style="border: 1px solid black;">Product Name</th>
+    <th style="border: 1px solid black;">Price</th>
+    <th style="border: 1px solid black;">Extended Price</th></tr>
 `)
 for(let prodObj of products) {
-
  document.write(`<tr><td>${prodObj.name}</td><td>${prodObj.price}</td><td>${(product_quantities[i++]*prodObj.price).toFixed(2)}</td></tr>
  `);
 }

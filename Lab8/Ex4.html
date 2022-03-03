@@ -24,15 +24,14 @@
     
     
     document.write(`
-    <table style="border: 1px solid black; text-align: center;" 
-    onclick="new_row = this.appendChild(document.createElement('tr'));
+    <table style="border: 1px solid black; text-align: center;">
 
-    for(i = 1; i <= this.rows[0].cells.length; i++) {
+    <tbody id="tb" onclick="new_row = this.appendChild(document.createElement('tr'));
+    for(let r = 1; r <= tb.rows[0].cells.length; r++) {
         new_cell = new_row.appendChild(document.createElement('td'));
         new_cell.innerHTML = 'xxx';
     }
-    ">
-    <tbody>
+">
     <tr>
         <th style="border: 1px solid black;">Product Name</th>
         <th style="border: 1px solid black;">Price</th>
@@ -49,7 +48,8 @@
     </script>
     
     <input type="button" value="Delete Last Row"
-    onclick = "tableBody = document.getElementsByTagName('table')[0];
-    tableBody.deleteRow(tableBody.rows.length - 1);
+    onclick = "tBody = document.getElementsByTagName('table')[0];
+    
+    tBody.deleteRow(tBody.rows.length - 1);
     ">
 </tbody>
