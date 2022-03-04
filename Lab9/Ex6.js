@@ -1,5 +1,9 @@
-//var attributes = "Tiffany;20;MIS";
+var attributes = "Tiffany;20;20.5;-19.5";
+var parts_array = attributes.split(";");
 
+parts_array.forEach(checkIt);
+
+pieces.forEach((item,index) => {console.log(`part ${index} is ${(isStringNonNegInt(item)?'a':'not a')} quantity`);} )
 
 function isStringNonNegInt(q, returnErrors = false) { 
     //this function checks if the string is a non negative integer
@@ -10,9 +14,9 @@ function isStringNonNegInt(q, returnErrors = false) {
 
     return  (returnErrors ? errors : (errors.length == 0));
 }
-var attributes = "Tiffany;20;20.5;-19.5";
-var parts_array = attributes.split(";");
-for(let part of parts_array) {
-    let errs = isStringNonNegInt(part, true);
-    console.log(`Part ${part} isNonNegInt ${errs.join(',')}`);
+
+
+
+function checkIt(item, index){
+    console.log(`part ${index} is ${(isStringNonNegInt(item)?'a':'not a')} quantity`);
 }

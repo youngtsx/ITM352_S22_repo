@@ -9,3 +9,12 @@ var parts = attributes.split(";");
 for(part of parts) {
     console.log(parts)
 }*/
+
+var attributes = "Tiffany;20;20.5;-19.5";
+var parts_array = attributes.split(";");
+
+/*for(let part of parts_array) {
+    console.log(`part ${part} is a ${typeof part} `);
+}*/
+
+console.log(parts_array.join('-'));
