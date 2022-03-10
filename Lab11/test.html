@@ -1,0 +1,30 @@
+<HEAD>
+    <TITLE>Test Input Validation</TITLE>
+    <SCRIPT LANGUAGE="JavaScript">
+    function testResults (form) {
+        TestVar = isNumberString (form.inputbox.value)
+        if (TestVar == 1)
+            alert ("Congratulations! You entered only numbers");
+        else
+            alert ("Boo! You entered a string with non-numbers characters");
+    }
+    function isNumberString (InString)  {
+        if(InString.length==0) return (false);
+        var RefString="1234567890";
+        for (Count=0; Count < InString.length; Count++)  {
+            TempChar= InString.substring (Count, Count+1);
+            if (RefString.indexOf (TempChar, 0)==-1)  
+                return (false);
+        }
+        return (true);
+    }
+    </SCRIPT>
+    </HEAD>
+    <BODY>
+    <FORM NAME="myform">
+    Enter a string with numbers only: 
+    <INPUT TYPE="text" NAME="inputbox" VALUE="">
+    <INPUT TYPE="button" NAME="button" Value="Click" onClick="testResults(this.form)" >
+    </FORM>
+    </BODY>
+    </HTML>
