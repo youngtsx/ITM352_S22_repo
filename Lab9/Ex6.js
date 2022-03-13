@@ -14,9 +14,6 @@ function isStringNonNegInt(q, returnErrors = false) {
 
     return  (returnErrors ? errors : (errors.length == 0));
 }
-
-
-
 function checkIt(item, index){
     console.log(`part ${index} is ${(isStringNonNegInt(item)?'a':'not a')} quantity`);
 }
