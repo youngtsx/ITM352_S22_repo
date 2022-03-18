@@ -1,0 +1,24 @@
+body {
+    background: rgb(243, 221, 221);
+}
+#logotext {
+        color: rgb(243, 221, 221);
+        padding-top: 15px;
+}
+/* Add a hover effect (blue shadow) */
+        img:hover {
+            box-shadow: 0 0 5px 1px black;
+    }
+    
+            /* Remove the navbar's default rounded borders and increase the bottom margin */ 
+    .navbar {
+            margin-bottom: 50px;
+            border-radius: 0;
+    }
+         
+          /* Add a gray background color and some padding to the footer */
+    footer {
+            background-color: #f2f2f2;
+            padding: 25px;
+            display: block;
+    }
