@@ -55,22 +55,30 @@ let params = (new URL(document.location)).searchParams; // get the query string 
       </nav>
 <main>
     <form>
+      <script>
+        for (i in products){
+        document.write(`
         <section class="item">
             <div class="container">    
                 <div class="row">
                     <div class="col-sm-3">
-                        <div class="panel panel-primary">
-                      <div class="panel-heading">Black Milk Tea</div>
-                      <div class="panel-body"><img src="./images/thaitea.jpg" style="width:100%" class="img-responsive" alt="Image"></div>
-                      <div class="panel-footer">$$</div>
+                      <div class="panel panel-primary">
+                      <div class="panel-heading">${products[i].item}</div>
+                      <div class="panel-body"><img src="${products[i].image}" style="width:100%" class="img-responsive" alt="Image"></div>
+                      <div class="panel-footer">
+                        <p>${products[i].quantity_available} left in stock</p>
+                        <div id="quantity${i}_error"></div>
                     </div>
                   </div>
         </section>
+        `);
+      }
+      </script>
     </form>
 </main>
 </body>
-<footer class="container-fluid text-center">
+<!--<footer class="container-fluid text-center">
     <p>&copy; Tiffany Young 2022</p>
     <br>
-</footer>
+</footer>-->
 </html>

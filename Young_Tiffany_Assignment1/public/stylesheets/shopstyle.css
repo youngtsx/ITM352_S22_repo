@@ -6,14 +6,29 @@ body {
         color: rgb(243, 221, 221);
         padding: 15px 15px 15px 0px;
 }
+.panel-primary>.panel-heading {
+        background-color: rgb(203, 222, 243);
+    }
 .panel-body img {  
-        float: left;
         width: 170px;
         height: 250px;       
-        display: block;
+       /* display: block;*/
         bottom: 0px;  
         object-fit: scale-down;   
 }
+.item {
+       /* display: block;*/
+        margin-right: 10px;
+        margin-left: 10px;
+        position: relative;
+        background-size: 750px 200px;
+        width: 400px;
+        margin: 15px;
+        float: left;
+        padding-left: 150px;
+        padding-top: 10px;
+}
+
 /* styling the item headers*/
 .panel-primary>.panel-heading {
         background-color: rgb(178, 209, 245);
@@ -39,4 +54,5 @@ footer {
             background-color: #f2f2f2;
             padding: 25px;
             display: block;
+        
 }
