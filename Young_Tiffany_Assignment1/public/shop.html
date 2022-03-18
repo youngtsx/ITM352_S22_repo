@@ -19,7 +19,8 @@
             qty_textbox_message.innerHTML = errs.join(',');
 }
 let params = (new URL(document.location)).searchParams; // get the query string which has the form data
-    </script>
+
+</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,10 +59,10 @@ let params = (new URL(document.location)).searchParams; // get the query string 
       <script>
         for (i in products){
         document.write(`
-        <section class="item">
+        <div class="item">
             <div class="container">    
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                       <div class="panel panel-primary">
                       <div class="panel-heading">${products[i].item}</div>
                       <div class="panel-body"><img src="${products[i].image}" style="width:100%" class="img-responsive" alt="Image"></div>
@@ -70,15 +71,15 @@ let params = (new URL(document.location)).searchParams; // get the query string 
                         <div id="quantity${i}_error"></div>
                     </div>
                   </div>
-        </section>
+        </div>
         `);
       }
       </script>
     </form>
 </main>
 </body>
-<!--<footer class="container-fluid text-center">
+<footer class="container-fluid text-center">
     <p>&copy; Tiffany Young 2022</p>
     <br>
-</footer>-->
+</footer>
 </html>
