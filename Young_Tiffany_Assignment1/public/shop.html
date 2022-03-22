@@ -16,7 +16,7 @@
 }  
         function checkQuantityTextbox(the_textbox){
             var errs = isStringNonNegInt(the_textbox.value, true);
-            qty_textbox_message.innerHTML = errs.join(',');
+            document.getElementById(the_textbox.name + '_errordiv').innerHTML = errs.join(',');
 }
 let params = (new URL(document.location)).searchParams; // get the query string which has the form data
 
@@ -55,7 +55,7 @@ let params = (new URL(document.location)).searchParams; // get the query string 
         </div>
       </nav>
 <main>
-    <form>
+    <form name="form">
       <script>
         for (i in products){
         document.write(`
@@ -68,6 +68,7 @@ let params = (new URL(document.location)).searchParams; // get the query string 
                       <div class="panel-body"><img src="${products[i].image}" style="width:100%" class="img-responsive" alt="Image"></div>
                       <div class="panel-footer">
                         <p>${products[i].quantity_available} left in stock</p>
+                        <input type="text" placeholder="Enter desired quantity here" name="quantity[${i}]" onkeyup="checkQuantityTextbox(this)">
                         <div id="quantity${i}_error"></div>
                     </div>
                   </div>
