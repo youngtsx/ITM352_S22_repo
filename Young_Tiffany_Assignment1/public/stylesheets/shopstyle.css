@@ -1,9 +1,9 @@
 body {
-    background: rgb(243, 221, 221);
+    background: rgb(250, 233, 233);
 }
 /* for logo text on left part of header*/
 #logotext {
-        color: rgb(243, 221, 221);
+        color: rgb(250, 233, 233);
         padding: 15px 15px 15px 0px;
 }
 .panel-primary>.panel-heading {
@@ -14,7 +14,8 @@ body {
         height: 250px;       
        /* display: block;*/
         bottom: 0px;  
-        object-fit: scale-down;   
+        object-fit: scale-down;  
+ 
 }
 body>.item>.row {
         display: block;
@@ -26,8 +27,20 @@ body>.item>.row {
         max-width: 50px;
         height: 750px;
 }
+.button {
+        background-color: white;
+        bottom: 80px;
+        left: 1050px;
+        padding: 12px 28px;
 
+}
+.button:hover {
+        background-color: #e7e7e7;
+}
 
+.panel-footer {
+        margin-bottom: 10px;
+}
 /* styling the item headers*/
 .panel-primary>.panel-heading {
         background-color: rgb(178, 209, 245);
