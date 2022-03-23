@@ -1,6 +1,5 @@
 <script src="./products.js" type="text/javascript"></script>
-<script>/*This file will display an invoice based off of product sales data. Bootstrap tutorial w3schools, invoice WOD, 
-        forms lab, reece nagaoka F21 */ 
+<script>/* This file will display an invoice based off of https://www.bootdey.com/snippets/view/Invoice-with-ribbon and w3schoools bootstraps */ 
 //quantity array
   let params = (new URL(document.location)).searchParams;
   var quantities = [];
@@ -61,9 +60,9 @@
                                 <tbody>
                                  <tr>
                                     <th style="text-align: center;" width="43%">Item</th>
-                                    <th style="text-align: center;" width="11%">quantity</th>
-                                    <th style="text-align: center;" width="13%">price</th>
-                                    <th style="text-align: center;" width="54%">extended price</th>
+                                    <th style="text-align: center;" width="11%">Quantity</th>
+                                    <th style="text-align: center;" width="13%">Price</th>
+                                    <th style="text-align: center;" width="54%">Extended price</th>
                                   </tr>
                                   <script>
                                 // Compute sub-total
@@ -82,6 +81,8 @@
                                   `);
                                 }
                               }
+ 
+				
     //generate_item_rows(quantities);
 
     // Compute tax
@@ -102,25 +103,54 @@
     // Compute grand total
     var grand_total = subtotal + tax + shipping;
         </script>
-        <tr>
-            <td colspan="4" width="100%">&nbsp;</td>
-        </tr>
-        <tr>
-            <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
-            <td width="54%">$<script>document.write(subtotal);</script></td>
-        </tr>
-        <tr>
-            <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ 4.75%</span></td>
-            <td width="54%">$<script>document.write(tax.toFixed(2));</script></td>
-        </tr>
-        <tr>
-          <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Shipping</span></td>
-          <td width="54%">$<script>document.write(shipping.toFixed(2));</script></td>
-        </tr>
-        <tr>
-            <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
-            <td width="54%"><strong>$<script>document.write(grand_total.toFixed(2));</script></strong></td>
-        </tr>
+ 			<div class="row table-row">
+				<table class="table table-striped">
+			      <thead>
+			        <tr>
+			          <th style="width:50%">Item</th>
+			          <th class="text-right" style="width:15%">Quantity</th>
+			          <th class="text-right" style="width:15%">Price</th>
+			          <th class="text-right" style="width:15%">Extended Price</th>
+			        </tr>
+			      </thead>
+			      <tbody>
+			        <tr>
+			          <td>Flatter Theme</td>
+			          <td class="text-right">10</td>
+			          <td class="text-right">$18</td>
+			          <td class="text-right">$180</td>
+			        </tr>
+			        <tr>
+			          
+			          <td>Flat Icons</td>
+			          <td class="text-right">6</td>
+			          <td class="text-right">$59</td>
+			          <td class="text-right">$254</td>
+			        </tr>
+			        <tr>
+			          
+			          <td>Wordpress version</td>
+			          <td class="text-right">4</td>
+			          <td class="text-right">$95</td>
+			          <td class="text-right">$285</td>
+			        </tr>
+			         <tr class="last-row">
+			          
+			          <td>Server Deployment</td>
+			          <td class="text-right">1</td>
+			          <td class="text-right">$300</td>
+			          <td class="text-right">$300</td>
+              
+			        </tr>
+			       </tbody>
+			    </table>
+<div class="col-xs-6 text-right pull-right invoice-total">
+              <p>Subtotal : $<script>document.write(subtotal);</script></p>
+                  <p>Tax @ 4.75% : $<script>document.write(tax.toFixed(2));</script> </p>
+                  <p>Shipping : $<script>document.write(shipping.toFixed(2));</script> </p>
+                  <p><strong>Grand Total : $<script>document.write(grand_total.toFixed(2));</script></strong> </p>
+        </div>
+			</div>
     </tbody>
   </table>
   <div style="font-family: Arial;">
