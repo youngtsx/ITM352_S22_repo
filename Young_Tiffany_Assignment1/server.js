@@ -11,7 +11,7 @@ app.all('*', function (request, response, next) {
 });
 
 // process purchase request (validate quantities, check quantity available)
-<** your code here ***>
+/*~~~~~~~~~~~~ code here ~~~~~~~~~~~~~~ */
 
 // route all other GET requests to files in public 
 app.use(express.static(__dirname + '/public'));
