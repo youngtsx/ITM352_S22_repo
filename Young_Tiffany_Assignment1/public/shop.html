@@ -14,6 +14,8 @@
 
     function checkQuantityTextbox(the_textbox) {
         errs = isNonNegInt(the_textbox.value, true);
+        if (errs.length == 0) errs = ['You want:'];
+        if (the_textbox.value.trim() == '') errs = ['Quantity'];
         document.getElementById(the_textbox.name + '_label').innerHTML = errs.join(", ");
     }
   let params = (new URL(document.location)).searchParams; // GET the query string & check that the quantities are valid values then go to invoice.html if it is good
@@ -69,7 +71,7 @@
                       <div class="panel-footer">
                         <p><strong>$${products[i].price.toFixed(2)}</strong></p>
                         <p>${products[i].quantity_available} left in stock</p>
-                        <div id="quantity[${i}]_label"></div>
+                        <p id="quantity[${i}]_label">Quantity:</p>
                         <input type="text" placeholder="Enter desired quantity here" name="quantity[${i}]" onkeyup="checkQuantityTextbox(this);">
                     </div>
                   </div>
