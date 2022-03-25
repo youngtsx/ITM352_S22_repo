@@ -18,7 +18,7 @@
         if (the_textbox.value.trim() == '') errs = ['Quantity'];
         document.getElementById(the_textbox.name + '_label').innerHTML = errs.join(", ");
     }
-
+//from Assignment 1 example/reece nagaoka FW21:
     window.onload = function () {
         let params = (new URL(document.location)).searchParams; // get the query string which has the form data
         // form was submitted so check that quantities are valid then redirect to invoice if ok.
