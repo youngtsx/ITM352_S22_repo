@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="./product_data.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>order page</title>
 </head>
 <body>
+<script>document.write(`<h3>${products[0]["brand"]} at \$${products[0]["price"]}</h3>`);</script>
+
 <form name="quantity_form" action="./process_form" method="POST">
     <label>quantity desired:</label>
     <input type="text" name="quantity_textbox" onkeyup="checkQuantityTextbox(this)">
