@@ -8,17 +8,17 @@ app.all('*', function (request, response, next) {
     console.log(request.method + ' to path ' + request.path);
     next();
 });
-
+//products data from json file and stores it
 var products = require(__dirname + '/product_data.json');
 
+//to track quantity sold
+products.forEach( (prod,i) => {prod.total_sold = 0});
+
+//monitor requests
 app.get("/product_data.js", function (request, response, next) {
    response.type('.js');
    var products_str = `var products = ${JSON.stringify(products)};`;
    response.send(products_str);
-});
-
-app.get('/test', function (request, response, next) {
-    response.send(request.method + ' to paths ' + request.path);
 });
 
 app.post('/process_form', function (request, response) {
@@ -32,6 +32,10 @@ app.post('/process_form', function (request, response) {
     else {
         response.send(`Error: ${q} is not a quantity. Hit the back button to fix. quantity. Press the back button and try again.`);
     }
+});
+
+app.get('/test', function (request, response, next) {
+    response.send(request.method + ' to paths ' + request.path);
 });
 
 app.use(express.static(__dirname + '/public'));
