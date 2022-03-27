@@ -19,35 +19,28 @@
         document.getElementById(the_textbox.name + '_label').innerHTML = errs.join(", ");
     }
 //from Assignment 1 example/reece nagaoka FW21:
-    window.onload = function () {
-        let params = (new URL(document.location)).searchParams; // get the query string which has the form data
-        // form was submitted so check that quantities are valid then redirect to invoice if ok.
-        if (params.has('purchase_submit')) {
-            has_errors = false; // assume quantities are valid from the start
-            total_qty = 0; // need to check if something was selected so we will look if the total > 0
-            for (i = 0; i < products.length; i++) {
-                if (params.has(`quantity[${i}]`)) {
-                    a_qty = params.get(`quantity[${i}]`);
-                    // make textboxes sticky in case of invalid data
-                    quantity_form[`quantity[${i}]`].value = a_qty;
-                    total_qty += a_qty; 
-                    if(!isNonNegInt(a_qty)) {
-                        has_errors = true; // oops, invalid quantity
-                        checkQuantityTextbox(quantity_form[`quantity[${i}]`]); // show where the error is
-                    }
-                }
-            }
-            // Now respond to errors or redirect to invoice if all is ok
-            if(has_errors) {
-                alert("Please enter only valid quantities!");
-            } else if(total_qty == 0) { // no quantity selections, just give a general alert
-                alert("Please select some quantities!");
-            } else { // all good to go!
-                window.location = `./invoice.html${document.location.search}`;
-                window.stop;
-            }
-        }
+let params = (new URL(document.location)).searchParams; // get the query string which has the form data
+window.onload = function () {
+
+// form was submitted so check that quantities are valid then redirect to invoice if ok.
+if (params.has('errors')) {
+    var errors = JSON.parse(params.get('errors')); //turns string in object
+    let err_str = '';
+    for (err in errors) { //combine errors in one string
+        err_str += errors[err] + '\n';
     }
+    alert(err_str);
+}
+
+if (params.has('quantity')) {
+    var quantities = JSON.parse(params.get('quantity')); //turns string in object
+    // put quantities in quantity textboxes
+    for (i in quantities) {
+        quantity_form[`quantity${i}`].value = quantities[i];
+        checkQuantityTextbox(quantity_form[`quantity${i}`]);
+    }
+}
+}
 </script>
 
 <head>
@@ -85,7 +78,7 @@
     </div>
   </nav>
   <main>
-    <form name="quantity_form" action="./process_form" method="GET">
+    <form name="quantity_form" action="./process_form" method="POST">
       <script>
         for (i in products) {
           document.write(`

@@ -3,18 +3,9 @@
 <script>
   let params = (new URL(document.location)).searchParams;
   var quantities = [];
-  // form was submitted so process the invoice
-  if (params.has('purchase_submit')) {
-    for (i = 0; i < products.length; i++) {
-      if (params.has(`quantity[${i}]`)) {
-        a_qty = params.get(`quantity[${i}]`);
-        quantities[i] = a_qty;
-      }
-    }
-  } else {
-    document.write('no form submitted');
+  if (params.has('quantity')) {
+    quantities = JSON.parse(params.get(`quantity`));
   }
-  console.log(quantities);
 </script>
 
 <!DOCTYPE html>

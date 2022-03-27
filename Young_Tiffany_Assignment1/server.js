@@ -1,10 +1,19 @@
 /*load product data*/ 
-var products_array = require(__dirname + '/product_data.json');
+var products= require(__dirname + '/products.json');
 
+products.forEach( (prod,i) => {prod.total_sold = 0});
 var express = require('express');
 var app = express();
 
+//get the body
+app.use(express.urlencoded({ extended: true }));
+
 // Routing 
+app.get("/products.js", function (request, response, next) {
+   response.type('.js');
+   var products_str = `var products = ${JSON.stringify(products)};`;
+   response.send(products_str);
+});
 
 // monitor all requests
 app.all('*', function (request, response, next) {
@@ -13,7 +22,9 @@ app.all('*', function (request, response, next) {
 });
 
 // process purchase request (validate quantities, check quantity available)
-/*~~~~~~~~~~~~ code here ~~~~~~~~~~~~~~ */
+app.post('/process_form', function (request, response, next){
+
+});
 
 // route all other GET requests to files in public 
 app.use(express.static(__dirname + '/public'));
