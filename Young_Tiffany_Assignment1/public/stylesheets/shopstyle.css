@@ -63,9 +63,13 @@ img:hover {
 }
          
 /* Add a gray background color and some padding to the footer */
-footer {
-            background-color: #f2f2f2;
-            padding: 25px;
-            display: block;
-        
+.footer {
+        background-color: #f2f2f2;
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 0px;
+        width: 100%;
+        position: fixed;
+        left: 0;
+        bottom: 0;
 }

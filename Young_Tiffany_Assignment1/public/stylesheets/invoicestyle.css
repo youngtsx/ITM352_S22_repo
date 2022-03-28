@@ -18,13 +18,16 @@ img:hover {
 }
  
 /* Add a gray background color and some padding to the footer */
-footer {
+.footer {
     background-color: #f2f2f2;
-    display: block;
-    padding-top: 18px;
+    text-align: center;
+    padding-top: 20px;
     padding-bottom: 0px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
 }
-
   /*Invoice*/
   .table-row {
     margin-left:-15px;

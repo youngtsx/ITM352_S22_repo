@@ -22,7 +22,7 @@
 let params = (new URL(document.location)).searchParams; // get the query string which has the form data
 window.onload = function () {
 
-// form was submitted so check that quantities are valid then redirect to invoice if ok.
+// form was submitted, check that quantities are valid then redirect to invoice if ok.
 if (params.has('errors')) {
     var errors = JSON.parse(params.get('errors')); //turns string in object
     let err_str = '';
@@ -104,8 +104,8 @@ if (params.has('quantity')) {
     </form>
   </main>
 </body>
-<footer class="container-fluid text-center">
+<div class="footer">
   </br>
   <p>&copy; Tiffany Young 2022</p>
-</footer>
+</div>
 </html>

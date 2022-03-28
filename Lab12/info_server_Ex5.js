@@ -58,4 +58,3 @@ function isNonNegInt(q, returnErrors = false) {
 
     return returnErrors ? errors : (errors.length == 0);
 }
- 
