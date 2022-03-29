@@ -28,22 +28,22 @@ app.all('*', function (request, response, next) {
 // process purchase request (validate quantities, check quantity available)
 app.post('/process_form', function (request, response, next){
    var quantities = request.body['quantity'];
-   //assume no errors or quantity
+   //assume no errors or no quantity
    var errors = {};
    var check_quantities = false;
    //check for NonNegInt
    for (i in quantities) {
-      if (isNonNegInt(quantities[i]) == false){
+      if (isNonNegInt(quantities[i]) == false){ //check i quantity
          errors['quantity_' + i] = `Please choose a valid quantity for ${products[i].item}.`;
       }
-      if (quantities[i] > 0 ) {
+      if (quantities[i] > 0 ) { //check if any quantity is selected
          check_quantities = true;
       }
-      if (quantities[i] > products[i].quantity_available) {
+      if (quantities[i] > products[i].quantity_available) { //check if quantity is available
          errors['quantity_available' + i] = `We don't have ${(quantities[i])} ${products[i].item} available.`;
       }
    }
-   if (!check_quantities) {
+   if (!check_quantities) { //check if no quantity selected
       errors['no_quantities'] = `Please select a quantity`;
    }
 
