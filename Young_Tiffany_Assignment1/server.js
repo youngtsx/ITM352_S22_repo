@@ -50,7 +50,7 @@ app.post('/process_form', function (request, response, next){
    let qty_obj = { "quantity": JSON.stringify(quantities)};
     //ask if the object is empty or not
     if (Object.keys(errors).length == 0) {
-      // remove from inventory quantities
+      // remove quantities purchased from inventory quantities
       for(i in products){
           products[i].quantity_available -= Number(quantities[i]);
       }
