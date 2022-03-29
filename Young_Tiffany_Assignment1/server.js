@@ -2,7 +2,7 @@
 /*load product data*/ 
 var products= require(__dirname + '/products.json');
 
-products.forEach( (prod,i) => {prod.quantity_available = 52});
+products.forEach( (prod,i) => {prod.quantity_available = 15});
 var express = require('express');
 var app = express();
 
