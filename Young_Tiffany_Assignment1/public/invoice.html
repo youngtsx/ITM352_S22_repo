@@ -1,4 +1,4 @@
-<!-- This file will display an invoice based off of https://www.bootdey.com/snippets/view/Invoice-with-ribbon, w3schoools bootstraps https://www.w3schools.com/bootstrap/bootstrap_templates.asp "online store", and reece nagaoka  -->
+<!-- This file will display an invoice based off of https://www.bootdey.com/snippets/view/Invoice-with-ribbon, w3schoools bootstraps https://www.w3schools.com/bootstrap/bootstrap_templates.asp "online store", and reece nagaoka f21 -->
 <script src="./products.js" type="text/javascript"></script>
 <script>
   let params = (new URL(document.location)).searchParams;
@@ -80,8 +80,8 @@
                                   <tr>
 			                              <td>${products[i].item}</td>
 			                              <td class="text-right">${quantities[i]}</td>
-			                              <td class="text-right">${products[i].price}</td>
-			                              <td class="text-right">${extended_price.toFixed(2)}</td>
+			                              <td class="text-right">$${products[i].price}</td>
+			                              <td class="text-right">$${extended_price.toFixed(2)}</td>
                                   </tr>
                                   `);
                                 }
