@@ -1,0 +1,49 @@
+body {
+    text-align: center;
+    background: rgb(250, 233, 233);
+}
+
+.row {
+    width: 90%;
+    text-align: center;
+    margin-right: -15px;
+    margin-left: -15px;
+    position: relative;
+    left: 315px;
+    top: 50px;
+}
+
+.button {
+    background-color: white;
+}
+
+.button:hover {
+    background-color: #e7e7e7;
+}
+
+#logo {
+    border: 1px solid #ddd;
+     /* Gray border */
+    border-radius: 4px;
+    /* Rounded border */
+    padding: 1px;
+    /* Some padding */
+    width: 150px;
+     /* Set a small width */
+}
+#logotext {
+    color: rgb(243, 221, 221);
+    padding-top: 15px;
+}
+ 
+  /* Add a gray background color and some padding to the footer */
+  .footer {
+    background-color: #f2f2f2;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 0px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
