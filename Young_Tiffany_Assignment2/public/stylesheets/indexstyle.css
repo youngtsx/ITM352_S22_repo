@@ -2,7 +2,7 @@ body {
         text-align: center;
         background: rgb(250, 233, 233);
 }
-
+ /*tiffany's boba shop*/
 #logo {
         border: 1px solid #ddd;
          /* Gray border */
@@ -13,9 +13,10 @@ body {
         width: 150px;
          /* Set a small width */
 }
+/*color of logo text*/
 #logotext {
-        color: rgb(243, 221, 221);
-        padding-top: 15px;
+        color: rgb(250, 233, 233);
+        padding: 15px 15px 15px 0px;
 }
 
 h3 {
@@ -23,7 +24,7 @@ h3 {
          margin-bottom: 360px;
 }
 
-        /* Add a hover effect (blue shadow) */
+        /* Add a hover effect (black shadow) */
 img:hover {
         box-shadow: 0 0 5px 1px black;
 }
@@ -34,9 +35,14 @@ img:hover {
         border-radius: 0;
 }
      
-      /* Add a gray background color and some padding to the footer */
-footer {
+  /* Add a gray background color and some padding to the footer */
+  .footer {
         background-color: #f2f2f2;
-        padding: 25px;
-        display: block;
-}
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 0px;
+        width: 100%;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+    }

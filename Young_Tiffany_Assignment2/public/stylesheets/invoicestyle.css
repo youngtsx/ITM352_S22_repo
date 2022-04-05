@@ -17,8 +17,8 @@ img:hover {
     border-radius: 0;
 }
  
-/* Add a gray background color and some padding to the footer */
-.footer {
+  /* Add a gray background color and some padding to the footer */
+  .footer {
     background-color: #f2f2f2;
     text-align: center;
     padding-top: 20px;
@@ -29,6 +29,10 @@ img:hover {
     bottom: 0;
 }
   /*Invoice*/
+  .container {
+    position: relative;
+    left: 164px
+  }
   .table-row {
     margin-left:-15px;
     margin-right:-15px;

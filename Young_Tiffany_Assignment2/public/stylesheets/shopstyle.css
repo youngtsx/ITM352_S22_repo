@@ -6,6 +6,7 @@ body {
         color: rgb(250, 233, 233);
         padding: 15px 15px 15px 0px;
 }
+/*item panels*/
 .panel-primary>.panel-heading {
         background-color: rgb(203, 222, 243);
     }
@@ -27,21 +28,10 @@ body>.item>.row {
         max-width: 50px;
         height: 750px;
 }
-.button {
-        background-color: white;
-        bottom: 80px;
-        left: 1050px;
-        padding: 12px 28px;
-        margin-left: 15px;
-
-}
-.button:hover {
-        background-color: #e7e7e7;
-}
-
 .panel-footer {
         margin-bottom: 10px;
 }
+
 /* styling the item headers*/
 .panel-primary>.panel-heading {
         background-color: rgb(178, 209, 245);
@@ -55,11 +45,23 @@ body>.item>.row {
 img:hover {
             box-shadow: 0 0 5px 1px black;
 }
-    
+
+/*purchase button*/
+.button {
+        background-color: white;
+        bottom: 80px;
+        left: 1050px;
+        padding: 12px 28px;
+        margin-left: 15px;
+
+}
+.button:hover {
+        background-color: #e7e7e7;
+}    
 /* Remove the navbar's default rounded borders and increase the bottom margin */ 
 .navbar {
-            margin-bottom: 50px;
-            border-radius: 0;
+        margin-bottom: 50px;
+        border-radius: 0;
 }
          
 /* Add a gray background color and some padding to the footer */
@@ -69,7 +71,7 @@ img:hover {
         padding-top: 20px;
         padding-bottom: 0px;
         width: 100%;
-
+        /*position not fixed so it doesn't block the products x_x */
         left: 0;
         bottom: 0;
 }
