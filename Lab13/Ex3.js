@@ -33,12 +33,12 @@ app.get("/login", function (request, response) {
 app.post("/login", function (request, response) {
     console.log(request.body);
     // Process login form POST and redirect to logged in page if ok, back to login page if not
-    let login_username = request.body.username;
-    let login_password = request.body.password;
+    login_username = request.body.username;
+    login_password = request.body.password;
 
     if (typeof users[login_username] != 'undefined') {
         //username exists so get stored password and check if it is correct
-        if (typeof users[login_username].password == login_password) {
+        if (users[login_username].password == login_password) {
             response.send(`${login_username} is logged in`);
             return;
         } else {

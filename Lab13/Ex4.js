@@ -38,7 +38,7 @@ let login_password = request.body['password'];
 
     if (typeof users[login_username] != 'undefined') {
         //username exists so get stored password and check if it is correct
-        if (typeof users[login_username]['password'] == login_password) {
+        if (users[login_username]['password'] == login_password) {
             response.send(`${login_username} is logged in`);
             return;
         } else {
