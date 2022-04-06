@@ -3,12 +3,47 @@
 var products= require(__dirname + '/products.json');
 var express = require('express');
 var app = express();
-
+var fs = require('fs')
 /* Initialize QueryString package */
 const qs = require('query-string');
 
+//user data file
+var filename = 'user_data.json';
+
+//store the data from purchase 
+var qty_data_obj = {};
+
 //get the body
 app.use(express.urlencoded({ extended: true }));
+
+/*LOGIN*/
+app.post("/process_login", function (request, response) {
+//process login form from post
+
+//check if username exists, then if entered password matches, lab 13 ex3-4
+
+
+
+
+
+});
+
+/*REGISTER USERS PAGE*/
+app.post("/register", function (request, response) {
+
+//check email
+
+//check password
+
+//check repeated password for matches
+
+//full name, only letters <=30 characters
+
+
+
+//save new registration data to user_data.json
+
+});
 
 // Routing 
 app.get("/products.js", function (request, response, next) {
@@ -23,6 +58,7 @@ app.all('*', function (request, response, next) {
    next();
 });
 
+/*PURCHASE*/ 
 // process purchase request (validate quantities, check quantity available)
 app.post('/process_form', function (request, response, next){
    var quantities = request.body['quantity'];
