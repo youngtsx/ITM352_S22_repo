@@ -13,16 +13,26 @@ var filename = 'user_data.json';
 //store the data from purchase 
 var qty_data_obj = {};
 
+//lab 13 ex2b
+if (fs.existsSync(filename)) {
+   var file_stats = fs.statSync(filename);
+   var data = fs.readFileSync(filename, 'utf-8');
+   var users = JSON.parse(data);
+} else {
+   console.log(`${filename} doesn't exist :(`);
+}
+
 //get the body
 app.use(express.urlencoded({ extended: true }));
 
 /*LOGIN*/
 app.post("/process_login", function (request, response) {
+var errors = {};
 //process login form from post
 
 //check if username exists, then if entered password matches, lab 13 ex3-4
 
-
+//direct to invoice page
 
 
 
@@ -88,6 +98,7 @@ app.post('/process_form', function (request, response, next){
       for(i in products){
           products[i].quantity_available -= Number(quantities[i]);
       }
+      //save quantity data for invoice *****change this to redirect to ./login.html
       response.redirect('./invoice.html?' + qs.stringify(qty_obj));
       } 
    else { //if i have errors, take the errors and go back to products_display.html

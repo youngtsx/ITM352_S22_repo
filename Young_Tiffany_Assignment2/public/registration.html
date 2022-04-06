@@ -55,19 +55,19 @@ let params = (new URL(document.location)).searchParams;
                     <h2 class="text-uppercase text-center mb-5">Create an account</h2>
       
                     <form name="register_form" action="./register" method="POST">
-      
+
+                      <div class="form-outline mb-4">
+                        <input placeholder="Email" type="email" name="email" id="email" class="form-control form-control-lg" />
+                        <label class="form-label"></label>
+                      </div>
+
                      <div class="form-outline mb-4">
-                        <input placeholder="Your Name" type="text" id="name" class="form-control form-control-lg" />
+                        <input placeholder="Name" type="text" name="name" id="name" class="form-control form-control-lg" />
                         <label class="form-label"></label>
                       </div>
-      
+
                       <div class="form-outline mb-4">
-                        <input placeholder="Your Email"type="email" id="email" class="form-control form-control-lg" />
-                        <label class="form-label"></label>
-                      </div>
-      
-                      <div class="form-outline mb-4">
-                        <input placeholder="Password" type="password" id="form3Example4cg" class="form-control form-control-lg" />
+                        <input placeholder="Password" name="password" type="password" id="form3Example4cg" class="form-control form-control-lg" />
                         <label class="form-label"></label>
                       </div>
       
