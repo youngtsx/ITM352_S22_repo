@@ -28,11 +28,31 @@ app.use(express.urlencoded({ extended: true }));
 /*LOGIN*/
 app.post("/process_login", function (request, response) {
 var errors = {};
-//process login form from post
+
+//login form info from post
+var the_email = request.body['email'].toLowerCase();
+var the_password = request.body['password']
 
 //check if username exists, then if entered password matches, lab 13 ex3-4
+if (typeof users[the_email] != 'undefined') {
+   //check if entered password matches the stored password
+   if (users[the_email].password == the_password) {
+      //matches
 
-//direct to invoice page
+      //direct to invoice page **need to keep data
+      response.redirect('./invoice.html');
+      return;
+   } else {
+      //doesn't match
+      errors['login_err'] = "Wrong Password";
+   }
+
+} else {
+   //email doesn't exist
+   errors['login_err'] = "Wrong Email";
+}
+
+//redirect to login with error message
 
 
 
@@ -40,15 +60,30 @@ var errors = {};
 
 /*REGISTER USERS PAGE*/
 app.post("/register", function (request, response) {
-
+var registration_errors = {};
 //check email
+var reg_email = request.body['email'].toLowerCase();
 
-//check password
+//check email x@y.z
+/^[\w._]+@[\w]+\.[a-zA-Z]{2,3}$/
+
+//check if email is unique
+
+
+//check password >8 ******if this doesn't work, attempt to not use variable
+if (the_password.length < 8) {
+   registration_errors['password'] = 'Minimum 8 characters'
+};
 
 //check repeated password for matches
+if (request.body['password'] != request.body['repeat_password']){
+   registration_errors['repeat_password'] = `The passwords do not match`;
+}
 
-//full name, only letters <=30 characters
-
+//full name validation
+if (/^[A-Za-z, ]+$/.test(req.body.fullname)) { //check if the fullname is correct
+}
+//check if less than 30 characters
 
 
 //save new registration data to user_data.json
