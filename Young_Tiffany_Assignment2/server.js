@@ -134,7 +134,8 @@ app.post('/process_form', function (request, response, next){
           products[i].quantity_available -= Number(quantities[i]);
       }
       //save quantity data for invoice *****change this to redirect to ./login.html
-      response.redirect('./invoice.html?' + qs.stringify(qty_obj));
+      //qty_data_obj = qty_obj;
+      response.redirect('./login.html');
       } 
    else { //if i have errors, take the errors and go back to products_display.html
       let errs_obj = { "errors": JSON.stringify(errors) };
