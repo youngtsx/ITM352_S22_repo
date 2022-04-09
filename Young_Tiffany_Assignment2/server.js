@@ -1,4 +1,6 @@
-/*michimoto momoka, reece nagaoka, lab 12 */
+/*referenced assignment 2 code examples, momoka michimoto, lab 12 */
+
+/* Me = require('./a_swift_and_immediate_death.js'); */
 
 /*load product data*/
 var products = require(__dirname + '/products.json');
@@ -15,10 +17,14 @@ var filename = 'user_data.json';
 //store the data from purchase 
 var qty_data_obj = {};
 
+//user logged out
+var logged_in = false;
+
 //lab 13 ex2b
 if (fs.existsSync(filename)) {
-   var file_stats = fs.statSync(filename);
    var data = fs.readFileSync(filename, 'utf-8');
+   var file_stats = fs.statSync(filename);
+
    var users = JSON.parse(data);
 } else {
    console.log(`${filename} doesn't exist :(`);
@@ -32,30 +38,34 @@ app.post("/process_login", function (request, response) {
    var errors = {};
 
    //login form info from post
-   var the_email = request.body['email'].toLowerCase();
+   var user_email = request.body['email'].toLowerCase();
    var the_password = request.body['password']
 
    //check if username exists, then if entered password matches, lab 13 ex3-4
-   if (typeof users[the_email] != 'undefined') {
+   if (typeof users[user_email] != 'undefined') {
       //check if entered password matches the stored password
-      if (users[the_email].password == the_password) {
+      if (users[user_email].password == the_password) {
          //matches
-
+         qty_data_obj['email'] = user_email;
+         qty_data_obj['fullname'] = users[user_email].name;
          //direct to invoice page **need to keep data
-         response.redirect('./invoice.html');
+         let params = new URLSearchParams(qty_data_obj);
+         response.redirect('./invoice.html?' + params.toString());
          return;
       } else {
          //doesn't match
-         errors['login_err'] = "Wrong Password";
+         errors['login_err'] = `Wrong Password`;
       }
 
    } else {
       //email doesn't exist
-      errors['login_err'] = "Wrong Email";
+      errors['login_err'] = `Wrong Email`;
    }
 
    //redirect to login with error message
-
+    let params = new URLSearchParams(errors);
+    params.append('username' , username); //put username into params
+    response.redirect(`./login.html?` + params.toString());
 
 
 });
@@ -69,6 +79,9 @@ app.post("/register", function (request, response) {
    //check email x@y.z
    if (/^[\w._]+@[\w]+\.[a-zA-Z]{2,3}$/.test(request.body.email) == false) {
       registration_errors['email'] = 'Please enter a valid email';
+      //console.log(registration_errors['email']);
+   }else if (request.body.password.length == 0){
+      registration_errors['email'] = `Enter an email`;
    }
 
    //check if email is unique
@@ -79,7 +92,7 @@ app.post("/register", function (request, response) {
    //check password >8 ******if this doesn't work, attempt to not use variable
    if (request.body.password.length < 8) {
       registration_errors['password'] = 'Minimum 8 characters';
-   };
+   } 
 
    //check repeated password for matches
    if (request.body['password'] != request.body['repeat_password']) {
@@ -87,19 +100,36 @@ app.post("/register", function (request, response) {
    }
 
    //full name validation
-   if (/^[A-Za-z, ]+$/.test(request.body['fullname']) == false) { 
-      //check if the fullname is correct
+   if (/^[A-Za-z, ]+$/.test(request.body['fullname'])) {
+      //check if the fullname is correct   
+   } else {
       registration_errors['fullname'] = 'Please enter your full name';
    }
    //check if fullname is less than 30 characters
-   if (request.body['fullname']) {
+   if (request.body['fullname'].length < 30) {
       registration_errors['fullname'] = 'Please enter less than 30 characters';
    }
 
+   //assignment 2 code examples
    //save new registration data to user_data.json
+   if (Object.keys(registration_errors).length == 0) {
+      console.log('no registration errors')//store user data in json file
+      users[reg_email] = {};
+      users[reg_email].password = request.body.password;
+      users[reg_email].name = request.body.fullname;
 
+      fs.writeFileSync(filename, JSON.stringify(users));
+
+      qty_data_obj['email'] = reg_email;
+      qty_data_obj['name'] = users[reg_email]['fullname'];
+      let params = new URLSearchParams(qty_data_obj);
+      response.redirect('./invoice.html?' + params.toString()); //all good! => to invoice w/data
+   } else {
+      request.body['registration_errors'] = JSON.stringify(registration_errors);
+      let params = new URLSearchParams(request.body);
+      response.redirect("./registration.html?" + params.toString());
+   }
 });
-
 
 /*      Changing register users' data            */
 

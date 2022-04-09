@@ -1,11 +1,18 @@
 <!-- This file will display an invoice based off of https://www.bootdey.com/snippets/view/Invoice-with-ribbon, w3schoools bootstraps https://www.w3schools.com/bootstrap/bootstrap_templates.asp "online store", and reece nagaoka f21 -->
 <script src="./products.js" type="text/javascript"></script>
-<script src="/user_data.js" type="json"></script>
+<script src="/user_data.json" type="json"></script>
 <script>
   let params = (new URL(document.location)).searchParams;
   var quantities = [];
   if (params.has('quantity')) {
     quantities = JSON.parse(params.get(`quantity`));
+  }
+
+  var email = [];
+  if (params.has('email')) {
+    email = JSON.parse(params.get(`email`));
+  } else {
+    window.location.href = "./login.html"
   }
 </script>
 
@@ -120,7 +127,7 @@
                               <script>document.write(grand_total.toFixed(2));</script>
                             </strong> </p>
                           <p><strong>
-                              <script>document.write(`Thank you for purchasing, ${/*request.body.fullname*/a}`)</script>
+                              <script>document.write(`Thank you for purchasing, ${request.body.fullname}`)</script>
                             </strong></p>
                           <div style="font-family: Arial;">
                             <br>

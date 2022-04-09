@@ -3,44 +3,44 @@
 <!--w3schools bootstrap https://www.w3schools.com/bootstrap/bootstrap_templates.asp "online store", lab 12 infoserver examples, and reece nagaoka F21 :DD-->
 <script src="./products.js" type="text/javascript"></script>
 <script>
-    function isNonNegInt(q, return_errors = false) {
-        errors = []; // assume no errors at first
-        if(q == '') q = 0; // handle blank inputs as if they are 0
-        if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Check if string is a number value
-        else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
-        else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
-        return return_errors ? errors : (errors.length == 0);
-    }
+  function isNonNegInt(q, return_errors = false) {
+    errors = []; // assume no errors at first
+    if (q == '') q = 0; // handle blank inputs as if they are 0
+    if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Check if string is a number value
+    else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
+    else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
+    return return_errors ? errors : (errors.length == 0);
+  }
 
-    function checkQuantityTextbox(the_textbox) {
-        errs = isNonNegInt(the_textbox.value, true);
-        if (errs.length == 0) errs = ['You want:'];
-        if (the_textbox.value.trim() == '') errs = ['Quantity'];
-        document.getElementById(the_textbox.name + '_label').innerHTML = errs.join(", ");
-    }
-//from Assignment 1 example/reece nagaoka FW21:
-let params = (new URL(document.location)).searchParams; // get the query string which has the form data
-window.onload = function () {
+  function checkQuantityTextbox(the_textbox) {
+    errs = isNonNegInt(the_textbox.value, true);
+    if (errs.length == 0) errs = ['You want:'];
+    if (the_textbox.value.trim() == '') errs = ['Quantity'];
+    document.getElementById(the_textbox.name + '_label').innerHTML = errs.join(", ");
+  }
+  //from Assignment 1 example/reece nagaoka FW21:
+  let params = (new URL(document.location)).searchParams; // get the query string which has the form data
+  window.onload = function () {
 
-// form was submitted, check that quantities are valid then redirect to invoice if ok.
-if (params.has('errors')) {
-    var errors = JSON.parse(params.get('errors')); //turns string in object
-    let err_str = '';
-    for (err in errors) { //combine errors in one string
+    // form was submitted, check that quantities are valid then redirect to invoice if ok.
+    if (params.has('errors')) {
+      var errors = JSON.parse(params.get('errors')); //turns string in object
+      let err_str = '';
+      for (err in errors) { //combine errors in one string
         err_str += errors[err] + '\n';
+      }
+      alert(err_str);
     }
-    alert(err_str);
-}
 
-if (params.has('quantity')) {
-    var quantities = JSON.parse(params.get('quantity')); //turns string in object
-    // put quantities in quantity textboxes
-    for (i in quantities) {
+    if (params.has('quantity')) {
+      var quantities = JSON.parse(params.get('quantity')); //turns string in object
+      // put quantities in quantity textboxes
+      for (i in quantities) {
         quantity_form[`quantity${i}`].value = quantities[i];
         checkQuantityTextbox(quantity_form[`quantity${i}`]);
+      }
     }
-}
-}
+  }
 </script>
 
 <head>
@@ -107,4 +107,5 @@ if (params.has('quantity')) {
   </br>
   <p>&copy; Tiffany Young 2022</p>
 </div>
+
 </html>
