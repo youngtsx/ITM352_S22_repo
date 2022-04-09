@@ -21,7 +21,7 @@ app.get("/login", function (request, response) {
     str = `
 <body>
 <form action="" method="POST">
-<input type="text" name="username" size="40" placeholder="enter username" ><br />
+<input type="text" name="usernames" size="40" placeholder="enter username" ><br />
 <input type="password" name="password" size="40" placeholder="enter password"><br />
 <input type="submit" value="Submit" id="submit">
 </form>
@@ -33,7 +33,7 @@ app.get("/login", function (request, response) {
 app.post("/login", function (request, response) {
 console.log(request.body);
 // Process login form POST and redirect to logged in page if ok, back to login page if not
-let login_username = request.body['username'];
+let login_username = request.body['usernames'];
 let login_password = request.body['password'];
 
     if (typeof users[login_username] != 'undefined') {
@@ -74,7 +74,7 @@ console.log(request.body);
     users['username']['password'] = request.body['password'];
     users['username']['email'] = request.body['email'];
 
-    fs.writeFileSync(filename, JSON.stringify(user_data));
+    fs.writeFileSync(filename, JSON.stringify(users));
  });
 
 app.listen(8080, () => console.log(`listening on port 8080`));
