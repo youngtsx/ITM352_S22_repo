@@ -71,43 +71,44 @@ app.post("/process_login", function (request, response) {
 });
 
 /*               REGISTER USERS PAGE                 */
+//regex from assignment 2 resources
 app.post("/register", function (request, response) {
    var registration_errors = {};
    //check email
    var reg_email = request.body['email'].toLowerCase();
 
    //check email x@y.z
-   if (/^[\w._]+@[\w]+\.[a-zA-Z]{2,3}$/.test(request.body.email) == false) {
-      registration_errors['email'] = 'Please enter a valid email';
+   if (/^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$/.test(request.body.email) == false) {
+      registration_errors['email'] = `Please enter a valid email`;
       //console.log(registration_errors['email']);
-   }else if (request.body.password.length == 0){
+   } else if (request.body.password.length == 0){
       registration_errors['email'] = `Enter an email`;
    }
 
    //check if email is unique
    if (typeof users[reg_email] != 'undefined') {
-      registration_errors['email'] = 'This email has already been registered';
+      registration_errors['email'] = `This email has already been registered`;
    }
 
-   //check password >8 ******if this doesn't work, attempt to not use variable
+   //check password > 8 ******if this doesn't work, attempt to not use variable
    if (request.body.password.length < 8) {
-      registration_errors['password'] = 'Minimum 8 characters';
+      registration_errors['password'] = `Minimum 8 characters`;
    } 
 
    //check repeated password for matches
    if (request.body['password'] != request.body['repeat_password']) {
-      registration_errors['repeat_password'] = 'The passwords do not match';
+      registration_errors['repeat_password'] = `The passwords do not match`;
    }
 
    //full name validation
    if (/^[A-Za-z, ]+$/.test(request.body['fullname'])) {
       //check if the fullname is correct   
    } else {
-      registration_errors['fullname'] = 'Please enter your full name';
+      registration_errors['fullname'] = `Please enter your full name`;
    }
    //check if fullname is less than 30 characters
-   if (request.body['fullname'].length < 30) {
-      registration_errors['fullname'] = 'Please enter less than 30 characters';
+   if (request.body['fullname'].length > 30) {
+      registration_errors['fullname'] = `Please enter less than 30 characters`;
    }
 
    //assignment 2 code examples
@@ -118,7 +119,7 @@ app.post("/register", function (request, response) {
       users[reg_email].password = request.body.password;
       users[reg_email].name = request.body.fullname;
 
-      fs.writeFileSync(filename, JSON.stringify(users));
+      fs.writeFileSync(filename, JSON.stringify(users), "utf-8");
 
       qty_data_obj['email'] = reg_email;
       qty_data_obj['name'] = users[reg_email]['fullname'];
