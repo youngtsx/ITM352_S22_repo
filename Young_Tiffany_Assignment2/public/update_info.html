@@ -11,16 +11,10 @@ various validations -->
     let params = (new URL(document.location)).searchParams;
     //borrowed from momoka michimoto FW21
     if (params.has('email')) { //params searches 'email' and changes the email value textbox to the email entered
-        email.value = params.get('email')
+        email.value = params.get('email') //sticky
       }
-      if (params.has('reseterrors')) { //function loops through reseterrors object
-      var errors = JSON.parse(params.get('reseterrors'));
-      let err_str = '';
-      for (err in errors) {
-        err_str += errors[err] + '\n';
-        document.getElementById(`${err}_label`).innerHTML = `<font color="red">${errors[err]}</font>`;
-      }
-      alert(err_str); 
+      if (params.has('reseterrors')) { //has reseterrors array generated and alerts it
+        alert(params.has('reseterrors'));
   }
 }
 </script>
