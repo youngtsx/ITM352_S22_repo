@@ -23,7 +23,6 @@
   //from Assignment 1 example/reece nagaoka FW21:
   let params = (new URL(document.location)).searchParams; // get the query string which has the form data
   window.onload = function () {
-
     // form was submitted, check that quantities are valid then redirect to invoice if ok.
     if (params.has('errors')) {
       var errors = JSON.parse(params.get('errors')); //turns string in object

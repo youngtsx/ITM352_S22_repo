@@ -187,7 +187,7 @@ app.post("/newpw", function (request, response) { //modified from joshua chun
       response.redirect('./invoice.html?' + params.toString()); //all good! => to invoice w/data
       return;
    } else {
-      //If there are errors, send back to new password page with errors
+      //If there are errors, send back to page with errors
       request.body['reseterrors'] = JSON.stringify(reseterrors);
       let params = new URLSearchParams(request.body);
       response.redirect(`./update_info.html?` + params.toString());
