@@ -8,19 +8,13 @@
   window.onload = function () {
     let params = (new URL(document.location)).searchParams;
     //borrowed from momoka michimoto FW21
-    if (params.has('reseterrors')) {
-      var errors = JSON.parse(params.get('reseterrors'));
-      let err_str = '';
-      for (err in errors) {
-        err_str += errors[err] + '\n';
-        document.getElementById(`${err}_label`).innerHTML = `<font color="red">${errors[err]}</font>`;
-      }
-      alert(err_str);
-    }
     if (params.has('email')) { //params searches 'email' and changes the email value textbox to the email entered
         email.value = params.get('email')
       }
+      if (params.has('reseterrors')) {
+        alert (params.get('reseterrors'));
   }
+}
 </script>
 <html lang="en">
 
@@ -67,31 +61,29 @@
 
               <div class="mb-md-5 mt-md-4 pb-5">
                 
-                  <form name="new_password" action="/newpw" method="POST">
+                  <form name="newpw" action="./newpw" method="POST">
                 
                 <h2 class="fw-bold mb-2 text-uppercase">Edit your Password</h2>
                 <p class="text-white-50 mb-5">Please enter your email and password!</p>
 
                 <div class="form-outline form-white mb-4">
-                  <input type="email" name="email" id="email" class="form-control form-control-lg" onkeyup="" />
+                  <input type="email" name="email" id="email" class="form-control form-control-lg" />
                   <label class="form-label" id="email_label" for="email">Email</label>
                 </div>
 
                 <div class="form-outline form-white mb-4">
-                  <input type="password" name="password" id="password" class="form-control form-control-lg"
-                    onkeyup="" />
+                  <input type="password" name="password" id="password" class="form-control form-control-lg" />
                   <label class="form-label" id="password_label for="password">Password</label>
                 </div>
 
                 <div class="form-outline form-white mb-4">
-                  <input type="password" name="newpassword" id="newpassword" class="form-control form-control-lg"
-                    onkeyup="" />
+                  <input type="password" name="newpassword" id="newpassword" class="form-control form-control-lg" />
                   <label class="form-label" id="newpassword_label for=" newpassword">New Password</label>
                 </div>
 
                 <div class="form-outline form-white mb-4">
                   <input type="password" name="repeatnewpassword" id="repeatnewpassword"
-                    class="form-control form-control-lg" onkeyup="" />
+                    class="form-control form-control-lg" />
                   <label class="form-label" id="repeatnewpassword_label for="repeatnewpassword">Repeat New
                     Password</label>
                 </div>
@@ -102,8 +94,7 @@
               </div>
 
               <div>
-                <p class="mb-0">Don't have an account? <a href="registration.html" class="text-white-50 fw-bold">Sign
-                    Up</a>
+                <p class="mb-0">Don't have an account? <a href="registration.html" class="text-white-50 fw-bold">Sign Up</a>
                 </p>
               </div>
               </form>
