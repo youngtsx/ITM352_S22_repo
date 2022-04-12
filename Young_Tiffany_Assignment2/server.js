@@ -1,4 +1,5 @@
-/* TIFFANY YOUNG S22 */
+/* TIFFANY YOUNG S22 
+   server for ecommerce website*/
 /*referenced assignment 2 code examples, reece nagaoka F21, momoka michimotoF21, lab 12 (and looked at li xinfeiF21 and joshua chun for inspiration)*/
 
 /*load product data*/
@@ -146,7 +147,7 @@ app.post("/newpw", function (request, response) { //modified from joshua chun
       reseterrors['email'] = 'Please enter an email';
    }
    //check repeated password for matches
-   if (request.body['newpassword'] != request.body['repeatnewpassword']) {
+   if (request.body['newpassword'] != request.body['repeatnewpassword']) { 
       reseterrors['repeatnewpassword'] = `The new passwords do not match`;
    }
 
@@ -175,7 +176,7 @@ app.post("/newpw", function (request, response) { //modified from joshua chun
             qty_data_obj['email'] = login_email;
             qty_data_obj['name'] = users[login_email]['fullname'];
             let params = new URLSearchParams(qty_data_obj);
-            response.redirect('./invoice.html?' + params.toString());
+            response.redirect('./invoice.html?' + params.toString()); //sends to login then to invoice with data
             return;
          }
       } else {
@@ -187,7 +188,7 @@ app.post("/newpw", function (request, response) { //modified from joshua chun
    //If there are errors, send back to new password page with errors
    request.body['reseterrors'] = JSON.stringify(reseterrors);
    let params = new URLSearchParams(request.body);
-   response.redirect("./update_info.html?" + params.toString());
+   response.redirect("./update_info.html?" + params.toString()); //collects all the error messages which is alerted in update_info.html
 });
 
 // Routing 

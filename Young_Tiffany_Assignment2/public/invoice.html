@@ -1,6 +1,7 @@
-<!-- TIFFANY YOUNG S22-->
+<!--AUTHOR: TIFFANY YOUNG S22-->
 <!-- This file will display an invoice based off of https://www.bootdey.com/snippets/view/Invoice-with-ribbon,
-   w3schoools bootstraps https://www.w3schools.com/bootstrap/bootstrap_templates.asp "online store", and reece nagaoka f21 and momoka michimoto (and looked at li xinfei for inspiration) -->
+   w3schoools bootstraps https://www.w3schools.com/bootstrap/bootstrap_templates.asp "online store",
+    and reece nagaoka f21 and momoka michimoto (and looked at li xinfei for inspiration) -->
 <script src="./products.js" type="text/javascript"></script>
 <script src="/user_data.json" type="json"></script>
 
@@ -10,7 +11,7 @@
   if (params.has('quantity')) {
     quantities = JSON.parse(params.get(`quantity`)); //params gets quantity from purchase, parses string into a json object
   }
-//email is wrong, back to login, borrowed from li xinfei.
+//name is wrong, back to login, borrowed from li xinfei.
   //var email = [];
   if (params.has('fullname')) {
     var fullname = params.get(`fullname`);
@@ -60,7 +61,7 @@
       </div>
     </div>
   </nav>
-  <script> //borrowed from li xinfei F21
+  <script> //borrowed from li xinfei F21 | gets full name and displays it
       if (fullname != 'undefined' && fullname != '') {
       document.write(`<div class="center"><h4><b>Mahalo, ${fullname}!</b><h4></div>`)
     }

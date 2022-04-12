@@ -1,4 +1,6 @@
-<!-- TIFFANY YOUNG -->
+<!-- TIFFANY YOUNG
+This page displays a form to reset your password after
+various validations -->
 <!DOCTYPE html>
 
 <!--https://mdbootstrap.com/docs/standard/extended/login/#section-4 login template -->
@@ -11,14 +13,14 @@
     if (params.has('email')) { //params searches 'email' and changes the email value textbox to the email entered
         email.value = params.get('email')
       }
-      if (params.has('reseterrors')) {
+      if (params.has('reseterrors')) { //function loops through reseterrors object
       var errors = JSON.parse(params.get('reseterrors'));
       let err_str = '';
       for (err in errors) {
         err_str += errors[err] + '\n';
         document.getElementById(`${err}_label`).innerHTML = `<font color="red">${errors[err]}</font>`;
       }
-      alert(err_str);
+      alert(err_str); 
   }
 }
 </script>
@@ -67,7 +69,7 @@
 
               <div class="mb-md-5 mt-md-4 pb-5">
                 
-                  <form name="newpw" action="./newpw" method="POST">
+                <form name="newpw" action="./newpw" method="POST">
                 
                 <h2 class="fw-bold mb-2 text-uppercase">Edit your Password</h2>
                 <p class="text-white-50 mb-5">Please enter your email and password!</p>
