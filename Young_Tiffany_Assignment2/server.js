@@ -123,7 +123,7 @@ app.post("/register", function (request, response) {
       fs.writeFileSync(filename, JSON.stringify(users), "utf-8");
 
       qty_data_obj['email'] = reg_email;
-      qty_data_obj['name'] = users[reg_email]['fullname'];
+      qty_data_obj['fullname'] = users[reg_email]['fullname'];
       let params = new URLSearchParams(qty_data_obj);
       response.redirect('./invoice.html?' + params.toString()); //all good! => to invoice w/data
    } else {
