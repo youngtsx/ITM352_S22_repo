@@ -66,8 +66,6 @@ app.post("/process_login", function (request, response) {
    let params = new URLSearchParams(errors);
    params.append('email', user_email); //put username into params
    response.redirect(`./login.html?` + params.toString());
-
-
 });
 
 /*               REGISTER USERS PAGE                 */
@@ -170,7 +168,7 @@ app.post("/newpw", function (request, response) { //modified from joshua chun
    } else {
       reseterrors['email'] = `Email has not been registered`;
    }         
-   //If errors is empty
+   //If errors is empty | modified from register section which was taken from momoka michimoto,reece nagaoka
   // let params = new URLSearchParams(request.query);
    if (Object.keys(reseterrors).length == 0) {
       //Write data and send to invoice.html
