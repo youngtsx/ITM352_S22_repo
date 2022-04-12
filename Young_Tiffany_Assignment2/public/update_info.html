@@ -13,8 +13,14 @@ various validations -->
     if (params.has('email')) { //params searches 'email' and changes the email value textbox to the email entered
         email.value = params.get('email') //sticky
       }
-      if (params.has('reseterrors')) { //has reseterrors array generated and alerts it
-        alert(params.has('reseterrors'));
+      if (params.has('reseterrors')) {
+      var errors = JSON.parse(params.get('reseterrors'));
+      let err_str = '';
+      for (err in errors) {
+        err_str += errors[err] + '\n';
+        document.getElementById(`${err}_label`).innerHTML = `<font color="red">${errors[err]}</font>`;
+      }
+      alert(err_str);
   }
 }
 </script>
@@ -69,25 +75,24 @@ various validations -->
                 <p class="text-white-50 mb-5">Please enter your email and password!</p>
 
                 <div class="form-outline form-white mb-4">
-                  <input type="email" name="email" id="email" class="form-control form-control-lg" />
-                  <label class="form-label" id="email_label" for="email">Email</label>
+                  <input placeholder="Email" type="email" name="email" id="email" class="form-control form-control-lg"  />
+                  <label class="form-label" id="email_label" for="email"></label>
                 </div>
 
                 <div class="form-outline form-white mb-4">
-                  <input type="password" name="password" id="password" class="form-control form-control-lg" />
-                  <label class="form-label" id="password_label for="password">Password</label>
+                  <input placeholder="Password" type="password" name="password" id="password" class="form-control form-control-lg" />
+                  <label class="form-label" id="password_label" for="password"></label>
                 </div>
 
                 <div class="form-outline form-white mb-4">
-                  <input type="password" name="newpassword" id="newpassword" class="form-control form-control-lg" />
-                  <label class="form-label" id="newpassword_label for="newpassword">New Password</label>
+                  <input placeholder="New Password Here" type="password" name="newpassword" id="newpassword" class="form-control form-control-lg" />
+                  <label class="form-label" id="newpassword_label" for="newpassword"></label>
                 </div>
 
                 <div class="form-outline form-white mb-4">
-                  <input type="password" name="repeatnewpassword" id="repeatnewpassword"
+                  <input placeholder="Repeat New Password" type="password" name="repeatnewpassword" id="repeatnewpassword"
                     class="form-control form-control-lg" />
-                  <label class="form-label" id="repeatnewpassword_label for="repeatnewpassword">Repeat New
-                    Password</label>
+                  <label class="form-label" id="repeatnewpassword_label" for="repeatnewpassword"></label>
                 </div>
                 <div class="d-flex justify-content-center">
                   <button type="submit" class="btn btn-primary btn-block" id="change_password"

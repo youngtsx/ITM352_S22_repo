@@ -169,31 +169,31 @@ app.post("/newpw", function (request, response) { //modified from joshua chun
       }
    } else {
       reseterrors['email'] = `Email has not been registered`;
-   }         //If errors is empty
-   let params = new URLSearchParams(request.query);
+   }         
+   //If errors is empty
+  // let params = new URLSearchParams(request.query);
    if (Object.keys(reseterrors).length == 0) {
       //Write data and send to invoice.html
+      users[login_email] = {};
       users[login_email].password = request.body.newpassword
 
       //Writes user information into file
       fs.writeFileSync(filename, JSON.stringify(users), "utf-8");
 
       //Add email to query
-     /* qty_data_obj['email'] = login_email;
+      qty_data_obj['email'] = login_email;
       qty_data_obj['fullname'] = users[login_email]['fullname'];
-      let params = new URLSearchParams(qty_data_obj);*/
-      params.append('email', login_email)
-      response.redirect('./invoice.html?' + params.toString()); //sends to login then to invoice with data
+      let params = new URLSearchParams(qty_data_obj);
+      response.redirect('./invoice.html?' + params.toString()); //all good! => to invoice w/data
       return;
    } else {
       //If there are errors, send back to new password page with errors
-      //let reseterrors_obj = { "reseterrors": JSON.stringify(reseterrors)}
-      
-     /* params.append('email', login_email);
-      response.redirect("./update_info.html?" + qs.stringify(reseterrors_obj) + '&' + params.toString());*/ //collects all the error messages which is alerted in update_info.html
-      request.query['email'] = login_email;
+      /*request.query['email'] = login_email;
       request.query['reseterrors'] = reseterrors;
-      response.redirect(`./update_info.html?` + qs.stringify(request.query));
+      response.redirect(`./update_info.html?` + qs.stringify(request.query));*/
+      let params = new URLSearchParams(reseterrors);
+      params.append('email', login_email); //put username into params
+      response.redirect(`./update_info.html?` + params.toString());
    }
 });
 
