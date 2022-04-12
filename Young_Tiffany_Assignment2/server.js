@@ -188,11 +188,8 @@ app.post("/newpw", function (request, response) { //modified from joshua chun
       return;
    } else {
       //If there are errors, send back to new password page with errors
-      /*request.query['email'] = login_email;
-      request.query['reseterrors'] = reseterrors;
-      response.redirect(`./update_info.html?` + qs.stringify(request.query));*/
-      let params = new URLSearchParams(reseterrors);
-      params.append('email', login_email); //put username into params
+      request.body['reseterrors'] = JSON.stringify(reseterrors);
+      let params = new URLSearchParams(request.body);
       response.redirect(`./update_info.html?` + params.toString());
    }
 });
