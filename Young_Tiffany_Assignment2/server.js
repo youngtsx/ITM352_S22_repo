@@ -142,51 +142,52 @@ app.post("/newpw", function (request, response) { //modified from joshua chun
 
    if (/^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$/.test(login_email) == false) {
       reseterrors['email'] = `Please enter a valid email`;
-   } else if (request.body[login_email].length == 0) {
-      reseterrors['email'] = `Please enter an email`;
+   } else if (login_email.length == 0) {
+      reseterrors = 'Please enter an email'
    }
    //check repeated password for matches
    if (request.body['newpassword'] != request.body['repeatnewpassword']) {
       reseterrors['repeatnewpassword'] = `The new passwords do not match`;
    }
-   if (users[login_email]['password'] != login_password) {
-      reseterrors['password'] = 'Incorrect password';
-   }
+
    if (typeof users[login_email] != 'undefined') {
+      if (users[login_email].password == login_password) {
+         //Require a minimum of 8 characters
+         if (request.body.newpassword.length < 8) {
+            reseterrors['newpassword'] = 'Password must have a minimum of 8 characters.';
+         }
+         if (users[login_email].password != login_password) {
+            reseterrors['password'] = 'Incorrect password';
+         }
+         //Confirm that both passwords were entered correctly
+         if (request.body.newpassword !== request.body.repeatnewpassword) {
+            reseterrors['repeatnewpassword'] = 'Both passwords must match';
+         }
+         //If errors is empty
+         if (Object.keys(reseterrors).length == 0) {
+            //Write data and send to invoice.html
+            users[login_email].password = request.body.newpassword
+
+            //Writes user information into file
+            fs.writeFileSync(filename, JSON.stringify(users), "utf-8");
+
+            //Add email to query
+            qty_data_obj['email'] = login_email;
+            //qty_data_obj['name'] = users[*MAKE SURE TO CHANGE THIS >reg_email]['fullname'];
+            let params = new URLSearchParams(qty_data_obj);
+            response.redirect('./invoice.html?' + params.toString());
+            return;
+         }
+      } else {
+         reseterrors['password'] = `Incorrect Password`;
+      }
+   } else {
       reseterrors['email'] = `${login_email} has not been registered`;
    }
-   if (users[login_email]['password'] == login_password) {
-      //Require a minimum of 8 characters
-      if (request.body['newpassword'].length < 8) {
-         reseterrors['newpassword'] = 'Password must have a minimum of 8 characters.';
-      }
-
-      //Confirm that both passwords were entered correctly
-      if (request.body['newpassword'] !== request.body['repeatnewpassword']) {
-         reseterrors['repeatnewpassword'] = 'Both passwords must match';
-      }
-   } let params = new URLSearchParams(request.query);
-
-   //If errors is empty
-   if (Object.keys(reseterrors).length == 0) {
-      //Write data and send to invoice.html
-      users[login_email] ={};
-      users[login_email].password = request.body.newpassword
-
-      //Writes user information into file
-      fs.writeFileSync(filename, JSON.stringify(users), "utf-8");
-
-      //Add email to query
-      qty_data_obj['email'] = login_email;
-      qty_data_obj['name'] = users[login_email]['fullname'];
-      let params = new URLSearchParams(qty_data_obj);
-      response.redirect('./invoice.html?' + params.toString());
-      return;
-   } else {   //If there are errors, send back to new password page with errors
-      request.body['reseterrors'] = JSON.stringify(reseterrors);
-      let params = new URLSearchParams(request.body);
-      response.redirect("./update_info.html?" + params.toString());
-   }
+   //If there are errors, send back to new password page with errors
+   request.body['reseterrors'] = JSON.stringify(reseterrors);
+   let params = new URLSearchParams(request.body);
+   response.redirect("./update_info.html?" + params.toString());
 });
 
 // Routing 
