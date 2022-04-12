@@ -87,7 +87,7 @@ app.post("/register", function (request, response) {
    //check password > 8 
    if (request.body.password.length < 8) {
       registration_errors['password'] = `Minimum 8 characters`;
-   } else if (request.body.password.length == 0) {
+   } else if (request.body.password.length == 0) { //nothing entered
       registration_errors['password'] = `Enter a password`;
    }
 
@@ -150,7 +150,7 @@ app.post("/newpw", function (request, response) { //modified from joshua chun
          //Require a minimum of 8 characters
          if (request.body.newpassword.length < 8) {
             reseterrors['newpassword'] = 'Password must have a minimum of 8 characters.';
-         }
+         }//check if correct password for account
          if (users[login_email].password != login_password) {
             reseterrors['password'] = 'Incorrect password';
          }
@@ -161,10 +161,10 @@ app.post("/newpw", function (request, response) { //modified from joshua chun
          if (request.body.newpassword || request.body.repeatnewpassword == login_password) {
             reseterrors['newpassword'] = `New password cannot be the same as the old password`;
          }
-      } else {
+      } else { //doesn't match
          reseterrors['password'] = `Incorrect Password`;
       }
-   } else {
+   } else { //email doesn't exist
       reseterrors['email'] = `Email has not been registered`;
    }
    //If errors is empty | modified from register section which was taken from momoka michimoto,reece nagaoka

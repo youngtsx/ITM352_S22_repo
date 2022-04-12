@@ -13,9 +13,6 @@ various validations -->
    if (params.has('email')) { //params searches 'email' and changes the email value textbox to the email entered
         email.value = params.get('email') //sticky
       }
-      if (params.has('password')) { //params searches 'password' and changes the password value textbox
-        password.value = params.get('password') //sticky
-      }
       if (params.has('reseterrors')) {
       var errors = JSON.parse(params.get('reseterrors'));
       let err_str = '';
@@ -57,7 +54,7 @@ various validations -->
           <li><a href="shop.html">Products</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> Account</a></li>
+       <!--   <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> Account</a></li>-->
           <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
         </ul>
       </div>
