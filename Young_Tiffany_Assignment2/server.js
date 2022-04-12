@@ -159,17 +159,20 @@ app.post("/newpw", function (request, response) { //modified from joshua chun
             reseterrors['password'] = 'Incorrect password';
          }
          //Confirm that both passwords were entered correctly
-         if (request.body.newpassword !== request.body.repeatnewpassword) {
+         if (request.body.newpassword != request.body.repeatnewpassword) {
             reseterrors['repeatnewpassword'] = 'Both passwords must match';
+         }//new password cant be same as old
+         if (request.body.newpassword || request.body.repeatnewpassword == login_password) {
+            reseterrors['newpassword'] = `New password cannot be the same as the old password`;
          }
       } else {
          reseterrors['password'] = `Incorrect Password`;
       }
    } else {
       reseterrors['email'] = `Email has not been registered`;
-   }         
+   }
    //If errors is empty | modified from register section which was taken from momoka michimoto,reece nagaoka
-  // let params = new URLSearchParams(request.query);
+   // let params = new URLSearchParams(request.query);
    if (Object.keys(reseterrors).length == 0) {
       //Write data and send to invoice.html
       users[login_email] = {};
