@@ -1,5 +1,5 @@
 /* TIFFANY YOUNG S22 */
-/*referenced assignment 2 code examples, momoka michimoto, lab 12 (and looked at li xinfei for inspiration)*/
+/*referenced assignment 2 code examples, reece nagaoka F21, momoka michimotoF21, lab 12 (and looked at li xinfeiF21 and joshua chun for inspiration)*/
 
 /*load product data*/
 var products = require(__dirname + '/products.json');
@@ -16,8 +16,8 @@ var filename = 'user_data.json';
 //store the data from purchase 
 var qty_data_obj = {};
 
-//user logged out
-var logged_in = false;
+/*user logged out
+var logged_in = false;*/
 
 //lab 13 ex2b
 if (fs.existsSync(filename)) {
@@ -80,7 +80,7 @@ app.post("/register", function (request, response) {
    if (/^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$/.test(request.body.email) == false) {
       registration_errors['email'] = `Please enter a valid email`;
       //console.log(registration_errors['email']);
-   } else if (request.body.reg_email.length == 0) {
+   } else if (reg_email.length == 0) {
       registration_errors['email'] = `Enter an email`;
    }
 
@@ -89,7 +89,7 @@ app.post("/register", function (request, response) {
       registration_errors['email'] = `This email has already been registered`;
    }
 
-   //check password > 8 ******if this doesn't work, attempt to not use variable
+   //check password > 8 
    if (request.body.password.length < 8) {
       registration_errors['password'] = `Minimum 8 characters`;
    } else if (request.body.password.length == 0) {
@@ -143,7 +143,7 @@ app.post("/newpw", function (request, response) { //modified from joshua chun
    if (/^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$/.test(login_email) == false) {
       reseterrors['email'] = `Please enter a valid email`;
    } else if (login_email.length == 0) {
-      reseterrors = 'Please enter an email'
+      reseterrors['email'] = 'Please enter an email';
    }
    //check repeated password for matches
    if (request.body['newpassword'] != request.body['repeatnewpassword']) {
@@ -173,7 +173,7 @@ app.post("/newpw", function (request, response) { //modified from joshua chun
 
             //Add email to query
             qty_data_obj['email'] = login_email;
-            //qty_data_obj['name'] = users[*MAKE SURE TO CHANGE THIS >reg_email]['fullname'];
+            qty_data_obj['name'] = users[login_email]['fullname'];
             let params = new URLSearchParams(qty_data_obj);
             response.redirect('./invoice.html?' + params.toString());
             return;
@@ -182,7 +182,7 @@ app.post("/newpw", function (request, response) { //modified from joshua chun
          reseterrors['password'] = `Incorrect Password`;
       }
    } else {
-      reseterrors['email'] = `${login_email} has not been registered`;
+      reseterrors['email'] = `Email has not been registered`;
    }
    //If there are errors, send back to new password page with errors
    request.body['reseterrors'] = JSON.stringify(reseterrors);

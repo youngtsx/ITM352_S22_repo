@@ -12,7 +12,13 @@
         email.value = params.get('email')
       }
       if (params.has('reseterrors')) {
-        alert (params.get('reseterrors'));
+      var errors = JSON.parse(params.get('reseterrors'));
+      let err_str = '';
+      for (err in errors) {
+        err_str += errors[err] + '\n';
+        document.getElementById(`${err}_label`).innerHTML = `<font color="red">${errors[err]}</font>`;
+      }
+      alert(err_str);
   }
 }
 </script>
@@ -78,7 +84,7 @@
 
                 <div class="form-outline form-white mb-4">
                   <input type="password" name="newpassword" id="newpassword" class="form-control form-control-lg" />
-                  <label class="form-label" id="newpassword_label for=" newpassword">New Password</label>
+                  <label class="form-label" id="newpassword_label for="newpassword">New Password</label>
                 </div>
 
                 <div class="form-outline form-white mb-4">
