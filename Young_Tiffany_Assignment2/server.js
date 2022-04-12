@@ -1,6 +1,7 @@
-/* TIFFANY YOUNG S22 
+/* ATUHOR: TIFFANY YOUNG S22 
    server for ecommerce website*/
-/*referenced assignment 2 code examples, reece nagaoka F21, momoka michimotoF21, lab 12 (and looked at li xinfeiF21 and joshua chun for inspiration)*/
+/*referenced assignment 2 code examples, reece nagaoka F21, momoka michimotoF21, lab 12
+ (and looked at li xinfeiF21 & joshua chun for inspiration)*/
 
 /*load product data*/
 var products = require(__dirname + '/products.json');
@@ -23,8 +24,6 @@ var logged_in = false;*/
 //lab 13 ex2b
 if (fs.existsSync(filename)) {
    var data = fs.readFileSync(filename, 'utf-8');
-   var file_stats = fs.statSync(filename);
-
    var users = JSON.parse(data);
 } else {
    console.log(`${filename} doesn't exist :(`);
@@ -36,7 +35,6 @@ app.use(express.urlencoded({ extended: true }));
 /*                 LOGIN                     */
 app.post("/process_login", function (request, response) {
    var errors = {};
-
    //login form info from post
    var user_email = request.body['email'].toLowerCase();
    var the_password = request.body['password']
@@ -56,12 +54,10 @@ app.post("/process_login", function (request, response) {
          //doesn't match
          errors['login_err'] = `Wrong Password`;
       }
-
    } else {
       //email doesn't exist
       errors['login_err'] = `Wrong Email`;
    }
-
    //redirect to login with error message
    let params = new URLSearchParams(errors);
    params.append('email', user_email); //put username into params
