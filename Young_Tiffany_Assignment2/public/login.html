@@ -1,4 +1,6 @@
+<!-- TIFFANY YOUNG S22-->
 <!DOCTYPE html>
+
 <!--https://mdbootstrap.com/docs/standard/extended/login/#section-4 login template -->
 <script src="/user_data.js" type="json"></script>
 <script>
@@ -7,6 +9,9 @@ let params = (new URL(document.location)).searchParams;
 //borrowed from momoka michimoto FW21
     if (params.has('login_err')) {
         alert (params.get('login_err'));
+      } //borrowed from momoka michimoto
+      if (params.has('email')) { //params searches 'email' and changes the email value textbox to the email entered
+        email.value = params.get('email')
       }
     }
 
@@ -57,7 +62,7 @@ let params = (new URL(document.location)).searchParams;
 
                   <form name="process_login" action="/process_login" method="POST">    
                     <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
-                    <p class="text-white-50 mb-5">Please enter your Email and password!</p>
+                    <p class="text-white-50 mb-5">Please enter your email and password!</p>
       
                     <div class="form-outline form-white mb-4">
                       <input type="email" name="email" id="email" class="form-control form-control-lg" />
@@ -69,7 +74,7 @@ let params = (new URL(document.location)).searchParams;
                       <label class="form-label" id="password_label for="password">Password</label>
                     </div>
       
-                    <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
+                    <p class="mb-5 pb-lg-2"><a class="text-white-50" href="update_info.html">Forgot password?</a></p>
       
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary btn-block" value="login" name="login">Log in</button>

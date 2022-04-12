@@ -59,4 +59,12 @@ img:hover {
    .last-row {
     border-bottom:1px solid #ddd;
   }
-  
+  .text-left {
+    text-align: left;
+    position: relative;
+    right: 590;
+    bottom: 127;
+  }
+  .center {
+    text-align: center;
+  }

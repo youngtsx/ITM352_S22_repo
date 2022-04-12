@@ -1,6 +1,5 @@
-/*referenced assignment 2 code examples, momoka michimoto, lab 12 */
-
-/* Me = require('./a_swift_and_immediate_death.js'); */
+/* TIFFANY YOUNG S22 */
+/*referenced assignment 2 code examples, momoka michimoto, lab 12 (and looked at li xinfei for inspiration)*/
 
 /*load product data*/
 var products = require(__dirname + '/products.json');
@@ -63,9 +62,9 @@ app.post("/process_login", function (request, response) {
    }
 
    //redirect to login with error message
-    let params = new URLSearchParams(errors);
-    params.append('username' , username); //put username into params
-    response.redirect(`./login.html?` + params.toString());
+   let params = new URLSearchParams(errors);
+   params.append('email', user_email); //put username into params
+   response.redirect(`./login.html?` + params.toString());
 
 
 });
@@ -81,7 +80,7 @@ app.post("/register", function (request, response) {
    if (/^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$/.test(request.body.email) == false) {
       registration_errors['email'] = `Please enter a valid email`;
       //console.log(registration_errors['email']);
-   } else if (request.body.password.length == 0){
+   } else if (request.body.reg_email.length == 0) {
       registration_errors['email'] = `Enter an email`;
    }
 
@@ -93,7 +92,9 @@ app.post("/register", function (request, response) {
    //check password > 8 ******if this doesn't work, attempt to not use variable
    if (request.body.password.length < 8) {
       registration_errors['password'] = `Minimum 8 characters`;
-   } 
+   } else if (request.body.password.length == 0) {
+      registration_errors['password'] = `Enter a password`;
+   }
 
    //check repeated password for matches
    if (request.body['password'] != request.body['repeat_password']) {
@@ -133,7 +134,61 @@ app.post("/register", function (request, response) {
 });
 
 /*      Changing register users' data            */
+app.post("/newpw", function (request, response) { //borrowed from joshua chun
+   var reseterrors = {};
 
+   let login_email = request.body['email'].toLowerCase();
+   let login_password = request.body['password'];
+
+   if (/^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$/.test(login_email) == false) {
+      reseterrors['email'] = `Please enter a valid email`;
+   }
+   //check repeated password for matches
+   if (request.body['newpassword'] != request.body['repeatnewpassword']) {
+      reseterrors['repeatnewpassword'] = `The new passwords do not match`;
+   }
+   if (users[login_email].password != login_password) {
+      reseterrors['password'] = 'Incorrect password';
+   }
+   if (typeof users[login_email] != 'undefined') {
+      if (users[login_email].password == login_password) {
+         //Require a minimum of 8 characters
+         if (request.body.newpassword.length < 8) {
+            reseterrors['newpassword'] = 'Password must have a minimum of 8 characters.';
+         }
+
+         //Confirm that both passwords were entered correctly
+         if (request.body.newpassword !== request.body.repeatnewpassword) {
+            reseterrors['repeatnewpassword'] = 'Both passwords must match';
+         }
+         let params = new URLSearchParams(request.query);
+
+         //If errors is empty
+         if (Object.keys(reseterrors).length == 0) {
+            //Write data and send to invoice.html
+            users[login_email].password = request.body.newpassword
+
+            //Writes user information into file
+            fs.writeFileSync(filename, JSON.stringify(users), "utf-8");
+
+            //Add email to query
+            qty_data_obj['email'] = login_email;
+            //qty_data_obj['name'] = users[*MAKE SURE TO CHANGE THIS >reg_email]['fullname'];
+            let params = new URLSearchParams(qty_data_obj);
+            response.redirect('./invoice.html?' + params.toString());
+            return;
+         }
+      } else {
+         reseterrors['password'] = `Incorrect Password`;
+      }
+   } else {
+      reseterrors['email'] = `${login_email} has not been registered`;
+   }
+   //If there are errors, send back to new password page with errors
+   request.body['reseterrors'] = JSON.stringify(reseterrors);
+   let params = new URLSearchParams(request.body);
+   response.redirect("./update_info.html?" + params.toString());
+});
 
 // Routing 
 app.get("/products.js", function (request, response, next) {
