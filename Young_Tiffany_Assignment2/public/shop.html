@@ -32,12 +32,12 @@
       }
       alert(err_str);
     }
-    if (params.has('quantity')) {
+    if (params.has('quantity')) { //STICKY; 
       var quantities = JSON.parse(params.get('quantity')); //turns string in object
       // put quantities in quantity textboxes
-      for (i in quantities) {
-        quantity_form[`quantity${i}`].value = quantities[i];//loops through the quantity array collected in the server 
-        checkQuantityTextbox(quantity_form[`quantity${i}`]);// and checks it
+      for (i in quantities) { //THIS IS TAKEN FROM MOMOKA MICHIMOTO
+        quantity_form['quantity[' + i + ']'].value = quantities[i];//loops through the quantity array collected in the server 
+        checkQuantityTextbox(quantity_form['quantity[' + i + ']']);// and checks it
       }
     }
   }
