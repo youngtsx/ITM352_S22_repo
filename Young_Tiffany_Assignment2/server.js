@@ -129,7 +129,7 @@ app.post("/register", function (request, response) {
 });
 
 /*      Changing register users' data            */
-app.post("/newpw", function (request, response) { //modified from joshua chun
+app.post("/newpw", function (request, response) { //form and nested if statement(line 148) modified from joshua chun
    var reseterrors = {};
 
    let login_email = request.body['email'].toLowerCase();

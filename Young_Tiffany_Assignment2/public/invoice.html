@@ -11,7 +11,7 @@
   if (params.has('quantity')) {
     quantities = JSON.parse(params.get(`quantity`)); //params gets quantity from purchase, parses string into a json object
   }
-//name is wrong, back to login, borrowed from li xinfei.
+//name is wrong, back to login, function below and line 64-68 borrowed from li xinfei.
   //var email = [];
   if (params.has('fullname')) {
     var fullname = params.get(`fullname`);
@@ -55,7 +55,7 @@
           <li><a href="shop.html">Products</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-       <!--   <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> Account</a></li>-->
+          <li><a href="update_info.html"><span class="glyphicon glyphicon-user"></span> Account</a></li>
           <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
         </ul>
       </div>
