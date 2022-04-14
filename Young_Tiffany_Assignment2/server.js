@@ -1,4 +1,4 @@
-/* ATUHOR: TIFFANY YOUNG S22 
+/* AUTHOR: TIFFANY YOUNG S22 
    server for ecommerce website*/
 /*referenced assignment 2 code examples, reece nagaoka F21, momoka michimotoF21, lab 12
  (and looked at li xinfeiF21 & joshua chun for inspiration)*/
@@ -158,7 +158,7 @@ app.post("/newpw", function (request, response) { //form and nested if statement
          if (request.body.newpassword != request.body.repeatnewpassword) {
             reseterrors['repeatnewpassword'] = 'Both passwords must match';
          }//new password cant be same as old
-         if (request.body.newpassword || request.body.repeatnewpassword == login_password) {
+         if (request.body.newpassword && request.body.repeatnewpassword == login_password) {
             reseterrors['newpassword'] = `New password cannot be the same as the old password`;
          }
       } else { //doesn't match
@@ -171,7 +171,7 @@ app.post("/newpw", function (request, response) { //form and nested if statement
    // let params = new URLSearchParams(request.query);
    if (Object.keys(reseterrors).length == 0) {
       //Write data and send to invoice.html
-      users[login_email] = {};
+      //users[login_email] = {};
       users[login_email].password = request.body.newpassword
 
       //Writes user information into file

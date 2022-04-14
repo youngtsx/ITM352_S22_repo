@@ -74,8 +74,8 @@ let params = (new URL(document.location)).searchParams;
                       <input type="password" name="password" id="password" class="form-control form-control-lg" />
                       <label class="form-label" id="password_label" for="password">Password</label>
                     </div>
-      
-                    <p class="mb-5 pb-lg-2"><a class="text-white-50" href="update_info.html">Forgot password?</a></p>
+                    <!--borrowed onclick from josh chun-->
+                    <p class="mb-5 pb-lg-2"><a class="text-white-50" onclick="window.location.href = 'update_info.html' + document.location.search;">Forgot password?</a></p>
       
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary btn-block" value="login" name="login">Log in</button>
