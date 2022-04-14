@@ -118,7 +118,7 @@ app.post("/register", function (request, response) {
       fs.writeFileSync(filename, JSON.stringify(users), "utf-8");
 
       qty_data_obj['email'] = reg_email;
-      qty_data_obj['fullname'] = users[reg_email]['fullname'];
+      qty_data_obj['fullname'] = users[reg_email].name;
       let params = new URLSearchParams(qty_data_obj);
       response.redirect('./invoice.html?' + params.toString()); //all good! => to invoice w/data
    } else {
@@ -128,7 +128,7 @@ app.post("/register", function (request, response) {
    }
 });
 
-/*      Changing register users' data            */
+/*             Changing register users' data            */
 app.post("/newpw", function (request, response) { //form and nested if statement(line 148) modified from joshua chun
    var reseterrors = {};
 
@@ -171,7 +171,7 @@ app.post("/newpw", function (request, response) { //form and nested if statement
    // let params = new URLSearchParams(request.query);
    if (Object.keys(reseterrors).length == 0) {
       //Write data and send to invoice.html
-      //users[login_email] = {};
+      //users[login_email] = {}; commented out bc this overwrites the entire object
       users[login_email].password = request.body.newpassword
 
       //Writes user information into file
@@ -179,9 +179,9 @@ app.post("/newpw", function (request, response) { //form and nested if statement
 
       //Add email to query
       qty_data_obj['email'] = login_email;
-      qty_data_obj['fullname'] = users[login_email]['fullname'];
+      qty_data_obj['fullname'] = users[login_email].name;
       let params = new URLSearchParams(qty_data_obj);
-      response.redirect('./invoice.html?' + params.toString()); //all good! => to invoice w/data
+      response.redirect('./login.html?' + params.toString()); //all good! => to invoice w/data
       return;
    } else {
       //If there are errors, send back to page with errors
