@@ -19,8 +19,9 @@
       }
       alert(err_str);
     }
-
-
+    if (params.has('email')) { //params searches 'email' and changes the email value textbox to the email entered
+        email.value = params.get('email')
+      }
   }
 </script>
 <!DOCTYPE html>
