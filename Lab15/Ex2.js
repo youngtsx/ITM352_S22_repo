@@ -1,8 +1,31 @@
 var express = require('express');
 var app = express();
 const fs = require('fs');
-
 var filename = 'user_data.json';
+
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+var session = require('express-session');
+
+app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
+
+app.get('/set_cookie', function(request, response) {
+    //sends cookie 
+response.cookie('name', 'Tiffany', {maxAge: 5000});
+response.send('The cookie has been sent');
+});
+
+app.get('/use_cookie', function(request, response) {
+    //gets name cookie
+    console.log(request.cookie);
+    response.send(`Welcome to the Use Cookie page ${request.session.name}`);
+});
+
+app.get('/use_session',function(response, request){
+    console.log(request.cookie);
+    response.send(`Welcome, your session ID is ${request.session.id}`);
+});
 
 if (fs.existsSync(filename)) {
     var data = fs.readFileSync(filename, 'utf-8');
@@ -70,15 +93,11 @@ app.get("/register", function (request, response) {
     // process a simple register form
 console.log(request.body);
     let username = request.body['username'];
-    if (typeof user_registration_info[username] == 'undefined' && (request.body['password'] == request.body['repeat_password'])) {
     users['username'] = {};
     users['username']['password'] = request.body['password'];
     users['username']['email'] = request.body['email'];
 
     fs.writeFileSync(filename, JSON.stringify(users));
-    } else {
-
-    }
  });
 
 app.listen(8080, () => console.log(`listening on port 8080`));

@@ -1,8 +1,23 @@
 var express = require('express');
 var app = express();
 const fs = require('fs');
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 var filename = 'user_data.json';
+
+app.get('/set_cookie', function(request, response) {
+    //sends cookie 
+var myName = 'Tiff Young';
+response.cookie('users_name', myName, {maxAge: 5000});
+response.send(`Cookie has been sent for ${myName}`);
+});
+
+app.get('/use_cookie', function(request, response) {
+    //gets name cookie
+    console.log(request.cookies);
+    response.send(`Welcome to the Use Cookie page ${request.cookies}`);
+});
 
 if (fs.existsSync(filename)) {
     var data = fs.readFileSync(filename, 'utf-8');
@@ -70,15 +85,11 @@ app.get("/register", function (request, response) {
     // process a simple register form
 console.log(request.body);
     let username = request.body['username'];
-    if (typeof user_registration_info[username] == 'undefined' && (request.body['password'] == request.body['repeat_password'])) {
     users['username'] = {};
     users['username']['password'] = request.body['password'];
     users['username']['email'] = request.body['email'];
 
     fs.writeFileSync(filename, JSON.stringify(users));
-    } else {
-
-    }
  });
 
 app.listen(8080, () => console.log(`listening on port 8080`));
