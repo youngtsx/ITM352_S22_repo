@@ -1,8 +1,12 @@
 var express = require('express');
 var app = express();
 const fs = require('fs');
+
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
+
+var session = require('express-session');
+app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
 
 var filename = 'user_data.json';
 
@@ -24,6 +28,11 @@ app.get('/use_cookie', function(request, response) {
     //gets name cookie
     console.log(request.cookie);
     response.send(`Welcome to the Use Cookie page ${request.cookie[users_name]}`);
+});
+
+app.get('/use_session',function(response, request){
+    console.log(request.session);
+    response.send(`Welcome, your session ID is ${request.session.id}`);
 });
 
 if (fs.existsSync(filename)) {

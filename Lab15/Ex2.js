@@ -23,7 +23,7 @@ app.get('/use_cookie', function(request, response) {
 });
 
 app.get('/use_session',function(response, request){
-    console.log(request.cookie);
+    console.log(request.session);
     response.send(`Welcome, your session ID is ${request.session.id}`);
 });
 
