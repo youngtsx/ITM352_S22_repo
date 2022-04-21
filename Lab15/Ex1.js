@@ -16,7 +16,7 @@ response.send(`Cookie has been sent for ${myName}`);
 app.get('/use_cookie', function(request, response) {
     //gets name cookie
     console.log(request.cookies);
-    response.send(`Welcome to the Use Cookie page ${request.cookies}`);
+    response.send(`Welcome to the Use Cookie page ${request.cookies[users_name]}`);
 });
 
 if (fs.existsSync(filename)) {
