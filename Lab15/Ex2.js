@@ -1,50 +1,44 @@
+var filename = "./user_data.json";
+
+const fs = require("fs");
+
+if(fs.existsSync(filename)) {
+    let stats = fs.statSync(filename);
+    console.log(`${filename} has ${stats.size} characters`);
+    var data = fs.readFileSync(filename, 'utf-8');
+    var users = JSON.parse(data);
+    if(typeof users["kazman"] != 'undefined') {
+        console.log(users["kazman"].password);
+    }
+} else {
+    console.log(`${filename} does not exist!`);
+}
+
 var express = require('express');
 var app = express();
-const fs = require('fs');
-var filename = 'user_data.json';
 
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
+
+app.use(express.urlencoded({ extended: true }));
 
 var session = require('express-session');
 
 app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
 
-app.get('/set_cookie', function(request, response) {
-    //sends cookie 
-response.cookie('name', 'Tiffany', {maxAge: 5000});
-response.send('The cookie has been sent');
-});
-
-app.get('/use_cookie', function(request, response) {
-    //gets name cookie
-    console.log(request.cookie);
-    response.send(`Welcome to the Use Cookie page ${request.session.name}`);
-});
-
-app.get('/use_session',function(response, request){
-    console.log(request.session);
-    response.send(`Welcome, your session ID is ${request.session.id}`);
-});
-
-if (fs.existsSync(filename)) {
-    var data = fs.readFileSync(filename, 'utf-8');
-    var users = JSON.parse(data);
-
-    var file_stats = fs.statSync(filename);
-
-} else {
-    console.log(`${filename} doesn't exist :(`);
-}
-
-app.use(express.urlencoded({ extended: true }));
 
 app.get("/login", function (request, response) {
+    // check last time user logged in
+    var last_login = 'First login!';
+    if(typeof request.session.last_login != 'undefined') {
+        last_login = request.session.last_login;
+    }
     // Give a simple login form
     str = `
 <body>
+You last logged in on: ${last_login}<br>
 <form action="" method="POST">
-<input type="text" name="usernames" size="40" placeholder="enter username" ><br />
+<input type="text" name="username" size="40" placeholder="enter username" ><br />
 <input type="password" name="password" size="40" placeholder="enter password"><br />
 <input type="submit" value="Submit" id="submit">
 </form>
@@ -54,22 +48,20 @@ app.get("/login", function (request, response) {
  });
 
 app.post("/login", function (request, response) {
-console.log(request.body);
-// Process login form POST and redirect to logged in page if ok, back to login page if not
-let login_username = request.body['usernames'];
-let login_password = request.body['password'];
-
-    if (typeof users[login_username] != 'undefined') {
-        //username exists so get stored password and check if it is correct
-        if (users[login_username]['password'] == login_password) {
-            response.send(`${login_username} is logged in`);
+    console.log(request.body);
+    // Process login form POST and redirect to logged in page if ok, back to login page if not
+    if(typeof users[request.body.username] != 'undefined') {
+        // username exists, so get the stored password and check if it matches password entered
+        if(users[request.body.username].password == request.body.password) {
+            request.session.last_login = new Date();
+            response.send(`${request.body.username} is logged in!`);
             return;
         } else {
-        response.send(`Incorrect password for ${login_username}`)
-        } 
-    }
-    else {
-        response.send(`${login_username} does not exist`);
+            response.send(`Password does not match saved password<br>${str}`);
+        }
+
+    } else {
+        response.send(`${request.body.username} does not exist<br>${str}`);
     }
 });
 
@@ -91,13 +83,36 @@ app.get("/register", function (request, response) {
 
  app.post("/register", function (request, response) {
     // process a simple register form
-console.log(request.body);
-    let username = request.body['username'];
-    users['username'] = {};
-    users['username']['password'] = request.body['password'];
-    users['username']['email'] = request.body['email'];
+    console.log(request.body);
+    let username = request.body.username;
+    users[username] = {};
+    users[username].password = request.body.password;
+    users[username].email = request.body.email;
 
     fs.writeFileSync(filename, JSON.stringify(users));
  });
+
+ app.get("/set_cookie", function (request, response) {
+    var myname = "Tiff";
+    response.cookie('users_name', myname);
+    response.send(`cookie sent for ${myname}`);
+ });
+
+ app.get("/expire_cookie", function (request, response) {
+    var myname = "Tiff";
+    response.cookie('users_name', '', {expire: 0});
+    response.send(`cookie sent for ${myname}`);
+ });
+
+ app.get("/get_cookie", function (request, response) {
+    console.log(request.cookies);
+    response.send(`Welcome to the Use Cookie page ${request.cookies['users_name']}`);
+ });
+
+ app.get("/use_session", function (request, response) {
+    console.log(request.session);
+    response.send(`welcome, your session ID is ${request.session.id}`);
+ });
+
 
 app.listen(8080, () => console.log(`listening on port 8080`));
