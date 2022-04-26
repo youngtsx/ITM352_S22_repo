@@ -7,7 +7,7 @@ Login page for ecommerce site-->
 <script>
 window.onload = function() {
 let params = (new URL(document.location)).searchParams;
-//function borrowed from momoka michimoto FW21
+//function borrowed from momoka michimoto FW21 LOGIN LINE 10
     if (params.has('login_err')) { //searches for login_err array generated on the server and alerts the errors to the client
         alert (params.get('login_err'));
       } //sticky

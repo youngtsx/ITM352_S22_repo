@@ -9,8 +9,16 @@ var express = require('express');
 var app = express();
 var fs = require('fs')
 
-/* Initialize QueryString package */
-const qs = require('query-string');
+/* Initialize QueryString package
+const qs = require('query-string'); */
+
+//get session
+var session = require('express-session');
+app.use(session({ secret: "MySecretKey", resave: true, saveUninitialized: true }));
+
+//get cookie
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 //user data file
 var filename = 'user_data.json';
@@ -72,13 +80,15 @@ app.post("/register", function (request, response) {
    var reg_email = request.body['email'].toLowerCase();
 
    //check email x@y.z
-   if (/^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$/.test(request.body.email) == false) {
-      registration_errors['email'] = `Please enter a valid email`;
-      //console.log(registration_errors['email']);
-   } else if (reg_email.length == 0) {
+   if (/^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$/.test(request.body.email)) {
+
+   } else {
+      registration_errors['email'] = 'Please enter a valid email address';
+   }
+   // check if email box is empty
+   if (reg_email.length == 0) {
       registration_errors['email'] = `Enter an email`;
    }
-
    //check if email is unique
    if (typeof users[reg_email] != 'undefined') {
       registration_errors['email'] = `This email has already been registered`;
@@ -239,7 +249,7 @@ app.post('/process_form', function (request, response, next) {
       response.redirect('./login.html');
    }
    else { //if i have errors, take the errors and go back to products_display.html
-     
+
       let errs_obj_params = new URLSearchParams(errs_obj);
       let qty_obj_params = new URLSearchParams(qty_obj);
       //console.log(qs.stringify(qty_obj));

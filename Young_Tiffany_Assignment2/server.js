@@ -67,21 +67,26 @@ app.post("/process_login", function (request, response) {
 /*               REGISTER USERS PAGE                 */
 //regex from assignment 2 resources
 app.post("/register", function (request, response) {
+   console.log(request.body);
+   //console.log(registration_errors['email']);
    var registration_errors = {};
    //check email
    var reg_email = request.body['email'].toLowerCase();
 
-   //check email x@y.z
-   if (/^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$/.test(request.body.email) == false) {
-      registration_errors['email'] = `Please enter a valid email`;
-      //console.log(registration_errors['email']);
-   } else if (reg_email.length == 0) {
-      registration_errors['email'] = `Enter an email`;
-   }
-
    //check if email is unique
    if (typeof users[reg_email] != 'undefined') {
       registration_errors['email'] = `This email has already been registered`;
+   }
+
+   //check email x@y.z
+   if (/^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$/.test(request.body.email)) {
+
+   } else {
+      registration_errors['email'] = 'Please enter a valid email address';
+   }
+   // check if email box is empty
+   if (reg_email.length == 0) {
+      registration_errors['email'] = `Enter an email`;
    }
 
    //check password > 8 
