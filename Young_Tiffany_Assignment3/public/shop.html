@@ -35,7 +35,7 @@
     if (params.has('quantity')) { //STICKY; 
       var quantities = JSON.parse(params.get('quantity')); //turns string in object
       // put quantities in quantity textboxes
-      for (i in quantities) { //THIS IS TAKEN FROM MOMOKA MICHIMOTO
+      for (i in quantities) { //THIS IS TAKEN FROM MOMOKA MICHIMOTO PRODUCTS_DISPLAY.HTML LINE 32
         quantity_form['quantity[' + i + ']'].value = quantities[i];//loops through the quantity array collected in the server 
         checkQuantityTextbox(quantity_form['quantity[' + i + ']']);// and checks it
       }
