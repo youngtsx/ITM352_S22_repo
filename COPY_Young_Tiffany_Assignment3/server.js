@@ -57,10 +57,6 @@ app.post("/process_login", function (request, response) {
          //direct to invoice page **need to keep data
          let params = new URLSearchParams(qty_data_obj);
          response.redirect('./invoice.html?' + params.toString());
-         // remove quantities purchased from inventory quantities
-         for (i in products) {
-            products[products_key][i].quantity_available -= Number(quantities[i]);
-         }
          return;
       } else {
          //doesn't match
@@ -218,52 +214,36 @@ app.all('*', function (request, response, next) {
    next();
 });
 
-app.post("/get_products_data", function (request, response) {
-   response.json(products);
-});
-
 /*            PURCHASE              */
 // process purchase request (validate quantities, check quantity available)
 app.post('/process_form', function (request, response, next) {
-
+   var quantities = request.body['quantity'];
    //assume no errors or no quantity
-   var products_key = request.body['products_key'];
    var errors = {};
    var check_quantities = false;
    //check for NonNegInt
-   for (i in quantities) { 
-   var quantities = request.body['quantity'][i];
+   for (i in quantities) {
       if (isNonNegInt(quantities[i]) == false) { //check i quantity
-         errors['quantity_' + i] = `Please choose a valid quantity for ${products[products_key][i].item}.`;
+         errors['quantity_' + i] = `Please choose a valid quantity for ${products[i].item}.`;
       }
       if (quantities[i] > 0) { //check if any quantity is selected
          check_quantities = true;
       }
-      if (quantities[i] > products[products_key][i].quantity_available) { //check if quantity is available
-         errors['quantity_available' + i] = `We don't have ${quantities[i]} ${products[products_key][i].item} available.`;
+      if (quantities[i] > products[i].quantity_available) { //check if quantity is available
+         errors['quantity_available' + i] = `We don't have ${(quantities[i])} ${products[i].item} available.`;
       }
    }
    if (!check_quantities) { //check if no quantity selected
       errors['no_quantities'] = `Please select a quantity`;
    }
-
-   if (Object.keys(errors).length > 0) {
-      var errMsg = '';
-      for (err in errors) {
-          errMsg += errors[err] + '\n';
-      }
-
-      let params = new URLSearchParams(request.body);
-      params.append('errMsg', errMsg);
-      response.redirect(`./shop.html?${params.toString()}`);
-      return;
-  }
-
    let errs_obj = { "errors": JSON.stringify(errors) };
    let qty_obj = { "quantity": JSON.stringify(quantities) };
    //ask if the object is empty or not
    if (Object.keys(errors).length == 0) {
-      //minus quantity moved to login
+      // remove quantities purchased from inventory quantities
+      for (i in products) {
+         products[i].quantity_available -= Number(quantities[i]);
+      }
       //save quantity data for invoice *****change this to redirect to ./login.html
       qty_data_obj = qty_obj;
       response.redirect('./login.html');

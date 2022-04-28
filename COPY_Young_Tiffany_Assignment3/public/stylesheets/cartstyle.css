@@ -1,0 +1,59 @@
+body {
+    background: rgb(250, 233, 233);
+    margin-top: 20px;
+}
+
+/* for logo text on left part of header*/
+#logotext {
+    color: rgb(250, 233, 233);
+    padding: 15px 15px 15px 0px;
+}
+
+/* Add a hover effect (blue shadow) */
+img:hover {
+    box-shadow: 0 0 5px 1px black;
+}
+
+/* Remove the navbar's default rounded borders and increase the bottom margin */
+.navbar {
+    margin-bottom: 50px;
+    border-radius: 0;
+}
+
+/* Add a gray background color and some padding to the footer */
+.footer {
+    background-color: #f2f2f2;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 0px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
+.center {
+    text-align: center;
+}
+.container {
+    padding: 15px;
+    box-shadow: 0 1px 15px 1px rgba(52, 40, 104, .08);
+    background-color: rgb(248, 245, 240);
+}
+
+.ui-w-40 {
+    width: 40px;
+    height: auto;
+}
+
+.ui-product-color {
+    display: inline-block;
+    overflow: hidden;
+    margin: .144em;
+    width: .875rem;
+    height: .875rem;
+    border-radius: 10rem;
+    -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+    vertical-align: middle;
+}
