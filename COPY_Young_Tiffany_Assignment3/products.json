@@ -25,15 +25,15 @@
             "quantity_available": 6
         },
         {
-            "item": "Placeholder",
+            "item": "Jasmine Milk Tea",
             "price": 5.00,
-            "image": "./images/thaitea.jpg",
+            "image": "./images/jasmine.jpg",
             "quantity_available": 7
         },
         {
-            "item": "Placeholder",
+            "item": "Honeydew Milk Tea",
             "price": 5.50,
-            "image": "./images/thaitea.jpg",
+            "image": "./images/honeydew.jpeg",
             "quantity_available": 8
         }
     ],
@@ -57,21 +57,21 @@
             "quantity_available": 16
         },
         {
-            "item": "Placeholder",
+            "item": "Avocado Smoothie",
             "price": 6.50,
-            "image": "./images/thaitea.jpg",
+            "image": "./images/avocado.jpeg",
             "quantity_available": 5
         },
         {
-            "item": "Placeholder",
+            "item": "Strawberry Banana Smoothie",
             "price": 5.00,
-            "image": "./images/thaitea.jpg",
+            "image": "./images/strawberrybanana.jpg",
             "quantity_available": 9
         },
         {
-            "item": "Placeholder",
+            "item": "Berry Smoothie",
             "price": 5.50,
-            "image": "./images/thaitea.jpg",
+            "image": "./images/berry.jpg",
             "quantity_available": 12
         }
     ],
@@ -95,21 +95,21 @@
             "quantity_available": 19
         },
         {
-            "item": "Placeholder",
+            "item": "Strawberry Fruit Tea",
             "price": 4.50,
-            "image": "./images/mangogreentea.jpg",
+            "image": "./images/strawberryfruittea.jpg",
             "quantity_available": 15
         },
         {
-            "item": "Placeholder",
+            "item": "Black Lemon Tea",
             "price": 4.50,
-            "image": "./images/mangogreentea.jpg",
+            "image": "./images/blacklemon.jpg",
             "quantity_available": 12
         },
         {
-            "item": "Placeholder",
+            "item": "Kiwi Fruit Tea",
             "price": 4.50,
-            "image": "./images/mangogreentea.jpg",
+            "image": "./images/kiwi.jpg",
             "quantity_available": 11
         }
     ],

@@ -1,15 +1,29 @@
 body {
     background: rgb(250, 233, 233);
-    margin-top: 20px;
 }
-
-/* for logo text on left part of header*/
+/*tiffany's boba shop*/
+#logo {
+    border: 1px solid #ddd;
+     /* Gray border */
+    border-radius: 4px;
+    /* Rounded border */
+    padding: 1px;
+    /* Some padding */
+    width: 150px;
+     /* Set a small width */
+}
+/*color of logo text*/
 #logotext {
     color: rgb(250, 233, 233);
     padding: 15px 15px 15px 0px;
 }
 
-/* Add a hover effect (blue shadow) */
+h3 {
+     margin-top: 10px;
+     margin-bottom: 360px;
+}
+
+    /* Add a hover effect (black shadow) */
 img:hover {
     box-shadow: 0 0 5px 1px black;
 }

@@ -211,6 +211,9 @@ app.get("/products.js", function (request, response, next) {
 // monitor all requests
 app.all('*', function (request, response, next) {
    console.log(request.method + ' to ' + request.path);
+   // need to initialize an object to store the cart in the session. We do it when there is any request so that we don't have to check it exists
+   // anytime it's used
+   if (typeof request.session.cart == 'undefined') { request.session.cart = {}; }
    next();
 });
 
@@ -236,12 +239,12 @@ app.post('/process_form', function (request, response, next) {
          errors['quantity_available' + i] = `We don't have ${(quantities[i])} ${products[products_key][i].item} available.`;
       }
    }
-       /* Check to see if quantity is selected */
-       if (!check_quantities) {
-         errors['no_quantities'] = `Please select a quantity`;
-     }
-let params = new URLSearchParams();
-params.append('products_key', products_key);
+   /* Check to see if quantity is selected */
+   if (!check_quantities) {
+      errors['no_quantities'] = `Please select a quantity`;
+   }
+   let params = new URLSearchParams();
+   params.append('products_key', products_key);
    //ask if the object is empty or not
    if (Object.keys(errors).length > 0) {//if i have errors, take the errors and go back to products_display.html
 
