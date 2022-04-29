@@ -22,7 +22,7 @@
   }
   //from Assignment 1 example/reece nagaoka FW21:
   let params = (new URL(document.location)).searchParams; // get the query string which has the form data
-  window.onload = function () {
+    window.onload = function () {
     // form was submitted, check that quantities are valid then redirect to invoice if ok.
     if (params.has('errors')) {
       var errors = JSON.parse(params.get('errors')); //turns string in object
@@ -32,18 +32,33 @@
       }
       alert(err_str);
     }
-    if (params.has('quantity')) { //STICKY; 
-      var quantities = JSON.parse(params.get('quantity')); //turns string in object
+    if (params.has('quantities')) { //STICKY; 
+      var quantities = JSON.parse(params.get('quantities')); //turns string in object
       // put quantities in quantity textboxes
-      for (i in quantities) { //THIS IS TAKEN FROM MOMOKA MICHIMOTO PRODUCTS_DISPLAY.HTML LINE 32
-        quantity_form['quantity[' + i + ']'].value = quantities[i];//loops through the quantity array collected in the server 
-        checkQuantityTextbox(quantity_form['quantity[' + i + ']']);// and checks it
+      for (i in quantities) { //THIS IS TAKEN FROM MOMOKA MICHIMOTO
+        quantity_form[`quantity[${i}]`].value = quantities[i];//loops through the quantity array collected in the server 
+        checkQuantityTextbox(quantity_form[`quantity[${i}]`]);// and checks it
       }
     }
   }
 </script>
 
 <head>
+  <script src="./functions.js"></script>
+  <script>
+        // get the query string
+        if (params.has('products_key')) {
+            var products_key = params.get('products_key');
+        } else {
+            var products_key = 'Milk Tea';
+        }
+
+        var products;
+        loadJSON('get_products_data', function (response) {
+            // Parsing JSON string into object
+            products = JSON.parse(response);
+        });
+      </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -68,7 +83,9 @@
         <ul class="nav navbar-nav">
           <li id="logotext">Tiffany's Boba Shop</li>
           <li><a href="index.html">Home</a></li>
-          <li><a href="shop.html">Products</a></li>
+          <script>
+            nav_bar(products_key, products);</script>
+          </script>
         </ul>
         <ul class="nav navbar-nav navbar-right">
       <!--    <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> Account</a></li>-->
@@ -80,26 +97,27 @@
   <main>
     <form name="quantity_form" action="./process_form" method="POST">
       <script>
-        for (i in products) {
+        document.write(`<input type = "hidden" name="products_key" value="${products_key}">`);
+        for (i in products[products_key]) {
           document.write(`
         <div class="item">
             <div class="container">    
                 <div class="row">
                     <div class="col-sm-4">
                       <div class="panel panel-primary">
-                      <div class="panel-heading">${products[i].item}</div>
-                      <div class="panel-body"><img src="${products[i].image}" style="width:100%" class="img-responsive" alt="Image"></div>
+                      <div class="panel-heading">${products[products_key][i].item}</div>
+                      <div class="panel-body"><img src="${products[products_key][i].image}" style="width:100%" class="img-responsive" alt="Image"></div>
                       <div class="panel-footer">
-                        <p><strong>$${products[i].price.toFixed(2)}</strong></p>
+                        <p><strong>$${products[products_key][i].price.toFixed(2)}</strong></p>
                         <p id="quantity[${i}]_label">Quantity:</p>
-                        <input type="text" placeholder="We have ${products[i].quantity_available} available" name="quantity[${i}]" onkeyup="checkQuantityTextbox(this);">
+                        <input type="text" placeholder="We have ${products[products_key][i].quantity_available} available" name="quantity[${i}]" id="quantity[${i}]" onkeyup="checkQuantityTextbox(this);">
                     </div>
                   </div>
         </div>
         `);
         }
       </script>
-      <h3><input type="submit" class="button" value="Purchase" name="purchase_submit"></h3>
+      <h3><input type="submit" class="button" value="Add to Cart" name="purchase_submit"></h3>
     </form>
   </main>
 </body>

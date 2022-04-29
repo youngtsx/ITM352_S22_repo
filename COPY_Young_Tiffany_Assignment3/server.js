@@ -217,44 +217,51 @@ app.all('*', function (request, response, next) {
 /*            PURCHASE              */
 // process purchase request (validate quantities, check quantity available)
 app.post('/process_form', function (request, response, next) {
-   var quantities = request.body['quantity'];
+
    //assume no errors or no quantity
+   var products_key = request.body['products_key'];
    var errors = {};
    var check_quantities = false;
+   var no_quantities = true;
    //check for NonNegInt
-   for (i in quantities) {
+   for (i in products[products_key]) {
+      var quantities = request.body['quantity'];
       if (isNonNegInt(quantities[i]) == false) { //check i quantity
-         errors['quantity_' + i] = `Please choose a valid quantity for ${products[i].item}.`;
+         errors['quantity_' + i] = `Please choose a valid quantity for ${products[products_key][i].item}.`;
       }
       if (quantities[i] > 0) { //check if any quantity is selected
          check_quantities = true;
       }
-      if (quantities[i] > products[i].quantity_available) { //check if quantity is available
-         errors['quantity_available' + i] = `We don't have ${(quantities[i])} ${products[i].item} available.`;
+      if (quantities[i] > products[products_key][i].quantity_available) { //check if quantity is available
+         errors['quantity_available' + i] = `We don't have ${(quantities[i])} ${products[products_key][i].item} available.`;
       }
    }
-   if (!check_quantities) { //check if no quantity selected
-      errors['no_quantities'] = `Please select a quantity`;
-   }
-   let errs_obj = { "errors": JSON.stringify(errors) };
-   let qty_obj = { "quantity": JSON.stringify(quantities) };
+       /* Check to see if quantity is selected */
+       if (!check_quantities) {
+         errors['no_quantities'] = `Please select a quantity`;
+     }
+let params = new URLSearchParams();
+params.append('products_key', products_key);
    //ask if the object is empty or not
-   if (Object.keys(errors).length == 0) {
+   if (Object.keys(errors).length > 0) {//if i have errors, take the errors and go back to products_display.html
+
+      params.append('errors', JSON.stringify(errors));
+      response.redirect('./shop.html?' + params.toString());
+      return;
+   }
+   else {
       // remove quantities purchased from inventory quantities
-      for (i in products) {
-         products[i].quantity_available -= Number(quantities[i]);
-      }
-      //save quantity data for invoice *****change this to redirect to ./login.html
-      qty_data_obj = qty_obj;
+      /* for (i in products) {
+          products[products_key][i].quantity_available -= Number(quantities[i]);
+       }
+       //save quantity data for invoice *****change this to redirect to ./login.html
+       qty_data_obj = qty_obj;*/
       response.redirect('./login.html');
    }
-   else { //if i have errors, take the errors and go back to products_display.html
+});
 
-      let errs_obj_params = new URLSearchParams(errs_obj);
-      let qty_obj_params = new URLSearchParams(qty_obj);
-      //console.log(qs.stringify(qty_obj));
-      response.redirect('./shop.html?' + qty_obj_params.toString() + '&' + errs_obj_params.toString());
-   }
+app.post("/get_products_data", function (request, response) {
+   response.json(products);
 });
 
 // route all other GET requests to files in public 

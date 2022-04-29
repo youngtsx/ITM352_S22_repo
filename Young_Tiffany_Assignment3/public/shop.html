@@ -22,23 +22,14 @@
   }
   //from Assignment 1 example/reece nagaoka FW21:
   let params = (new URL(document.location)).searchParams; // get the query string which has the form data
-  window.onload = function () {
+  window.onload = () => {
     // form was submitted, check that quantities are valid then redirect to invoice if ok.
     if (params.has('errors')) {
       var errors = JSON.parse(params.get('errors')); //turns string in object
-      let err_str = '';
-      for (err in errors) { //combine errors in one string
-        err_str += errors[err] + '\n';
-      }
-      alert(err_str);
-    }
-    if (params.has('quantity')) { //STICKY; 
-      var quantities = JSON.parse(params.get('quantity')); //turns string in object
-      // put quantities in quantity textboxes
       for (i in quantities) { //THIS IS TAKEN FROM MOMOKA MICHIMOTO PRODUCTS_DISPLAY.HTML LINE 32
         quantity_form['quantity[' + i + ']'].value = quantities[i];//loops through the quantity array collected in the server 
-        checkQuantityTextbox(quantity_form['quantity[' + i + ']']);// and checks it
       }
+      alert(params.get("errors"));
     }
   }
 

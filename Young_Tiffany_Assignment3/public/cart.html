@@ -18,6 +18,27 @@
 </head>
 
 <body>
+  <script>
+    // Compute sub-total
+    var subtotal = 0;
+
+    // Compute tax
+    var tax_rate = 0.0475;
+    var tax = tax_rate * subtotal;
+
+    // Compute shipping
+    if (subtotal <= 10) {
+      delivery = 2;
+    }
+    else if (subtotal <= 30) {
+      delivery = 5;
+    }
+    else {
+      delivery = 0.05 * subtotal; // 5% of subtotal
+    }
+    // Compute grand total
+    var grand_total = subtotal + tax + delivery;
+  </script>
   <div class="container px-3 my-5 clearfix">
     <!-- Shopping cart table -->
     <div class="card">
@@ -35,8 +56,8 @@
                 <th class="text-center py-3 px-4" style="width: 120px;">Quantity</th>
                 <th class="text-right py-3 px-4" style="width: 100px;">Total</th>
                 <th class="text-center align-middle py-3 px-0" style="width: 40px;"><a href="#"
-                    class="shop-tooltip float-none text-light" title="" data-original-title="Clear cart"><i
-                      class="ino ion-md-trash"></i></a></th>
+                    class="shop-tooltip float-none text-light" title="" data-original-title="Clear cart">
+                <i class="ino ion-md-trash"></i></a></th>
               </tr>
             </thead>
             <tbody>
@@ -65,16 +86,22 @@
         <div class="d-flex">
           <div class="text-right mt-4 mr-5">
             <label class="text-muted font-weight-normal m-0">Delivery</label>
-            <div class="text-large"><strong>$${}</strong></div>
+            <div class="text-large"><strong>
+                <script>document.write(delivery.toFixed(2))</script>
+              </strong></div>
           </div>
           <div class="d-flex">
             <div class="text-right mt-4 mr-5">
               <label class="text-muted font-weight-normal m-0">Taxes</label>
-              <div class="text-large"><strong>$${}</strong></div>
+              <div class="text-large"><strong>
+                  <script>document.write(tax.toFixed(2))</script>
+                </strong></div>
             </div>
             <div class="text-right mt-4">
               <label class="text-muted font-weight-normal m-0">Total price</label>
-              <div class="text-large"><strong>$${}</strong></div>
+              <div class="text-large"><strong>
+                  <script>document.write(grand_total.toFixed(2))</script>
+                </strong></div>
             </div>
           </div>
         </div>
