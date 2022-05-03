@@ -51,12 +51,12 @@ app.post("/process_login", function (request, response) {
    if (typeof users[user_email] != 'undefined') {
       //check if entered password matches the stored password
       if (users[user_email].password == the_password) {
-         //matches
+         //matches                    change this whole block to send a cookie!
          qty_data_obj['email'] = user_email;
          qty_data_obj['fullname'] = users[user_email].name;
          //direct to invoice page **need to keep data
          let params = new URLSearchParams(qty_data_obj);
-         response.redirect('./invoice.html?' + params.toString());
+         response.redirect('./invoice.html?' + params.toString());//change this to redirect to shop page
          return;
       } else {
          //doesn't match
@@ -213,19 +213,21 @@ app.all('*', function (request, response, next) {
    console.log(request.method + ' to ' + request.path);
    // need to initialize an object to store the cart in the session. We do it when there is any request so that we don't have to check it exists
    // anytime it's used
-   if (typeof request.session.cart == 'undefined') { request.session.cart = {}; }
+   if (typeof request.session.cart == 'undefined') {
+      request.session.cart = {};
+   }
    next();
 });
 
-/*            PURCHASE              */
+/*                        add to cart                            */
 // process purchase request (validate quantities, check quantity available)
-app.post('/process_form', function (request, response, next) {
+app.post('/add_to_cart', function (request, response, next) {
 
    //assume no errors or no quantity
    var products_key = request.body['products_key'];
    var errors = {};
    var check_quantities = false;
-   var no_quantities = true;
+   //var no_quantities = true;
    //check for NonNegInt
    for (i in products[products_key]) {
       var quantities = request.body['quantity'];
@@ -253,18 +255,33 @@ app.post('/process_form', function (request, response, next) {
       return;
    }
    else {
+      if (typeof request.session.cart == 'undefined') { //create shopping cart
+         request.session.cart = {};
+      }
+      if (typeof request.session.cart[products_key] == 'undefined') {
+         request.session.cart[products_key] = [];
+      }
+      var quantities = request.body['quantity'].map(Number); // Get quantities from the form post and convert strings from form post to numbers
+      request.session.cart[products_key] = quantities; // store the quantities array in the session cart object with the same products_key. 
+      response.redirect('./cart.html');
+      console.log(request.session.cart);
       // remove quantities purchased from inventory quantities
-      /* for (i in products) {
-          products[products_key][i].quantity_available -= Number(quantities[i]);
-       }
-       //save quantity data for invoice *****change this to redirect to ./login.html
-       qty_data_obj = qty_obj;*/
-      response.redirect('./login.html');
+      for (i in products) {
+         products[products_key][i].quantity_available -= Number(request.body['quantity']);
+      }
+      return;
    }
 });
 
 app.post("/get_products_data", function (request, response) {
+   if (typeof request.session.cart == 'undefined') {
+      request.session.cart = {};
+   }
    response.json(products);
+});
+
+app.post("/get_cart", function (request, response) {
+   response.json(request.session.cart);
 });
 
 // route all other GET requests to files in public 
