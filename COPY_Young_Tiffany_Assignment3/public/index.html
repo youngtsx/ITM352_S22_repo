@@ -13,6 +13,15 @@
        // Parsing JSON string into object
        products_data = JSON.parse(response);
   });
+  var shopping_cart;
+      var total = 0;
+  loadJSON('./get_cart', function (response) {
+            // Parsing JSON string into object
+            shopping_cart = JSON.parse(response);
+            for (pk in shopping_cart) {
+                total += shopping_cart[pk].reduce((a, b) => a + b);
+            }
+        });
   var this_product_key = ''
   </script>
   <meta charset="UTF-8">
@@ -40,12 +49,13 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> Account</a></li>
-          <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+          <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart (<span id="cart_total">0</span>)</a></li>
+          <script>  cart_total.innerHTML = total; </script>
         </ul>
       </div>
     </div>
   </nav>
-  <a href="./shop.html?products_key=Milk%20Tea"><img id="logo" src="./images/caticon.jpg" height="50%" width="50%"></a>
+  <a href="./shop.html"><img id="logo" src="./images/caticon.jpg" height="50%" width="50%"></a>
   <h3>Click to shop!</h3>
 </body>
 <div class="footer">

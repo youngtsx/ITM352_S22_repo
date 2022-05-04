@@ -51,12 +51,10 @@ app.post("/process_login", function (request, response) {
    if (typeof users[user_email] != 'undefined') {
       //check if entered password matches the stored password
       if (users[user_email].password == the_password) {
-         //matches                    change this whole block to send a cookie!
-         qty_data_obj['email'] = user_email;
-         qty_data_obj['fullname'] = users[user_email].name;
-         //direct to invoice page **need to keep data
-         let params = new URLSearchParams(qty_data_obj);
-         response.redirect('./invoice.html?' + params.toString());//change this to redirect to shop page
+         var user_cookie = {"email": user_email};
+         response.cookie('user_cookie', JSON.stringify(user_cookie), { maxAge: 30 * 60 * 1000 }); // expires in 30 mins
+         // back to the products
+         response.redirect('./shop.html');
          return;
       } else {
          //doesn't match
@@ -117,7 +115,7 @@ app.post("/register", function (request, response) {
       registration_errors['fullname'] = `Please enter less than 30 characters`;
    }
 
-   //assignment 2 code examples
+   //assignment 2 code examples                 Need to change this to route to login
    //save new registration data to user_data.json
    if (Object.keys(registration_errors).length == 0) {
       console.log('no registration errors')//store user data in json file
@@ -258,7 +256,7 @@ app.post('/add_to_cart', function (request, response, next) {
       if (typeof request.session.cart == 'undefined') { //create shopping cart
          request.session.cart = {};
       }
-      if (typeof request.session.cart[products_key] == 'undefined') {
+      if (typeof request.session.cart[products_key] == 'undefined') {//make array for product
          request.session.cart[products_key] = [];
       }
       var quantities = request.body['quantity'].map(Number); // Get quantities from the form post and convert strings from form post to numbers
@@ -273,14 +271,18 @@ app.post('/add_to_cart', function (request, response, next) {
    }
 });
 
-app.post("/get_products_data", function (request, response) {
+app.post("/update_cart",function(request, response){
+
+});
+
+app.post("/get_products_data", function (request, response) {//taken from assignment 3 code examples
    if (typeof request.session.cart == 'undefined') {
       request.session.cart = {};
    }
    response.json(products);
 });
 
-app.post("/get_cart", function (request, response) {
+app.post("/get_cart", function (request, response) {//taken from assignment 3 code examples
    response.json(request.session.cart);
 });
 

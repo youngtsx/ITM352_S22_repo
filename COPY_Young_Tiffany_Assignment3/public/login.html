@@ -4,6 +4,8 @@ Login page for ecommerce site-->
 
 <!--https://mdbootstrap.com/docs/standard/extended/login/#section-4 login template, borrowed from Reece Nagaoka, Momoka Michimoto -->
 <script src="/user_data.js" type="json"></script>
+<script src="./products.js"></script>
+<script src="./functions.js"></script>
 <script>
 window.onload = function() {
 let params = (new URL(document.location)).searchParams;
@@ -15,7 +17,15 @@ let params = (new URL(document.location)).searchParams;
         email.value = params.get('email')
       }
     }
-
+    var shopping_cart;
+      var total = 0;
+  loadJSON('./get_cart', function (response) {
+            // Parsing JSON string into object
+            shopping_cart = JSON.parse(response);
+            for (pk in shopping_cart) {
+                total += shopping_cart[pk].reduce((a, b) => a + b);
+            }
+        });
 </script>
 <html lang="en">
 <head>
@@ -46,7 +56,8 @@ let params = (new URL(document.location)).searchParams;
         </ul>
         <ul class="nav navbar-nav navbar-right">
      <!--     <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> Account</a></li>-->
-          <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+          <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart (<span id="cart_total">0</span>)</a></li>
+          <script>cart_total.innerHTML = total; </script>
         </ul>
       </div>
     </div>
