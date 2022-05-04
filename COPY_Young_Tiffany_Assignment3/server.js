@@ -51,7 +51,7 @@ app.post("/process_login", function (request, response) {
    if (typeof users[user_email] != 'undefined') {
       //check if entered password matches the stored password
       if (users[user_email].password == the_password) {
-         var user_cookie = {"email": user_email, "fullname": users[user_email]['name']};
+         var user_cookie = { "email": user_email, "fullname": users[user_email]['name'] };
          response.cookie('user_cookie', JSON.stringify(user_cookie), { maxAge: 30 * 60 * 1000 }); // expires in 30 mins
          // back to the products
          response.redirect('./shop.html');
@@ -271,12 +271,26 @@ app.post('/add_to_cart', function (request, response, next) {
    }
 });
 
-app.post("/update_cart", function(request, response){
+app.post("/update_cart", function (request, response) {
 
 });
 
-app.post("/checkout", async function(request, response){
-
+app.get("/checkout", function (request, response) {
+   var errors = {};//check errors
+   if (typeof request.cookie["email"] == 'undefined') {
+      response.redirect(`./login.html`);
+      return;
+   } 
+   if (JSON.stringify(errors) === '{}'){
+      // send to invoice.html 
+      let login_email = request.cookie['email'];
+      //put their username and email in the URL/string
+      let params = new URLSearchParams();
+      params.append('fullname', users[login_email]['fullname']);
+      response.redirect(`./invoice.html?` + params.toString());
+   } else {
+      response.redirect(`./cart.html`);
+   }
 });
 
 app.post("/get_products_data", function (request, response) {//taken from assignment 3 code examples

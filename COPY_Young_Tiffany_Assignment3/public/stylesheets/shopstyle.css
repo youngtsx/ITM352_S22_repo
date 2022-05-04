@@ -46,6 +46,11 @@ img:hover {
             box-shadow: 0 0 5px 1px black;
 }
 
+h4 {
+        margin-left: 45%;
+        margin-bottom: 25px;
+}
+
 /*purchase button*/
 .button {
         background-color: white;
