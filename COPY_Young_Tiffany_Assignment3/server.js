@@ -51,7 +51,7 @@ app.post("/process_login", function (request, response) {
    if (typeof users[user_email] != 'undefined') {
       //check if entered password matches the stored password
       if (users[user_email].password == the_password) {
-         var user_cookie = {"email": user_email};
+         var user_cookie = {"email": user_email, "fullname": users[user_email]['name']};
          response.cookie('user_cookie', JSON.stringify(user_cookie), { maxAge: 30 * 60 * 1000 }); // expires in 30 mins
          // back to the products
          response.redirect('./shop.html');
@@ -271,7 +271,11 @@ app.post('/add_to_cart', function (request, response, next) {
    }
 });
 
-app.post("/update_cart",function(request, response){
+app.post("/update_cart", function(request, response){
+
+});
+
+app.post("/checkout", async function(request, response){
 
 });
 

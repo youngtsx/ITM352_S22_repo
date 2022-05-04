@@ -23,7 +23,7 @@ assignment 3 code examples-->
   }
   //from Assignment 1 example/reece nagaoka FW21:
   let params = (new URL(document.location)).searchParams; // get the query string which has the form data
-    window.onload = function () {
+  window.onload = function () {
     // form was submitted, check that quantities are valid then redirect to invoice if ok.
     if (params.has('errors')) {
       var errors = JSON.parse(params.get('errors')); //turns string in object
@@ -47,27 +47,43 @@ assignment 3 code examples-->
 <head>
   <script src="./functions.js"></script>
   <script>
-      var shopping_cart;
-      var total = 0;
-        // get the query string
-        if (params.has('products_key')) {
-            var products_key = params.get('products_key');
-        } else {
-            var products_key = 'Milk Tea';
+    var shopping_cart;
+    var total = 0;
+    // get the query string
+    if (params.has('products_key')) {
+      var products_key = params.get('products_key');
+    } else {
+      var products_key = 'Milk Tea';
+    }
+    var products;
+    loadJSON('get_products_data', function (response) {
+      // Parsing JSON string into object
+      products = JSON.parse(response);
+    });
+    loadJSON('./get_cart', function (response) {
+      // Parsing JSON string into object
+      shopping_cart = JSON.parse(response);
+      for (pk in shopping_cart) {
+        total += shopping_cart[pk].reduce((a, b) => a + b);
+      }
+    });
+    function getCookie(cname) { //w3schools cookies
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
         }
-        var products;
-        loadJSON('get_products_data', function (response) {
-            // Parsing JSON string into object
-            products = JSON.parse(response);
-        });
-        loadJSON('./get_cart', function (response) {
-            // Parsing JSON string into object
-            shopping_cart = JSON.parse(response);
-            for (pk in shopping_cart) {
-                total += shopping_cart[pk].reduce((a, b) => a + b);
-            }
-        });
-      </script>
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -97,13 +113,27 @@ assignment 3 code examples-->
           </script>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-      <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> <span id="login">Account</a></span></li>
-          <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart (<span id="cart_total">0</span>)</a></li>
+          <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> <span id="login">Account</span></a>
+          </li>
+          <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart (<span
+                id="cart_total">0</span>)</a></li>
         </ul>
+        <script>
+          // if the user login, display a message
+          if (getCookie('user_cookie') != false) {
+            var user_cookie = JSON.parse(getCookie('user_cookie'));
+            login.innerHTML = "Logout";
+            login.href = '';
+            login.onclick = function () {
+              document.cookie = "user_cookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            }
+          }
+        </script>
       </div>
     </div>
   </nav>
   <main>
+    <script>            document.write(`<div class="center"><h4><b>Welcome, ${user_cookie['fullname']}!</b><h4></div>`);</script>
     <form name="quantity_form" action="./add_to_cart" method="POST">
       <script>  cart_total.innerHTML = total; </script>
       <script>
