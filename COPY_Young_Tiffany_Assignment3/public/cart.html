@@ -25,11 +25,6 @@
   if (params.has('products_key')) {
     var this_product_key = params.get('products_key');
   }
-  function deleteRow(r) { //w3schools https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_table_deleterow2
-  var i = r.parentNode.parentNode.rowIndex;
-  document.getElementById("myTable").deleteRow(i);
-}
-
 </script>
 
 <head>
@@ -82,13 +77,10 @@
             <thead>
               <tr>
                 <!-- Set columns width -->
-                <th class="text-center py-3 px-4" style="min-width: 400px;">Product Name &amp; Details</th>
-                <th class="text-center py-3 px-4" style="width: 100px;">Price</th>
-                <th class="text-center py-3 px-4" style="width: 120px;">Quantity</th>
-                <th class="text-center py-3 px-4" style="width: 100px;">Total</th>
-                <th class="text-center align-middle py-3 px-0" style="width: 40px;"><a href="#"
-                    class="shop-tooltip float-none text-light" title="" data-original-title="Clear cart">
-                    <i class="ino ion-md-trash"></i></a></th>
+                <th class="text-center py-3 px-4" style="min-width: 300px;">Product Name &amp; Details</th>
+                <th class="text-center py-3 px-4" style="width: 150px;">Price</th>
+                <th class="text-center py-3 px-4" style="width: 140px;">Quantity</th>
+                <th class="text-center py-3 px-4" style="width: 140px;">Total</th>
               </tr>
             </thead>
             <tbody>
@@ -110,16 +102,12 @@
                     <td class="p-4">
                       <div class="media align-items-center">
                      <img src="${products[pk][i].image}"
-                          class="d-block ui-w-40 ui-bordered mr-4" alt="">
-                        <div class="media-body">
-                          <a href="#" class="d-block text-dark">${products[pk][i].item}</a>
-                        </div>
+                          class="d-block ui-w-40 ui-bordered mr-4" alt=""> ${products[pk][i].item}
                       </div>
                     </td>
                     <td class="text-center font-weight-semibold align-middle p-4">\$${products[pk][i].price.toFixed(2)}</td>
-                    <td class="align-middle p-4"><input type="number" id="qty_${pk}_${i}" name="qty_${pk}_${i}" class="form-control text-center" value="${quantities[i]}" min="0" max="${products[pk][i].quantity_available}"></td>
+                    <td class="align-middle p-4"><input type="number" id="qty_${pk}_${i}" name="qty_${pk}_${i}" class="form-control text-center" value="${quantities[i]}" min="0" max="${products[pk][i].quantity_available}"><input type="submit" class="btn btn-md btn-default md-btn-flat mt-2 mr-3" value="Update Cart"></td>
                     <td class="text-center font-weight-semibold align-middle p-4">\$${extended_price.toFixed(2)}</td>
-                    <td class="text-center align-middle px-0"><button class="btn btn-danger" type="button">X</button></td>
                   </tr>`)
                     }
                   }
@@ -171,20 +159,19 @@
               <div class="text-large"><strong>
                   <script>document.write(grand_total.toFixed(2))</script>
                 </strong></div>
+                <br>
+                <b>
+                  <p>OUR DELIVERY POLICY IS :</p>
+                </b>
+                <p>A subtotal $0 - $9.99 will be $2 fee</p>
+                <p>A subtotal $10 - $29.99 will be $5 fee</p>
+                <p>Subtotals over $30 will be charged 5% of the subtotal amount </p>
+                <p>All orders will not be able to be cancelled after order confirmation. <br> If you feel your
+                  experience with us has been unsatisfactory, contact us at itm352@hawaii.edu</p>
             </div>
           </div>
         </div>
-        <br>
-        <b>
-          <p>OUR DELIVERY POLICY IS :</p>
-        </b>
-        <p>A subtotal $0 - $9.99 will be $2 fee</p>
-        <p>A subtotal $10 - $29.99 will be $5 fee</p>
-        <p>Subtotals over $30 will be charged 5% of the subtotal amount </p>
-        <p>All orders will not be able to be cancelled after order confirmation. <br> If you feel your
-          experience with us has been unsatisfactory, contact us at itm352@hawaii.edu</p>
         <div class="float-right">
-          <input type="submit" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3" value="Update Cart">
           </form>
           <form action="/checkout" method="GET">
           <input type="button" class="btn btn-primary btn-block" value="Checkout" name="checkout" onclick= "location.href='./invoice.html';">
