@@ -125,14 +125,14 @@ app.post("/register", function (request, response) {
 
       fs.writeFileSync(filename, JSON.stringify(users), "utf-8");
 
-      qty_data_obj['email'] = reg_email;
-      qty_data_obj['fullname'] = users[reg_email].name;
-      let params = new URLSearchParams(qty_data_obj);
-      response.redirect('./invoice.html?' + params.toString()); //all good! => to invoice w/data
+      /* qty_data_obj['email'] = reg_email;
+       qty_data_obj['fullname'] = users[reg_email].name;
+       let params = new URLSearchParams(qty_data_obj);*/
+      response.redirect('./login.html'); //all good! => to invoice w/data
    } else {
       request.body['registration_errors'] = JSON.stringify(registration_errors);
       let params = new URLSearchParams(request.body);
-      response.redirect("./registration.html?" + params.toString());
+      response.redirect("./registration.html" + params.toString());
    }
 });
 
@@ -263,16 +263,22 @@ app.post('/add_to_cart', function (request, response, next) {
       request.session.cart[products_key] = quantities; // store the quantities array in the session cart object with the same products_key. 
       response.redirect('./cart.html');
       console.log(request.session.cart);
-      // remove quantities purchased from inventory quantities
-      for (i in products) {
-         products[products_key][i].quantity_available -= Number(request.body['quantity']);
-      }
-      return;
    }
 });
 
 app.post("/update_cart", function (request, response) {
-
+      for (let pk in request.session.cart) {
+         for (let i in request.session.cart[pk]) {
+            if (typeof request.body[`qty_${pk}_${i}`] != 'undefined') {
+               // add/remove updated quantities from inventory
+               request.session.cart[pk][i].quantity_available -= request.session.cart[pk][i];
+               // update cart data with new quantity
+               request.session.cart[pk][i] = Number(request.body[`qty_${pk}_${i}`]);
+               
+            }
+         }
+      }
+   response.redirect("./cart.html"); // goes to shopping cart
 });
 
 app.get("/checkout", function (request, response) {
@@ -280,8 +286,8 @@ app.get("/checkout", function (request, response) {
    if (typeof request.cookie["email"] == 'undefined') {
       response.redirect(`./login.html`);
       return;
-   } 
-   if (JSON.stringify(errors) === '{}'){
+   }
+   if (JSON.stringify(errors) === '{}') {
       // send to invoice.html 
       let login_email = request.cookie['email'];
       //put their username and email in the URL/string
@@ -302,6 +308,14 @@ app.post("/get_products_data", function (request, response) {//taken from assign
 
 app.post("/get_cart", function (request, response) {//taken from assignment 3 code examples
    response.json(request.session.cart);
+});
+
+//logout button
+app.get("/logout", function (request, response, next) {
+   //destroy the session when the user logs out
+   request.session.destroy();
+   //redirect to the index.html page when user logs out
+   response.redirect('./');
 });
 
 // route all other GET requests to files in public 

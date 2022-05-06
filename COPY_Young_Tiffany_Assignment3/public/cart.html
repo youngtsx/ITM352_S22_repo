@@ -25,6 +25,11 @@
   if (params.has('products_key')) {
     var this_product_key = params.get('products_key');
   }
+  function deleteRow(r) { //w3schools https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_table_deleterow2
+  var i = r.parentNode.parentNode.rowIndex;
+  document.getElementById("myTable").deleteRow(i);
+}
+
 </script>
 
 <head>
@@ -73,7 +78,7 @@
       <div class="card-body">
         <div class="table-responsive">
           <form method="POST" action="/update_cart">
-          <table class="table table-bordered m-0">
+          <table class="table table-bordered m-0" id="myTable">
             <thead>
               <tr>
                 <!-- Set columns width -->
@@ -112,15 +117,17 @@
                       </div>
                     </td>
                     <td class="text-center font-weight-semibold align-middle p-4">\$${products[pk][i].price.toFixed(2)}</td>
-                    <td class="align-middle p-4"><input type="number" class="form-control text-center" value="${quantities[i]}" min="0" max="${products[pk][i].quantity_available}"></td>
+                    <td class="align-middle p-4"><input type="number" id="qty_${pk}_${i}" name="qty_${pk}_${i}" class="form-control text-center" value="${quantities[i]}" min="0" max="${products[pk][i].quantity_available}"></td>
                     <td class="text-center font-weight-semibold align-middle p-4">\$${extended_price.toFixed(2)}</td>
-                    <td class="text-center align-middle px-0"><a href="#" class="shop-tooltip close float-none text-danger"
-                        title="" data-original-title="Remove">×</a></td>
+                    <td class="text-center align-middle px-0"><button class="btn btn-danger" type="button">X</button></td>
                   </tr>`)
                     }
                   }
                 }
-
+                if (subtotal == 0) {
+                  alert(`No items in cart`)
+                }
+                else {
                 // Compute tax
                 var tax_rate = 0.0475;
                 var tax = tax_rate * subtotal;
@@ -134,9 +141,11 @@
                 }
                 else {
                   delivery = 0.05 * subtotal; // 5% of subtotal
-                } 
+                }
+              
                 // Compute grand total
                 var grand_total = subtotal + tax + delivery;
+              }
               </script>
             </tbody>
           </table>
@@ -165,7 +174,15 @@
             </div>
           </div>
         </div>
-
+        <br>
+        <b>
+          <p>OUR DELIVERY POLICY IS :</p>
+        </b>
+        <p>A subtotal $0 - $9.99 will be $2 fee</p>
+        <p>A subtotal $10 - $29.99 will be $5 fee</p>
+        <p>Subtotals over $30 will be charged 5% of the subtotal amount </p>
+        <p>All orders will not be able to be cancelled after order confirmation. <br> If you feel your
+          experience with us has been unsatisfactory, contact us at itm352@hawaii.edu</p>
         <div class="float-right">
           <input type="submit" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3" value="Update Cart">
           </form>

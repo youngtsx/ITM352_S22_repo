@@ -126,6 +126,7 @@ assignment 3 code examples-->
             login.href = '';
             login.onclick = function () {
               document.cookie = "user_cookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+              response.redirect('/logout');
             }
           }
         </script>
