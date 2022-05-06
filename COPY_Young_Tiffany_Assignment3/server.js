@@ -283,11 +283,11 @@ app.post("/update_cart", function (request, response) {
 
 app.get("/checkout", function (request, response) {
    var errors = {};//check errors
-   if (typeof request.cookie["email"] == 'undefined') {
+   if (typeof request.cookie["email"] == 'undefined') { //check if logged in by checking for the cookie
       response.redirect(`./login.html`);
       return;
    }
-   if (JSON.stringify(errors) === '{}') {
+   if (JSON.stringify(errors) === '{}') { //error object is empty => to invoice
       // send to invoice.html 
       let login_email = request.cookie['email'];
       //put their username and email in the URL/string
@@ -310,12 +310,15 @@ app.post("/get_cart", function (request, response) {//taken from assignment 3 co
    response.json(request.session.cart);
 });
 
+app.post("/complete_purchase", function (request, response) {//taken from assignment 3 code examples
+
+});
+
 //logout button
 app.get("/logout", function (request, response, next) {
-   //destroy the session when the user logs out
-   request.session.destroy();
+
    //redirect to the index.html page when user logs out
-   response.redirect('./');
+   response.redirect('./index.html');
 });
 
 // route all other GET requests to files in public 

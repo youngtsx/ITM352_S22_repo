@@ -113,8 +113,8 @@ assignment 3 code examples-->
           </script>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> <span id="login">Account</span></a>
-          </li>
+          <li><a href="login.html" id="login"><span class="glyphicon glyphicon-user"></span> Account</a></li>
+          
           <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart (<span
                 id="cart_total">0</span>)</a></li>
         </ul>
@@ -123,10 +123,9 @@ assignment 3 code examples-->
           if (getCookie('user_cookie') != false) {
             var user_cookie = JSON.parse(getCookie('user_cookie'));
             login.innerHTML = "Logout";
-            login.href = '';
+            login.href = '/logout';
             login.onclick = function () {
               document.cookie = "user_cookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-              response.redirect('/logout');
             }
           }
         </script>

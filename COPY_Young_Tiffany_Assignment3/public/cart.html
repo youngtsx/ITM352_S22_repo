@@ -25,6 +25,22 @@
   if (params.has('products_key')) {
     var this_product_key = params.get('products_key');
   }
+  function getCookie(cname) { //w3schools cookies
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
 </script>
 
 <head>
@@ -58,9 +74,20 @@
           </script>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> Account</a></li>
+          <li><a href="login.html"><span class="glyphicon glyphicon-user"></span><span id="login"> Account</span></a></li>
           <!-- <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>-->
         </ul>
+        <script>
+          // if the user login, display a message
+          if (getCookie('user_cookie') != false) {
+            var user_cookie = JSON.parse(getCookie('user_cookie'));
+            login.innerHTML = "Logout";
+            login.href = '/logout';
+            login.onclick = function () {
+              document.cookie = "user_cookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            }
+          }
+        </script>
       </div>
     </div>
   </nav>

@@ -69,39 +69,16 @@
 
 <body>
 
-
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
-      <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav">
-          <li id="logotext">Tiffany's Boba Shop</li>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="shop.html">Products</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="update_info.html"><span class="glyphicon glyphicon-user"></span> Account</a></li>
-          <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
   <script> //borrowed from li xinfei F21 | gets full name and displays it
-    if (fullname != 'undefined' && fullname != '') {
-      document.write(`<div class="center"><h4><b>Mahalo, ${fullname}!</b><h4></div>`)
+    if (name != 'undefined' && name != '') {
+      document.write(`<div class="center"><h4><b>Mahalo, ${name}! Here is your invoice:</b><h4></div>`)
     }
   </script>
   <table class="body-wrap">
     <tbody>
       <tr>
         <td></td>
-        <td class="container" width="600">
+        <td class="container" width="500">
           <div class="content">
             <table class="main" width="100%" cellpadding="0" cellspacing="0">
               <tbody>
@@ -113,7 +90,7 @@
                           <thead>
                           <tbody>
                             <tr>
-                              <th style="width:20%">Item</th>
+                              <th style="width:10%">Item</th>
                               <th class="text-right" style="width:15%">Quantity</th>
                               <th class="text-right" style="width:15%">Price</th>
                               <th class="text-right" style="width:15%">Extended Price</th>
