@@ -82,7 +82,6 @@ assignment 3 code examples-->
       }
       return "";
     }
-
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -151,11 +150,11 @@ assignment 3 code examples-->
                         <p><strong>$${products[products_key][i].price.toFixed(2)}</strong></p>
                         <p id="quantity[${i}]_label">Quantity:</p>
                         <input type="text" placeholder="We have ${products[products_key][i].quantity_available} available" name="quantity[${i}]" id="quantity[${i}]" onkeyup="checkQuantityTextbox(this);">
-                    </div>
+                        </div>
                   </div>
         </div>
         `);
-        }
+        }   
       </script>
       <h3><input type="submit" class="button" value="Add to Cart"></h3>
     </form>

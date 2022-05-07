@@ -270,11 +270,6 @@ app.post('/add_to_cart', function (request, response, next) {
    }
 });
 
-app.get("/clear_session.js", function(request, response, next){
-   //clear session when at invoice.
-   request.session.destroy();
-});
-
 app.post("/update_cart", function (request, response) {
       for (let pk in request.session.cart) { //2 two loops bc of multiple product pages
          for (let i in request.session.cart[pk]) {
@@ -358,7 +353,9 @@ transporter.sendMail(mailOptions, function(error, info){
   } else {
       invoice_str += `<br>Your invoice was mailed to ${user_email}`;
   }
-  response.send(`<script>alert('Invoice has been sent'); location.href="/index.html"</script>`)
+  response.clearCookie("user_cookie"); //log out
+  response.send(`<script>alert('Invoice has been sent'); location.href="/index.html"</script>`);
+  request.session.destroy(); //clear cart
 });
 
 });
@@ -367,7 +364,7 @@ transporter.sendMail(mailOptions, function(error, info){
 app.get("/logout", function (request, response, next) {
    response.clearCookie("user_cookie");
    //redirect to the index.html page when user logs out
-   response.send(`<script>alert('Logged Out'); location.href="/index.html"</script>`)
+   response.send(`<script>alert('Logged Out'); location.href="/index.html"</script>`);
 });
 
 // route all other GET requests to files in public 
