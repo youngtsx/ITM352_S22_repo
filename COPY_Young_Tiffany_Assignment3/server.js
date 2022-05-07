@@ -21,6 +21,9 @@ var cookieParser = require('cookie-parser');
 const { request } = require('http');
 app.use(cookieParser());
 
+//node mailer
+var nodemailer = require('nodemailer');
+
 //user data file
 var filename = 'user_data.json';
 
@@ -273,7 +276,7 @@ app.get("/clear_session.js", function(request, response, next){
 });
 
 app.post("/update_cart", function (request, response) {
-      for (let pk in request.session.cart) {
+      for (let pk in request.session.cart) { //2 two loops bc of multiple product pages
          for (let i in request.session.cart[pk]) {
             if (typeof request.body[`qty_${pk}_${i}`] != 'undefined') {
                // add/remove updated quantities from inventory
@@ -298,15 +301,15 @@ app.get("/checkout", function (request, response) {
       let login_email = request.cookie['email'];
       //put their username and email in the URL/string
       let params = new URLSearchParams();
-      params.append('fullname', users[login_email]['fullname']);
-      response.redirect(`./invoice.html?` + params.toString());
+      params.append('fullname', users[login_email]['fullname']); //append fullname in order to get it for the personalization
+      response.redirect(`./invoice.html?` + params.toString()); //direct to invoice
    } else {
       response.redirect(`./cart.html`);
    }
 });
 
 app.post("/get_products_data", function (request, response) {//taken from assignment 3 code examples
-   if (typeof request.session.cart == 'undefined') {
+   if (typeof request.session.cart == 'undefined') { //create empty cart object
       request.session.cart = {};
    }
    response.json(products);
@@ -317,10 +320,48 @@ app.post("/get_cart", function (request, response) {//taken from assignment 3 co
 });
 
 app.post("/complete_purchase", function (request, response) {//taken from assignment 3 code examples
-
+// Generate HTML invoice string
+var invoice_str = `Thank you for your order!<table border><th>Quantity</th><th>Item</th>`;
+var shopping_cart = request.session.cart;
+for(products_key in products) {
+  for(i=0; i< products[products_key].length; i++) {
+      if(typeof shopping_cart[products_key] == 'undefined') continue;
+      qty = shopping_cart[products_key][i];
+      if(qty > 0) {
+        invoice_str += `<tr><td>${qty}</td><td>${products[products_key][i].name}</td><tr>`;
+      }
+  }
+}
+invoice_str += '</table>';
+// Set up mail server. Only will work on UH Network due to security restrictions
+var transporter = nodemailer.createTransport({
+  host: "mail.hawaii.edu",
+  port: 25,
+  secure: false, // use TLS
+  tls: {
+    // do not fail on invalid certs
+    rejectUnauthorized: false
+  }
 });
 
+var user_email = request.session.email;
+var mailOptions = {
+  from: 'tyoung24@hawaii.edu',
+  to: user_email,
+  subject: 'Your invoice from Tiffany\'s Boba shop',
+  html: invoice_str
+};
 
+transporter.sendMail(mailOptions, function(error, info){
+   if (error) {
+      invoice_str += '<br>There was an error and your invoice could not be emailed :(';
+  } else {
+      invoice_str += `<br>Your invoice was mailed to ${user_email}`;
+  }
+  response.send(`<script>alert('Invoice has been sent'); location.href="/index.html"</script>`)
+});
+
+});
 
 //logout button
 app.get("/logout", function (request, response, next) {
