@@ -122,7 +122,7 @@ assignment 3 code examples-->
           // if the user login, display a message
           if (getCookie('user_cookie') != false) {
             var user_cookie = JSON.parse(getCookie('user_cookie'));
-            login.innerHTML = "Logout";
+            login.innerHTML = '<span class="glyphicon glyphicon-user"></span> Logout';
             login.href = '/logout';
             login.onclick = function () {
               document.cookie = "user_cookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

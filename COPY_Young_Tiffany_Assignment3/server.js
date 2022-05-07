@@ -18,6 +18,7 @@ app.use(session({ secret: "MySecretKey", resave: true, saveUninitialized: true }
 
 //get cookie
 var cookieParser = require('cookie-parser');
+const { request } = require('http');
 app.use(cookieParser());
 
 //user data file
@@ -266,6 +267,11 @@ app.post('/add_to_cart', function (request, response, next) {
    }
 });
 
+app.get("/clear_session.js", function(request, response, next){
+   //clear session when at invoice.
+   request.session.destroy();
+});
+
 app.post("/update_cart", function (request, response) {
       for (let pk in request.session.cart) {
          for (let i in request.session.cart[pk]) {
@@ -314,11 +320,13 @@ app.post("/complete_purchase", function (request, response) {//taken from assign
 
 });
 
+
+
 //logout button
 app.get("/logout", function (request, response, next) {
-
+   response.clearCookie("user_cookie");
    //redirect to the index.html page when user logs out
-   response.redirect('./index.html');
+   response.send(`<script>alert('Logged Out'); location.href="/index.html"</script>`)
 });
 
 // route all other GET requests to files in public 
