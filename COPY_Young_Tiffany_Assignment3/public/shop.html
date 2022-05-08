@@ -50,10 +50,10 @@ assignment 3 code examples-->
     var shopping_cart;
     var total = 0;
     // get the query string
-    if (params.has('products_key')) {
+    if (params.has('products_key')) { //assignment 3 code examples modified
       var products_key = params.get('products_key');
     } else {
-      products_key = "Milk Tea"
+      products_key = "Milk Tea" //auto direct to milk tea page
     }
     var products;
     loadJSON('get_products_data', function (response) {
@@ -144,7 +144,7 @@ assignment 3 code examples-->
                 <div class="row">
                     <div class="col-sm-4">
                       <div class="panel panel-primary">
-                      <div class="panel-heading">${products[products_key][i].item}</div>
+                      <div class="panel-heading">${products[products_key][i].item}<span id="fav">&star;</span></div>
                       <div class="panel-body"><img src="${products[products_key][i].image}" style="width:100%" class="img-responsive" alt="Image"></div>
                       <div class="panel-footer">
                         <p><strong>$${products[products_key][i].price.toFixed(2)}</strong></p>
@@ -164,5 +164,4 @@ assignment 3 code examples-->
   </br>
   <p>&copy; Tiffany Young 2022</p>
 </div>
-
 </html>

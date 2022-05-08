@@ -257,7 +257,7 @@ app.post('/add_to_cart', function (request, response, next) {
       return;
    }
    else {
-      if (typeof request.session.cart == 'undefined') { //create shopping cart
+      if (!request.session.cart) { //create shopping cart
          request.session.cart = {};
       }
       if (typeof request.session.cart[products_key] == 'undefined') {//make array for product
@@ -271,8 +271,8 @@ app.post('/add_to_cart', function (request, response, next) {
 });
 
 app.post("/update_cart", function (request, response) {
-      for (let pkey in request.session.cart) { //2 two loops bc of multiple product pages
-         for (let i in request.session.cart[pkey]) {
+      for (let pkey in request.session.cart) { //loop through cart products
+         for (let i in request.session.cart[pkey]) { //loop through product's selected quantity
             if (typeof request.body[`qty_${pkey}_${i}`] != 'undefined') {
                // add/remove updated quantities from inventory
                request.session.cart[pkey][i].quantity_available -= request.session.cart[pkey][i];
@@ -363,6 +363,7 @@ transporter.sendMail(mailOptions, function(error, info){
 //logout button
 app.get("/logout", function (request, response, next) {
    response.clearCookie("user_cookie");
+   //no session destroy 
    //redirect to the index.html page when user logs out
    response.send(`<script>alert('Logged Out'); location.href="/index.html"</script>`);
 });

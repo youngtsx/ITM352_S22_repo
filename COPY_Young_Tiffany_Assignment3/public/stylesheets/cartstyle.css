@@ -18,9 +18,22 @@ body {
     padding: 15px 15px 15px 0px;
 }
 
+.text-right {
+    text-align: right;
+    object-fit: contain;
+    max-height: 120px;
+}
+
 h3 {
      margin-top: 10px;
      margin-bottom: 360px;
+}
+
+p {
+    margin: 0 0 10px;
+    text-align: left;
+    position: relative;
+    top: -155px;
 }
 
 div.delivery {
@@ -37,11 +50,11 @@ div.delivery {
 }
 
 input[type=button].btn-block {
-    display: inline-block;
     padding: 8px;
     margin: 5px;
     font-size: large;
     width: 17%;
+    float: right;
 }
 
     /* Add a hover effect (black shadow) */

@@ -29,11 +29,12 @@ body>.item>.row {
         height: 750px;
 }
 
-#favorite {
-        font-size: 25px;
-        position: relative;
-        top: -90px;
-        left: 300px;
+#fav {
+        font-size: 20px;
+        float: right;
+        margin: 0px;
+        top: -4px;
+        position:relative;
 }
 
 .panel-footer {
