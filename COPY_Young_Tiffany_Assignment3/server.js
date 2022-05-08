@@ -56,7 +56,7 @@ app.post("/process_login", function (request, response) {
       //check if entered password matches the stored password
       if (users[user_email].password == the_password) {
          var user_cookie = { "email": user_email, "fullname": users[user_email]['name'] };
-         response.cookie('user_cookie', JSON.stringify(user_cookie), { maxAge: 30 * 60 * 1000 }); // expires in 30 mins
+         response.cookie('user_cookie', JSON.stringify(user_cookie), { maxAge: 90 * 1000 }); // expires in 15 mins
          // back to the products
          response.redirect('./shop.html');
          return;
@@ -213,7 +213,7 @@ app.get("/products.js", function (request, response, next) {
 // monitor all requests
 app.all('*', function (request, response, next) {
    console.log(request.method + ' to ' + request.path);
-   // need to initialize an object to store the cart in the session. We do it when there is any request so that we don't have to check it exists
+   // make session cart at any request
    // anytime it's used
    if (typeof request.session.cart == 'undefined') {
       request.session.cart = {};
@@ -271,13 +271,13 @@ app.post('/add_to_cart', function (request, response, next) {
 });
 
 app.post("/update_cart", function (request, response) {
-      for (let pk in request.session.cart) { //2 two loops bc of multiple product pages
-         for (let i in request.session.cart[pk]) {
-            if (typeof request.body[`qty_${pk}_${i}`] != 'undefined') {
+      for (let pkey in request.session.cart) { //2 two loops bc of multiple product pages
+         for (let i in request.session.cart[pkey]) {
+            if (typeof request.body[`qty_${pkey}_${i}`] != 'undefined') {
                // add/remove updated quantities from inventory
-               request.session.cart[pk][i].quantity_available -= request.session.cart[pk][i];
+               request.session.cart[pkey][i].quantity_available -= request.session.cart[pkey][i];
                // update cart data with new quantity
-               request.session.cart[pk][i] = Number(request.body[`qty_${pk}_${i}`]);
+               request.session.cart[pkey][i] = Number(request.body[`qty_${pkey}_${i}`]);
                
             }
          }
@@ -298,20 +298,19 @@ app.get("/checkout", function (request, response) {
       let params = new URLSearchParams();
       params.append('fullname', users[login_email]['fullname']); //append fullname in order to get it for the personalization
       response.redirect(`./invoice.html?` + params.toString()); //direct to invoice
+      console.log(user_cookie);
    } else {
       response.redirect(`./cart.html`);
    }
 });
 
 app.post("/get_products_data", function (request, response) {//taken from assignment 3 code examples
-   if (typeof request.session.cart == 'undefined') { //create empty cart object
-      request.session.cart = {};
-   }
    response.json(products);
 });
 
 app.post("/get_cart", function (request, response) {//taken from assignment 3 code examples
    response.json(request.session.cart);
+   console.log(request.session.cart);
 });
 
 app.post("/complete_purchase", function (request, response) {//taken from assignment 3 code examples
@@ -356,6 +355,7 @@ transporter.sendMail(mailOptions, function(error, info){
   response.clearCookie("user_cookie"); //log out
   response.send(`<script>alert('Invoice has been sent'); location.href="/index.html"</script>`);
   request.session.destroy(); //clear cart
+  
 });
 
 });

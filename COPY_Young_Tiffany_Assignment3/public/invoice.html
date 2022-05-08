@@ -11,20 +11,12 @@
   if (params.has('quantity')) {
     quantities = JSON.parse(params.get(`quantity`)); //params gets quantity from purchase, parses string into a json object
   }
-  //name is wrong, back to login, function below and line 64-68 borrowed from li xinfei.
-  //var email = [];
-  /*if (params.has('fullname')) {
-    var fullname = params.get(`fullname`);
-  } else {
-    window.location.href = "./login.html";
-  }*/
+
   loadJSON('./get_cart', function (response) {
     // Parsing JSON string into object
     shopping_cart = JSON.parse(response);
-    /*for (pk in shopping_cart) {
-      total += shopping_cart[pk].reduce((a, b) => a + b);
-    }*/
   });
+
   function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -100,19 +92,18 @@
                               // Compute sub-total
                               var subtotal = 0;
 
-                              for (let pk in shopping_cart) {
-                                let quantities = shopping_cart[pk];
-                                for (let i in quantities) {
-                                  // if the quantity is greater than 0, compute
-                                  if (quantities[i] > 0) {
+                              for (let pkey in shopping_cart) { //same as cart
+                                for (let i in shopping_cart[pkey]) {
+                                  let quantities = shopping_cart[pkey][i];
+                                  if (quantities > 0) {
                                     // product row
-                                    extended_price = quantities[i] * products[pk][i].price
+                                    extended_price = quantities * products[pkey][i].price
                                     subtotal += extended_price;
                                     document.write(`
                                   <tr>
-			                              <td>${products[pk][i].item}</td>
-			                              <td class="text-right">${quantities[i]}</td>
-			                              <td class="text-right">$${products[pk][i].price.toFixed(2)}</td>
+			                              <td>${products[pkey][i].item}</td>
+			                              <td class="text-right">${quantities}</td>
+			                              <td class="text-right">$${products[pkey][i].price.toFixed(2)}</td>
 			                              <td class="text-right">$${extended_price.toFixed(2)}</td>
                                   </tr>
                                   `);

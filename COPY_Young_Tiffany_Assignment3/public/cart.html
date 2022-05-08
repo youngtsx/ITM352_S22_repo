@@ -16,15 +16,13 @@
   loadJSON('get_cart', function (response) {
     // Parsing JSON string into object
     shopping_cart = JSON.parse(response);
-    for (pk in shopping_cart) {
-      total += shopping_cart[pk].reduce((a, b) => a + b);
-    }
   });
   // get the query string
   let params = (new URL(document.location)).searchParams;
   if (params.has('products_key')) {
     var this_product_key = params.get('products_key');
   }
+
   function getCookie(cname) { //w3schools cookies
       let name = cname + "=";
       let decodedCookie = decodeURIComponent(document.cookie);
@@ -74,20 +72,19 @@
           </script>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="login.html"><span class="glyphicon glyphicon-user"></span><span id="login"> Account</span></a></li>
-          <!-- <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>-->
+          <script>
+            if (getCookie('user_cookie') != false) {
+             var user_cookie = JSON.parse(getCookie('user_cookie'));
+             document.write(`<li><a href="/logout" id="login"><span class="glyphicon glyphicon-user"></span> Logout</a></li>`);
+             login.onclick = function () {
+               document.cookie = "user_cookie=; expires=Sat, 26 Jan 2002 00:00:00 UTC; path=/;";
+             }
+           } else {
+             document.write(`<li><a href="login.html" id="login"><span class="glyphicon glyphicon-user"></span> Account</a></li>`);
+           }
+           </script>
         </ul>
-        <script>
-          // if the user login, display a message
-          if (getCookie('user_cookie') != false) {
-            var user_cookie = JSON.parse(getCookie('user_cookie'));
-            login.innerHTML = "Logout";
-            login.href = '/logout';
-            login.onclick = function () {
-              document.cookie = "user_cookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            }
-          }
-        </script>
+        
       </div>
     </div>
   </nav>
@@ -116,24 +113,23 @@
                 // Compute sub-total
                 var subtotal = 0;
 
-                for (let pk in shopping_cart) {
-                  let quantities = shopping_cart[pk];
-                  for (let i in quantities) {
-                    // if the quantity is greater than 0, compute
-                    if (quantities[i] > 0) {
+                for (let pkey in shopping_cart) {
+                  for (let i in shopping_cart[pkey]) {
+                    let quantities = shopping_cart[pkey][i];
+                    if (quantities > 0) {
                       // product row
-                      extended_price = quantities[i] * products[pk][i].price
+                      extended_price = quantities * products[pkey][i].price
                       subtotal += extended_price;
                       document.write(`
                   <tr>
                     <td class="p-4">
                       <div class="media align-items-center">
-                     <img src="${products[pk][i].image}"
-                          class="d-block ui-w-40 ui-bordered mr-4" alt=""> ${products[pk][i].item}
+                     <img src="${products[pkey][i].image}"
+                          class="d-block ui-w-40 ui-bordered mr-4" alt=""> ${products[pkey][i].item}
                       </div>
                     </td>
-                    <td class="text-center font-weight-semibold align-middle p-4">\$${products[pk][i].price.toFixed(2)}</td>
-                    <td class="align-middle p-4"><input type="number" id="qty_${pk}_${i}" name="qty_${pk}_${i}" class="form-control text-center" value="${quantities[i]}" min="0" max="${products[pk][i].quantity_available}"><input type="submit" class="btn btn-md btn-default md-btn-flat mt-2 mr-3" value="Update Cart"></td>
+                    <td class="text-center font-weight-semibold align-middle p-4">\$${products[pkey][i].price.toFixed(2)}</td>
+                    <td class="align-middle p-4"><input type="number" id="qty_${pkey}_${i}" name="qty_${pkey}_${i}" class="form-control text-center" value="${quantities}" min="0" max="${products[pkey][i].quantity_available}"><input type="submit" class="btn btn-md btn-default md-btn-flat mt-2 mr-3" value="Update Cart"></td>
                     <td class="text-center font-weight-semibold align-middle p-4">\$${extended_price.toFixed(2)}</td>
                   </tr>`)
                     }
@@ -141,7 +137,7 @@
                 }
                 if (subtotal == 0) {
                   alert(`No items in cart`)
-                  window.location.href = '/'
+                  window.location.href = 'shop.html?'
                 }
                 else {
                 // Compute tax

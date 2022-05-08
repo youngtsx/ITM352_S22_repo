@@ -53,7 +53,7 @@ assignment 3 code examples-->
     if (params.has('products_key')) {
       var products_key = params.get('products_key');
     } else {
-      var products_key = 'Milk Tea';
+      products_key = "Milk Tea"
     }
     var products;
     loadJSON('get_products_data', function (response) {
@@ -82,6 +82,7 @@ assignment 3 code examples-->
       }
       return "";
     }
+
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -112,22 +113,21 @@ assignment 3 code examples-->
           </script>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="login.html" id="login"><span class="glyphicon glyphicon-user"></span> Account</a></li>
-          
+          <!-- <li><a href="login.html" id="login"><span class="glyphicon glyphicon-user"></span> Account</a></li>-->
+          <script>
+             if (getCookie('user_cookie') != false) {
+              var user_cookie = JSON.parse(getCookie('user_cookie'));
+              document.write(`<li><a href="/logout" id="login"><span class="glyphicon glyphicon-user"></span> Logout</a></li>`);
+              login.onclick = function () {
+                document.cookie = "user_cookie=; expires=Sat, 26 Jan 2002 00:00:00 UTC; path=/;";
+              }
+            } else {
+              document.write(`<li><a href="login.html" id="login"><span class="glyphicon glyphicon-user"></span> Account</a></li>`);
+            }
+            </script>
           <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart (<span
                 id="cart_total">0</span>)</a></li>
         </ul>
-        <script>
-          // if the user login, display a message
-          if (getCookie('user_cookie') != false) {
-            var user_cookie = JSON.parse(getCookie('user_cookie'));
-            login.innerHTML = '<span class="glyphicon glyphicon-user"></span> Logout';
-            login.href = '/logout';
-            login.onclick = function () {
-              document.cookie = "user_cookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            }
-          }
-        </script>
       </div>
     </div>
   </nav>
@@ -137,7 +137,7 @@ assignment 3 code examples-->
       <script>  cart_total.innerHTML = total; </script>
       <script>
         document.write(`<input type = "hidden" name="products_key" value="${products_key}">`);
-        for (i in products[products_key]) {
+        for (i = 0; i < products[products_key].length; i++) { //modifed asst 3 example code
           document.write(`
         <div class="item">
             <div class="container">    

@@ -18,7 +18,19 @@ let params = (new URL(document.location)).searchParams;
       }
     }
     var shopping_cart;
-      var total = 0;
+    var total = 0;
+    let params = (new URL(document.location)).searchParams;
+    // get the query string
+    if (params.has('products_key')) {
+      var products_key = params.get('products_key');
+    } else { // if no params then default to milk tea product page
+      products_key = "Milk Tea"
+    }
+    var products;
+    loadJSON('get_products_data', function (response) {
+      // Parsing JSON string into object
+      products = JSON.parse(response);
+    });
   loadJSON('./get_cart', function (response) {
             // Parsing JSON string into object
             shopping_cart = JSON.parse(response);
@@ -52,7 +64,9 @@ let params = (new URL(document.location)).searchParams;
         <ul class="nav navbar-nav">
           <li id="logotext">Tiffany's Boba Shop</li>
           <li><a href="index.html">Home</a></li>
-          <li><a href="shop.html">Products</a></li>
+          <script>
+            nav_bar(products_key, products);</script>
+          </script>
         </ul>
         <ul class="nav navbar-nav navbar-right">
      <!--     <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> Account</a></li>-->
