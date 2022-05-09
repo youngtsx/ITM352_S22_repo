@@ -278,8 +278,10 @@ app.post("/add_to_fav", function (request, response) {//taken from assignment 3 
    if (typeof request.session.fav[products_key] == 'undefined') {//make array for fav products
       request.session.fav[products_key] = [];
    }
-   if (request.body[`fav[${i}].label`].value == '&starf;') {
+   if (request.body[`fav`].innerHTML == '&starf;') {
       request.session.fav[products_key] = request.body[`${products[products_key][i].item}`];
+      response.redirect('./shop.html?')
+      console.log(request.session.fav);
    }
 });
 

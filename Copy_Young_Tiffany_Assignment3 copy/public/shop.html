@@ -145,8 +145,8 @@ assignment 3 code examples-->
                     <div class="col-sm-4">
                       <div class="panel panel-primary">
                       <div class="panel-heading">
-                      <form name="add_to_fav" action="./add_to_fav" method="POST"><button name="fav[${i}]_label" id="fav[${i}]_label" onclick="addToFav(this);">&star;</button></form>
-                      
+                      <form name="add_to_fav" action="./add_to_fav" method="POST"></form>
+                      <button name="fav[${i}]" id="fav[${i}]" onclick="addToFav(this);">&star;</button>
                       <form name="quantity_form" action="./add_to_cart" method="POST">
                       ${products[products_key][i].item}</div>
                       <div class="panel-body"><img src="${products[products_key][i].image}" style="width:100%" class="img-responsive" alt="Image"></div>
@@ -171,10 +171,15 @@ assignment 3 code examples-->
 </div>
 </html>
 <script>
+  if (getCookie('user_cookie') != false){
+    
+  }
   function addToFav(the_fav) {
-  document.getElementById(the_fav.name + '_label').innerHTML = '&starf;';
- /* if (document.getElementById(the_fav.name + '_label').innerHTML == '&starf;') {
-    document.getElementById(the_fav.name + '_label').innerHTML = '&star;';
-  }*/
+    var select_fav = document.getElementById(the_fav.name).innerHTML;
+    select_fav = '&starf;';
+
+ if (document.getElementById(the_fav.name).innerHTML == '&starf;') {
+    document.getElementById(the_fav.name).innerHTML = '&star;';
+  }
 }
 </script>
