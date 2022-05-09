@@ -46,7 +46,7 @@ body>.item>.row {
         background-color: rgb(178, 209, 245);
 }
 .panel-heading {
-        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;/**/
+        text-shadow: -1px 0 black;/* 0 1px black, 1px 0 black, 0 -1px black;*/
         font-size: 15px;
         text-align: center;
         font-weight: 400;
@@ -60,17 +60,15 @@ h4 {
         margin-left: 45%;
         margin-bottom: 25px;
 }
-button {
-        margin-left: 10px;
-        background-color: rgb(178, 209, 245);
-        border-width: 1px;
-        border-color: white;
-}
+
 /*purchase button*/
 .button {
         background-color: white;
-        padding: 10px 28px;
-        border-width: 1px;
+        bottom: 80px;
+        left: 1050px;
+        padding: 12px 28px;
+        margin-top: 15px;
+        margin-left: 15px;
 
 }
 .button:hover {

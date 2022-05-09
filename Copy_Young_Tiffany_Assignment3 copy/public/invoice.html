@@ -1,0 +1,161 @@
+<!--AUTHOR: TIFFANY YOUNG S22-->
+<!-- This file will display an invoice based off of https://www.bootdey.com/snippets/view/Invoice-with-ribbon,
+   w3schoools bootstraps https://www.w3schools.com/bootstrap/bootstrap_templates.asp "online store",
+    and reece nagaoka f21 and momoka michimoto (and looked at li xinfei for inspiration) -->
+<script src="./products.js" type="text/javascript"></script>
+<script src="/user_data.json" type="json"></script>
+<script src="./functions.js"></script>
+<script>
+  let params = (new URL(document.location)).searchParams; //takes data from querystring
+  var quantities = []; //gets quantities to store
+  if (params.has('quantity')) {
+    quantities = JSON.parse(params.get(`quantity`)); //params gets quantity from purchase, parses string into a json object
+  }
+
+  loadJSON('./get_cart', function (response) {
+    // Parsing JSON string into object
+    shopping_cart = JSON.parse(response);
+  });
+
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+  // if user is not logged in, send them to login
+  if (getCookie('user_cookie') != '') {
+    var user_cookie = JSON.parse(getCookie('user_cookie'));
+    var name = user_cookie['fullname'];
+    var email = user_cookie['email'];
+  } else {
+    location.href = './login.html';
+    window.stop;
+  }
+</script>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./stylesheets/invoicestyle.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <title>Invoice || Tiffany's Boba Shop</title>
+</head>
+
+<body>
+
+  <script> //borrowed from li xinfei F21 | gets full name and displays it
+    if (name != 'undefined' && name != '') {
+      document.write(`<div class="center"><h4><b>Mahalo, ${name}! Here is your invoice:</b><h4></div>`)
+    }
+  </script>
+  <table class="body-wrap">
+    <tbody>
+      <tr>
+        <td></td>
+        <td class="container" width="500">
+          <div class="content">
+            <table class="main" width="100%" cellpadding="0" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td class="content-wrap aligncenter">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <div class="row table-row">
+                        <table class="table table-striped">
+                          <thead>
+                          <tbody>
+                            <tr>
+                              <th style="width:10%">Item</th>
+                              <th class="text-right" style="width:15%">Quantity</th>
+                              <th class="text-right" style="width:15%">Price</th>
+                              <th class="text-right" style="width:15%">Extended Price</th>
+                            </tr>
+                            </thead>
+                            <script>
+                              // Compute sub-total
+                              var subtotal = 0;
+
+                              for (let pkey in shopping_cart) { //same as cart
+                                for (let i in shopping_cart[pkey]) {
+                                  let quantities = shopping_cart[pkey][i];
+                                  if (quantities > 0) {
+                                    // product row
+                                    extended_price = quantities * products[pkey][i].price
+                                    subtotal += extended_price;
+                                    document.write(`
+                                  <tr>
+			                              <td>${products[pkey][i].item}</td>
+			                              <td class="text-right">${quantities}</td>
+			                              <td class="text-right">$${products[pkey][i].price.toFixed(2)}</td>
+			                              <td class="text-right">$${extended_price.toFixed(2)}</td>
+                                  </tr>
+                                  `);
+                                  }
+                                }
+                              };
+                              // Compute tax
+                              var tax_rate = 0.0475;
+                              var tax = tax_rate * subtotal;
+
+                              // Compute delivery
+                              if (subtotal <= 10) {
+                                delivery = 2;
+                              }
+                              else if (subtotal <= 30) {
+                                delivery = 5;
+                              }
+                              else {
+                                delivery = 0.05 * subtotal; // 5% of subtotal
+                              }
+                              // Compute grand total
+                              var grand_total = subtotal + tax + delivery;
+
+                            </script>
+                          </tbody>
+                        </table>
+
+                        <div class="col-xs-6 text-right pull-right invoice-total">
+                          <p>Subtotal : $
+                            <script>document.write(subtotal.toFixed(2));</script>
+                          </p>
+                          <p>Tax @ 4.75% : $
+                            <script>document.write(tax.toFixed(2));</script>
+                          </p>
+                          <p>Delivery : $
+                            <script>document.write(delivery.toFixed(2));</script>
+                          </p>
+                          <p><strong>Grand Total : $
+                              <script>document.write(grand_total.toFixed(2));</script>
+                            </strong> </p>
+                          <div class="total text-left">
+                          </div>
+
+                        <form action="/complete_purchase" method=POST>
+                          <input type=submit class="button" value="Send to My Email">
+                        </form>
+                        </div>
+
+</body>
+<div class="footer">
+  <p>&copy; Tiffany Young 2022</p>
+  <br>
+</div>
+
+</html>

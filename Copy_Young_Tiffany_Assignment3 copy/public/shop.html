@@ -42,8 +42,6 @@ assignment 3 code examples-->
       }
     }
   }
-
-
 </script>
 
 <head>
@@ -117,7 +115,7 @@ assignment 3 code examples-->
         <ul class="nav navbar-nav navbar-right">
           <!-- <li><a href="login.html" id="login"><span class="glyphicon glyphicon-user"></span> Account</a></li>-->
           <script>
-            if (getCookie('user_cookie') != false) {
+             if (getCookie('user_cookie') != false) {
               var user_cookie = JSON.parse(getCookie('user_cookie'));
               document.write(`<li><a href="/logout" id="login"><span class="glyphicon glyphicon-user"></span> Logout</a></li>`);
               login.onclick = function () {
@@ -126,7 +124,7 @@ assignment 3 code examples-->
             } else {
               document.write(`<li><a href="login.html" id="login"><span class="glyphicon glyphicon-user"></span> Account</a></li>`);
             }
-          </script>
+            </script>
           <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart (<span
                 id="cart_total">0</span>)</a></li>
         </ul>
@@ -135,7 +133,7 @@ assignment 3 code examples-->
   </nav>
   <main>
     <script>document.write(`<div class="container4"><h4><b>Welcome, ${user_cookie['fullname']}! </b><h4></div>`);</script>
-    <form name="quantity_form" action="./add_to_cart" method="POST">
+    
       <script>  cart_total.innerHTML = total; </script>
       <script>
         document.write(`<input type = "hidden" name="products_key" value="${products_key}">`);
@@ -146,36 +144,37 @@ assignment 3 code examples-->
                 <div class="row">
                     <div class="col-sm-4">
                       <div class="panel panel-primary">
+                      <div class="panel-heading">
+                      <form name="add_to_fav" action="./add_to_fav" method="POST"><button name="fav[${i}]_label" id="fav[${i}]_label" onclick="addToFav(this);">&star;</button></form>
                       
-                      <div class="panel-heading">${products[products_key][i].item}<button name="fav[${i}]_label" id="fav[${i}]_label" onclick="addToFav(this);">&star;</button></div>
+                      <form name="quantity_form" action="./add_to_cart" method="POST">
+                      ${products[products_key][i].item}</div>
                       <div class="panel-body"><img src="${products[products_key][i].image}" style="width:100%" class="img-responsive" alt="Image"></div>
                       <div class="panel-footer">
                         <p><strong>$${products[products_key][i].price.toFixed(2)}</strong></p>
                         <p id="quantity[${i}]_label">Quantity:</p>
                         <input type="text" placeholder="We have ${products[products_key][i].quantity_available} available" name="quantity[${i}]" id="quantity[${i}]" onkeyup="checkQuantityTextbox(this);">
-                        <h3><input type="submit" class="button" value="Add to Cart"></h3>
                         </div>
                   </div>
         </div>
-        
+        </form>
         `);
         }   
       </script>
-
-    </form>
+      <h3><input type="submit" class="button" value="Add to Cart"></h3>
+    
   </main>
 </body>
 <div class="footer">
   </br>
   <p>&copy; Tiffany Young 2022</p>
 </div>
-
 </html>
 <script>
-    function addToFav(the_fav) {
-    document.getElementById(the_fav.name + '_label').innerHTML = '&starf;';
-   /* if (document.getElementById(the_fav.name + '_label').innerHTML == '&starf;') {
-      document.getElementById(the_fav.name + '_label').innerHTML = '&star;';
-    }*/
-  }
+  function addToFav(the_fav) {
+  document.getElementById(the_fav.name + '_label').innerHTML = '&starf;';
+ /* if (document.getElementById(the_fav.name + '_label').innerHTML == '&starf;') {
+    document.getElementById(the_fav.name + '_label').innerHTML = '&star;';
+  }*/
+}
 </script>
