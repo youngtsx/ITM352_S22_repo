@@ -1,3 +1,4 @@
+
 <!-- AUTHOR: TIFFANY YOUNG S22-->
 <!DOCTYPE html>
 <html>
@@ -133,9 +134,10 @@ assignment 3 code examples-->
   </nav>
   <main>
     <script>document.write(`<div class="container4"><h4><b>Welcome, ${user_cookie['fullname']}! </b><h4></div>`);</script>
-    
+    <form name="quantity_form" action="./add_to_cart" method="POST">
       <script>  cart_total.innerHTML = total; </script>
       <script>
+        var favorite = {};
         document.write(`<input type = "hidden" name="products_key" value="${products_key}">`);
         for (i = 0; i < products[products_key].length; i++) { //modifed asst 3 example code
           document.write(`
@@ -144,25 +146,24 @@ assignment 3 code examples-->
                 <div class="row">
                     <div class="col-sm-4">
                       <div class="panel panel-primary">
-                      <div class="panel-heading">
-                      <form name="add_to_fav" action="./add_to_fav" method="POST"></form>
-                      <button name="fav[${i}]" id="fav[${i}]" onclick="addToFav(this);">&star;</button>
-                      <form name="quantity_form" action="./add_to_cart" method="POST">
-                      ${products[products_key][i].item}</div>
+
+                      <div class="panel-heading">${products[products_key][i].item}<button type="button" name="fav[${i}]" id="fav[${i}]" 
+                      onmousedown="addToFav(this)" onclick="document.cookie='favorite${i}=fav[${i}];expires=Wed, 18 Dec 2026 12:00:00 GMT'">&star;</button></div>
+
                       <div class="panel-body"><img src="${products[products_key][i].image}" style="width:100%" class="img-responsive" alt="Image"></div>
                       <div class="panel-footer">
                         <p><strong>$${products[products_key][i].price.toFixed(2)}</strong></p>
                         <p id="quantity[${i}]_label">Quantity:</p>
                         <input type="text" placeholder="We have ${products[products_key][i].quantity_available} available" name="quantity[${i}]" id="quantity[${i}]" onkeyup="checkQuantityTextbox(this);">
+                        <h3><input type="submit" class="button" value="Add to Cart"></h3>
                         </div>
                   </div>
         </div>
-        </form>
         `);
         }   
       </script>
-      <h3><input type="submit" class="button" value="Add to Cart"></h3>
-    
+      
+    </form>
   </main>
 </body>
 <div class="footer">
@@ -171,15 +172,14 @@ assignment 3 code examples-->
 </div>
 </html>
 <script>
-  if (getCookie('user_cookie') != false){
+  function addToFav(thefav) {
+    document.getElementById(thefav.name).innerHTML = '&starf;'
+ /*   
+  if (xxx) {
+      document.getElementById(thefav.name).innerHTML = '&starf;'
+  } else {
+    document.getElementById(thefav.name).innerHTML = '&star;'
+  }*/
     
   }
-  function addToFav(the_fav) {
-    var select_fav = document.getElementById(the_fav.name).innerHTML;
-    select_fav = '&starf;';
-
- if (document.getElementById(the_fav.name).innerHTML == '&starf;') {
-    document.getElementById(the_fav.name).innerHTML = '&star;';
-  }
-}
 </script>

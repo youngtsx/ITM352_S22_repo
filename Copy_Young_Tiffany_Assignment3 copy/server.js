@@ -54,9 +54,9 @@ app.post("/process_login", function (request, response) {
    //check if username exists, then if entered password matches, lab 13 ex3-4
    if (typeof users[user_email] != 'undefined') {
       //check if entered password matches the stored password
-      if (users[user_email].password == the_password) {
+      if (users[user_email].password == the_password) { //copied from momoka F20, changed the contents in the cookie
          var user_cookie = { "email": user_email, "fullname": users[user_email]['name'] };
-         response.cookie('user_cookie', JSON.stringify(user_cookie), { maxAge: 90 * 1000 }); // expires in 15 mins
+         response.cookie('user_cookie', JSON.stringify(user_cookie), { maxAge: 900 * 1000 }); // expires in 15 mins
          // back to the products
          response.redirect('./shop.html');
          return;
@@ -70,7 +70,7 @@ app.post("/process_login", function (request, response) {
    }
    //redirect to login with error message
    let params = new URLSearchParams(errors);
-   params.append('email', user_email); //put username into params
+   params.append('email', user_email); //put email into params
    response.redirect(`./login.html?` + params.toString());
 });
 
@@ -129,9 +129,6 @@ app.post("/register", function (request, response) {
 
       fs.writeFileSync(filename, JSON.stringify(users), "utf-8");
 
-      /* qty_data_obj['email'] = reg_email;
-       qty_data_obj['fullname'] = users[reg_email].name;
-       let params = new URLSearchParams(qty_data_obj);*/
       response.redirect('./login.html'); //all good! => to invoice w/data
    } else {
       request.body['registration_errors'] = JSON.stringify(registration_errors);
@@ -189,11 +186,7 @@ app.post("/newpw", function (request, response) { //form and nested if statement
       //Writes user information into file
       fs.writeFileSync(filename, JSON.stringify(users), "utf-8");
 
-      //Add email to query
-      qty_data_obj['email'] = login_email;
-      qty_data_obj['fullname'] = users[login_email].name;
-      let params = new URLSearchParams(qty_data_obj);
-      response.redirect('./login.html?' + params.toString()); //all good! => to invoice w/data
+      response.redirect('./login.html'); //all good! => to invoice w/data
       return;
    } else {
       //If there are errors, send back to page with errors
@@ -260,7 +253,7 @@ app.post('/add_to_cart', function (request, response, next) {
       if (!request.session.cart) { //create shopping cart
          request.session.cart = {};
       }
-      if (typeof request.session.cart[products_key] == 'undefined') {//make array for product
+      if (typeof request.session.cart[products_key] == 'undefined') {//make array for each product category
          request.session.cart[products_key] = [];
       }
       var quantities = request.body['quantity'].map(Number); // Get quantities from the form post and convert strings from form post to numbers
@@ -270,22 +263,7 @@ app.post('/add_to_cart', function (request, response, next) {
    }
 });
 
-app.post("/add_to_fav", function (request, response) {//taken from assignment 3 code examples
-   var products_key = request.body['products_key'];
-   if (!request.session.fav) { //create favorite object
-      request.session.fav = {};
-   }
-   if (typeof request.session.fav[products_key] == 'undefined') {//make array for fav products
-      request.session.fav[products_key] = [];
-   }
-   if (request.body[`fav`].innerHTML == '&starf;') {
-      request.session.fav[products_key] = request.body[`${products[products_key][i].item}`];
-      response.redirect('./shop.html?')
-      console.log(request.session.fav);
-   }
-});
-
-app.post("/update_cart", function (request, response) {
+app.post("/update_cart", function (request, response) { 
       for (let pkey in request.session.cart) { //loop through cart products
          for (let i in request.session.cart[pkey]) { //loop through product's selected quantity
             if (typeof request.body[`qty_${pkey}_${i}`] != 'undefined') {

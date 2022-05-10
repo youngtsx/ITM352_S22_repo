@@ -162,7 +162,13 @@
             </tbody>
           </table>
         </div>
+        <script>
+          if (getCookie(`favorite${i}`) != false) {
+            var favorite_cookie = JSON.parse(getCookie(`favorite${i}`));
 
+          }
+
+        </script>
         <!--  Shopping cart table  -->
         <div class="d-flex">
           <div class="text-right mt-4 mr-5">
@@ -183,6 +189,7 @@
               <div class="text-large"><strong>
                   <script>document.write(grand_total.toFixed(2))</script>
                 </strong></div>
+                <div></div>
                 <br>
                 <b>
                   <p>OUR DELIVERY POLICY IS :</p>
