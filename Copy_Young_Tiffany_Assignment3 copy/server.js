@@ -28,10 +28,7 @@ var nodemailer = require('nodemailer');
 var filename = 'user_data.json';
 
 //store the data from purchase 
-var qty_data_obj = {};
-
-/*user logged out
-var logged_in = false;*/
+//var qty_data_obj = {};
 
 //lab 13 ex2b
 if (fs.existsSync(filename)) {
@@ -57,6 +54,8 @@ app.post("/process_login", function (request, response) {
       if (users[user_email].password == the_password) { //copied from momoka F20, changed the contents in the cookie
          var user_cookie = { "email": user_email, "fullname": users[user_email]['name'] };
          response.cookie('user_cookie', JSON.stringify(user_cookie), { maxAge: 900 * 1000 }); // expires in 15 mins
+         request.session.email = request.body['email'].toLowerCase();
+         console.log(request.session.email)
          // back to the products
          response.redirect('./shop.html');
          return;
@@ -211,6 +210,9 @@ app.all('*', function (request, response, next) {
    if (typeof request.session.cart == 'undefined') {
       request.session.cart = {};
    }
+   if (typeof request.session.email == 'undefined') { //session for email
+      request.session.email = {};
+   }
    next();
 });
 
@@ -250,9 +252,6 @@ app.post('/add_to_cart', function (request, response, next) {
       return;
    }
    else {
-      if (!request.session.cart) { //create shopping cart
-         request.session.cart = {};
-      }
       if (typeof request.session.cart[products_key] == 'undefined') {//make array for each product category
          request.session.cart[products_key] = [];
       }
@@ -267,8 +266,8 @@ app.post("/update_cart", function (request, response) {
       for (let pkey in request.session.cart) { //loop through cart products
          for (let i in request.session.cart[pkey]) { //loop through product's selected quantity
             if (typeof request.body[`qty_${pkey}_${i}`] != 'undefined') {
-               // add/remove updated quantities from inventory
-               request.session.cart[pkey][i].quantity_available -= request.session.cart[pkey][i];
+               // add/remove updated quantities from inventory in the textbox
+               request.session.cart[pkey][i].quantity_available -= request.session.cart[pkey][i]; 
                // update cart data with new quantity
                request.session.cart[pkey][i] = Number(request.body[`qty_${pkey}_${i}`]);
                
@@ -296,9 +295,6 @@ app.get("/checkout", function (request, response) {
       response.redirect(`./cart.html`);
    }
 });
-app.post("/get_fav_data", function (request, response) {//taken from assignment 3 code examples
-   //response.json(request.session.fav);
-});
 
 app.post("/get_products_data", function (request, response) {//taken from assignment 3 code examples
    response.json(products);
@@ -311,14 +307,15 @@ app.post("/get_cart", function (request, response) {//taken from assignment 3 co
 
 app.post("/complete_purchase", function (request, response) {//taken from assignment 3 code examples
 // Generate HTML invoice string
+var sub_total = 0;
 var invoice_str = `Thank you for your order!<table border><th>Quantity</th><th>Item</th>`;
 var shopping_cart = request.session.cart;
-for(products_key in products) {
-  for(i=0; i< products[products_key].length; i++) {
-      if(typeof shopping_cart[products_key] == 'undefined') continue;
-      qty = shopping_cart[products_key][i];
+for(product_key in shopping_cart) {
+  for(i=0; i < shopping_cart[product_key].length; i++) {
+      if(typeof shopping_cart[product_key] == 'undefined') continue;
+      qty = shopping_cart[product_key][i];
       if(qty > 0) {
-        invoice_str += `<tr><td>${qty}</td><td>${products[products_key][i].name}</td><tr>`;
+        invoice_str += `<tr><td>${qty}</td><td>${products[product_key][i].item}</td><tr>`;;
       }
   }
 }
@@ -350,6 +347,7 @@ transporter.sendMail(mailOptions, function(error, info){
   }
   response.clearCookie("user_cookie"); //log out
   response.send(`<script>alert('Invoice has been sent'); location.href="/index.html"</script>`);
+  //response.send(invoice_str);
   request.session.destroy(); //clear cart
   
 });

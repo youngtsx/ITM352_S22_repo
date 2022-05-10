@@ -129,7 +129,8 @@
                       </div>
                     </td>
                     <td class="text-center font-weight-semibold align-middle p-4">\$${products[pkey][i].price.toFixed(2)}</td>
-                    <td class="align-middle p-4"><input type="number" id="qty_${pkey}_${i}" name="qty_${pkey}_${i}" class="form-control text-center" value="${quantities}" min="0" max="${products[pkey][i].quantity_available}"><input type="submit" class="btn btn-md btn-default md-btn-flat mt-2 mr-3" value="Update Cart"></td>
+                    <td class="align-middle p-4"><input type="number" id="qty_${pkey}_${i}" name="qty_${pkey}_${i}" class="form-control text-center" 
+                    value="${quantities}" min="0" max="${products[pkey][i].quantity_available}"><input type="submit" class="btn btn-md btn-default md-btn-flat mt-2 mr-3" value="Update Cart"></td>
                     <td class="text-center font-weight-semibold align-middle p-4">\$${extended_price.toFixed(2)}</td>
                   </tr>`)
                     }
