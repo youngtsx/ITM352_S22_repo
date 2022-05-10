@@ -1,0 +1,136 @@
+{
+    "Milk Tea": [
+        {
+            "item": "Black Milk Tea",
+            "price": 4.50,
+            "image": "./images/blackmilktea.jpg",
+            "quantity_available": 15
+        },
+        {
+            "item": "Wintermelon Milk Tea",
+            "price": 5.40,
+            "image": "./images/wintermelon.jpeg",
+            "quantity_available": 5
+        },
+        {
+            "item": "Brown Sugar Boba",
+            "price": 5.50,
+            "image": "./images/brownsugar.jpg",
+            "quantity_available": 10
+        },
+        {
+            "item": "Thai Tea",
+            "price": 4.00,
+            "image": "./images/thaitea.jpg",
+            "quantity_available": 6
+        },
+        {
+            "item": "Jasmine Milk Tea",
+            "price": 5.00,
+            "image": "./images/jasmine.jpg",
+            "quantity_available": 7
+        },
+        {
+            "item": "Honeydew Milk Tea",
+            "price": 5.50,
+            "image": "./images/honeydew.jpeg",
+            "quantity_available": 8
+        }
+    ],
+    "Smoothie": [
+        {
+            "item": "Taro Smoothie",
+            "price": 4.90,
+            "image": "./images/tarosmoothie.jpg",
+            "quantity_available": 16
+        },
+        {
+            "item": "Strawberry Smoothie",
+            "price": 5.50,
+            "image": "./images/strawberrysmoothie.jpg",
+            "quantity_available": 14
+        },
+        {
+            "item": "Mango Smoothie",
+            "price": 5.50,
+            "image": "./images/mango.jpg",
+            "quantity_available": 16
+        },
+        {
+            "item": "Avocado Smoothie",
+            "price": 6.50,
+            "image": "./images/avocado.jpeg",
+            "quantity_available": 5
+        },
+        {
+            "item": "Strawberry Banana Smoothie",
+            "price": 5.00,
+            "image": "./images/strawberrybanana.jpg",
+            "quantity_available": 9
+        },
+        {
+            "item": "Berry Smoothie",
+            "price": 5.50,
+            "image": "./images/berry.jpg",
+            "quantity_available": 12
+        }
+    ],
+    "Fruit Tea": [
+        {
+            "item": "Passionfruit Fruit Tea",
+            "price": 4.00,
+            "image": "./images/passionfruit.jpg",
+            "quantity_available": 19
+        },
+        {
+            "item": "Peach Lychee Tea",
+            "price": 4.00,
+            "image": "./images/peachlychee.jpg",
+            "quantity_available": 19
+        },
+        {
+            "item": "Mango Green Tea",
+            "price": 4.40,
+            "image": "./images/mangogreentea.jpg",
+            "quantity_available": 19
+        },
+        {
+            "item": "Strawberry Fruit Tea",
+            "price": 4.50,
+            "image": "./images/strawberryfruittea.jpg",
+            "quantity_available": 15
+        },
+        {
+            "item": "Black Lemon Tea",
+            "price": 4.50,
+            "image": "./images/blacklemon.jpg",
+            "quantity_available": 12
+        },
+        {
+            "item": "Kiwi Fruit Tea",
+            "price": 4.50,
+            "image": "./images/kiwi.jpg",
+            "quantity_available": 11
+        }
+    ],
+    "Cake": [
+        {
+            "item": "Signature Crepe Cake",
+            "price": 4.50,
+            "image": "./images/signature.jpg",
+            "quantity_available": 10
+        },
+        {
+            "item": "Matcha Crepe Cake",
+            "price": 4.50,
+            "image": "./images/matcha.jpg",
+            "quantity_available": 9
+        },
+        {
+            "item": "Chocolate Crepe Cake",
+            "price": 4.50,
+            "image": "./images/chocolate.jpg",
+            "quantity_available": 7
+        }
+    ]
+}
