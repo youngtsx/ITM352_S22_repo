@@ -263,9 +263,9 @@ app.post('/add_to_cart', function (request, response, next) {
 });
 
 app.post('/fav_to_cart', function (request, response, next) {
-   var products_key = request.body['products_key'];
-   var quantities = request.body['quantity'].map(Number); // Get quantities from the form post and convert strings from form post to numbers
-   request.session.cart[products_key] = quantities; // store the quantities array in the session cart object with the same products_key. 
+   var favorites = request.body['favorites'];
+   
+   request.session.favorite = favorites; // store the quantities array in the session cart object with the same products_key. 
    response.redirect('./cart.html');
 });
 
@@ -273,9 +273,7 @@ app.post("/update_cart", function (request, response) {
    for (let pkey in request.session.cart) { //loop through cart products
       for (let i in request.session.cart[pkey]) { //loop through product's selected quantity
          if (typeof request.body[`qty_${pkey}_${i}`] != 'undefined') {
-            // add/remove updated quantities from inventory in the textbox
-            request.session.cart[pkey][i].quantity_available -= request.session.cart[pkey][i];
-            // update cart data with new quantity
+            // update cart data
             request.session.cart[pkey][i] = Number(request.body[`qty_${pkey}_${i}`]);
 
          }
@@ -334,7 +332,7 @@ app.post("/get_cart", function (request, response) {//taken from assignment 3 co
 
 app.post("/complete_purchase", function (request, response) {//taken from assignment 3 code examples
    // Generate HTML invoice string
-   var sub_total = 0;
+   subtotal = 0;
    var invoice_str = `Thank you for your order!
 <table border><th style="width:10%">Item</th>
 <th class="text-right" style="width:15%">Quantity</th>
@@ -346,7 +344,7 @@ app.post("/complete_purchase", function (request, response) {//taken from assign
          if (typeof shopping_cart[product_key] == 'undefined') continue;
          qty = shopping_cart[product_key][i];
          let extended_price = qty * products[product_key][i].price;
-         sub_total += extended_price;
+         subtotal += extended_price;
          if (qty > 0) {
             invoice_str += `<tr><td>${products[product_key][i].item}</td>
             <td>${qty}</td>
@@ -356,7 +354,29 @@ app.post("/complete_purchase", function (request, response) {//taken from assign
          }
       }
    }
-   invoice_str += '</table>';
+   // Compute tax
+   var tax_rate = 0.0475;
+   var tax = tax_rate * subtotal;
+
+   // Compute delivery
+   if (subtotal <= 10) {
+      delivery = 2;
+   }
+   else if (subtotal <= 30) {
+      delivery = 5;
+   }
+   else {
+      delivery = 0.05 * subtotal; // 5% of subtotal
+   }
+   // Compute grand total
+   var grand_total = subtotal + tax + delivery;
+   
+   invoice_str += `<tr>
+                     <tr><td colspan="4" align="right">Subtotal: $${subtotal.toFixed(2)}</td></tr>
+                     <tr><td colspan="4" align="right">Delivery: $${delivery.toFixed(2)}</td></tr>
+                     <tr><td colspan="4" align="right">Tax: $${tax.toFixed(2)}</td></tr>
+                     <tr><td colspan="4" align="right">Grand Total: $${grand_total.toFixed(2)}</td></tr>
+                  </table>`;
    // Set up mail server. Only will work on UH Network due to security restrictions
    var transporter = nodemailer.createTransport({
       host: "mail.hawaii.edu",
