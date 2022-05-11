@@ -262,13 +262,6 @@ app.post('/add_to_cart', function (request, response, next) {
    }
 });
 
-app.post('/fav_to_cart', function (request, response, next) {
-   var favorites = request.body['favorites'];
-   
-   request.session.favorite = favorites; // store the quantities array in the session cart object with the same products_key. 
-   response.redirect('./cart.html');
-});
-
 app.post("/update_cart", function (request, response) {
    for (let pkey in request.session.cart) { //loop through cart products
       for (let i in request.session.cart[pkey]) { //loop through product's selected quantity
@@ -310,6 +303,10 @@ app.post("/get_favorites", function (request, response) {//help from professor p
       request.session.favorite = {};
    }
    response.json(request.session.favorite);
+});
+
+app.post("/fav_to_cart", function (request, response) {//?????
+
 });
 
 app.post("/add_to_fav", function (request, response) {//help from professor port

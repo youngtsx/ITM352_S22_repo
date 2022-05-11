@@ -169,7 +169,7 @@
         <table>
           </form>
           <tr>
-            <th>Favorited Items:</th>
+            <th><b>FAVORITED ITEMS:</b></th>
             <th></th>
           </tr>
           <form action="./fav_to_cart" method="POST">
@@ -177,19 +177,17 @@
               for (let products_key in favorites) {
                 if (typeof favorites[products_key] != 'undefined') {
                   for (let i in favorites[products_key]) {
-                    extended_price = favorites[products_key][i] * products[products_key][i].price
-                    subtotal += extended_price;
                     document.write(`<tr><td><img src="${products[products_key][i].image}"
                           class="d-block ui-w-40 ui-bordered mr-4" alt=""></td>
                               <td>${products[products_key][i].item}</td>
                               <td>\$${products[products_key][i].price}</td>
-                              <td><input type="number" value="1" min="0" max="${products[products_key][i].quantity_available}" name="quantity[${i}]" id="quantity[${i}]"></td><td>
+                              <td><input type="number" value="1" min="0" max="${products[products_key][i].quantity_available}"></td><td>
                                 <input type="submit" class="btn btn-md btn-default md-btn-flat mt-2 mr-3" value="Add To Cart"></td></tr>`);
                   }
                 }
               }
             </script>
-          </form>
+            </form>
           </tr>
         </table>
         <!--  Shopping cart table  -->
