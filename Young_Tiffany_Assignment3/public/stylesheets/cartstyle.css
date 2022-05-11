@@ -1,15 +1,66 @@
 body {
     background: rgb(250, 233, 233);
-    margin-top: 20px;
 }
-
-/* for logo text on left part of header*/
+/*tiffany's boba shop*/
+#logo {
+    border: 1px solid #ddd;
+     /* Gray border */
+    border-radius: 4px;
+    /* Rounded border */
+    padding: 1px;
+    /* Some padding */
+    width: 150px;
+     /* Set a small width */
+}
+/*color of logo text*/
 #logotext {
     color: rgb(250, 233, 233);
     padding: 15px 15px 15px 0px;
 }
+input[type=checkbox], input[type=radio] {
+    margin-left: 10px;
+}
 
-/* Add a hover effect (blue shadow) */
+.text-right {
+    text-align: right;
+    object-fit: contain;
+    max-height: 120px;
+}
+
+h3 {
+     margin-top: 10px;
+     margin-bottom: 360px;
+}
+
+p {
+    margin: 0 0 10px;
+    text-align: left;
+    position: relative;
+    top: -155px;
+}
+
+div.delivery {
+    position: relative;
+}
+
+.table>tbody>tr>td {
+    vertical-align: middle;
+}
+
+.btn-default {
+    margin-top: 5px;
+    margin-left: 11px;
+}
+
+input[type=button].btn-block {
+    padding: 8px;
+    margin: 5px;
+    font-size: large;
+    width: 17%;
+    float: right;
+}
+
+    /* Add a hover effect (black shadow) */
 img:hover {
     box-shadow: 0 0 5px 1px black;
 }

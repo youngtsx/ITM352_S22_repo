@@ -4,42 +4,19 @@
     and reece nagaoka f21 and momoka michimoto (and looked at li xinfei for inspiration) -->
 <script src="./products.js" type="text/javascript"></script>
 <script src="/user_data.json" type="json"></script>
-<script src="./functions.js"></script>
+
 <script>
   let params = (new URL(document.location)).searchParams; //takes data from querystring
   var quantities = []; //gets quantities to store
   if (params.has('quantity')) {
     quantities = JSON.parse(params.get(`quantity`)); //params gets quantity from purchase, parses string into a json object
   }
-
-  loadJSON('./get_cart', function (response) {
-    // Parsing JSON string into object
-    shopping_cart = JSON.parse(response);
-  });
-
-  function getCookie(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
-    }
-    return "";
-  }
-  // if user is not logged in, send them to login
-  if (getCookie('user_cookie') != '') {
-    var user_cookie = JSON.parse(getCookie('user_cookie'));
-    var name = user_cookie['fullname'];
-    var email = user_cookie['email'];
+//name is wrong, back to login, function below and line 64-68 borrowed from li xinfei.
+  //var email = [];
+  if (params.has('fullname')) {
+    var fullname = params.get(`fullname`);
   } else {
-    location.href = './login.html';
-    window.stop;
+    window.location.href = "./login.html";
   }
 </script>
 
@@ -60,17 +37,40 @@
 </head>
 
 <body>
+  
 
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li id="logotext">Tiffany's Boba Shop</li>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html">Products</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="update_info.html"><span class="glyphicon glyphicon-user"></span> Account</a></li>
+          <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
   <script> //borrowed from li xinfei F21 | gets full name and displays it
-    if (name != 'undefined' && name != '') {
-      document.write(`<div class="center"><h4><b>Mahalo, ${name}! Here is your invoice:</b><h4></div>`)
+      if (fullname != 'undefined' && fullname != '') {
+      document.write(`<div class="center"><h4><b>Mahalo, ${fullname}!</b><h4></div>`)
     }
   </script>
   <table class="body-wrap">
     <tbody>
       <tr>
         <td></td>
-        <td class="container" width="500">
+        <td class="container" width="600">
           <div class="content">
             <table class="main" width="100%" cellpadding="0" cellspacing="0">
               <tbody>
@@ -82,7 +82,7 @@
                           <thead>
                           <tbody>
                             <tr>
-                              <th style="width:10%">Item</th>
+                              <th style="width:20%">Item</th>
                               <th class="text-right" style="width:15%">Quantity</th>
                               <th class="text-right" style="width:15%">Price</th>
                               <th class="text-right" style="width:15%">Extended Price</th>
@@ -92,22 +92,18 @@
                               // Compute sub-total
                               var subtotal = 0;
 
-                              for (let pkey in shopping_cart) { //same as cart
-                                for (let i in shopping_cart[pkey]) {
-                                  let quantities = shopping_cart[pkey][i];
-                                  if (quantities > 0) {
-                                    // product row
-                                    extended_price = quantities * products[pkey][i].price
-                                    subtotal += extended_price;
-                                    document.write(`
+                              for (i = 0; i < products.length; i++) {
+                                if (quantities[i] > 0) {
+                                  extended_price = quantities[i] * products[i].price;
+                                  subtotal += extended_price;
+                                  document.write(`
                                   <tr>
-			                              <td>${products[pkey][i].item}</td>
-			                              <td class="text-right">${quantities}</td>
-			                              <td class="text-right">$${products[pkey][i].price.toFixed(2)}</td>
+			                              <td>${products[i].item}</td>
+			                              <td class="text-right">${quantities[i]}</td>
+			                              <td class="text-right">$${products[i].price}</td>
 			                              <td class="text-right">$${extended_price.toFixed(2)}</td>
                                   </tr>
                                   `);
-                                  }
                                 }
                               };
                               // Compute tax
@@ -126,11 +122,9 @@
                               }
                               // Compute grand total
                               var grand_total = subtotal + tax + delivery;
-
                             </script>
                           </tbody>
                         </table>
-
                         <div class="col-xs-6 text-right pull-right invoice-total">
                           <p>Subtotal : $
                             <script>document.write(subtotal.toFixed(2));</script>
@@ -145,13 +139,18 @@
                               <script>document.write(grand_total.toFixed(2));</script>
                             </strong> </p>
                           <div class="total text-left">
+                            <br>
+                            <b>
+                              <p>OUR DELIVERY POLICY IS :</p></b>
+                              <p>A subtotal $0 - $9.99 will be $2 fee</p> 
+                              <p>A subtotal $10 - $29.99 will be $5 fee</p>
+                              <p>Subtotals over $30 will be charged 5% of the subtotal amount </p>
+                              <p>All orders will not be able to be cancelled after order confirmation. <br> If you feel your experience with us has been unsatisfactory, contact us at itm352@hawaii.edu</p>
+                            
                           </div>
-
-                        <form action="/complete_purchase" method=POST>
-                          <input type=submit class="button" value="Send to My Email">
+                          <form action="/complete_purchase" method=POST>
+                            <input type=submit class="button" value="Send to My Email">
                         </form>
-                        </div>
-
 </body>
 <div class="footer">
   <p>&copy; Tiffany Young 2022</p>

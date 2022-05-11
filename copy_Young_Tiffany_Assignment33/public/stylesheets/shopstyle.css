@@ -28,50 +28,31 @@ body>.item>.row {
         max-width: 50px;
         height: 750px;
 }
-
-#fav {
-        font-size: 20px;
-        float: right;
-        margin: 0px;
-        top: -4px;
-        position:relative;
-}
-
 .panel-footer {
         margin-bottom: 10px;
 }
 
 /* styling the item headers*/
-.panel-heading {
+.panel-primary>.panel-heading {
         background-color: rgb(178, 209, 245);
 }
 .panel-heading {
         text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
         font-size: 15px;
         text-align: center;
-        font-weight: 400;
 }
 /* Add a hover effect (blue shadow) */
 img:hover {
             box-shadow: 0 0 5px 1px black;
 }
 
-h4 {
-        margin-left: 45%;
-        margin-bottom: 25px;
-}
-button {
-        background-color: rgb(178, 209, 245);
-        border-width: 1px;
-        border-color: white;
-}
-
 /*purchase button*/
 .button {
         background-color: white;
-        padding: 10px 30px;
-        border-width: 1px;
-
+        bottom: 80px;
+        left: 1050px;
+        padding: 12px 28px;
+        margin-left: 15px;
 
 }
 .button:hover {
@@ -87,9 +68,8 @@ button {
 .footer {
         background-color: #f2f2f2;
         text-align: center;
-        margin-top: 34px;
-        padding-top: 19x;
-        padding-bottom: 15px;
+        padding-top: 20px;
+        padding-bottom: 0px;
         width: 100%;
         /*position not fixed so it doesn't block the products x_x */
         left: 0;

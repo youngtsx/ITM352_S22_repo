@@ -18,16 +18,17 @@ app.use(session({ secret: "MySecretKey", resave: true, saveUninitialized: true }
 
 //get cookie
 var cookieParser = require('cookie-parser');
+const { request } = require('http');
 app.use(cookieParser());
+
+//node mailer
+var nodemailer = require('nodemailer');
 
 //user data file
 var filename = 'user_data.json';
 
 //store the data from purchase 
-var qty_data_obj = {};
-
-/*user logged out
-var logged_in = false;*/
+//var qty_data_obj = {};
 
 //lab 13 ex2b
 if (fs.existsSync(filename)) {
@@ -50,17 +51,13 @@ app.post("/process_login", function (request, response) {
    //check if username exists, then if entered password matches, lab 13 ex3-4
    if (typeof users[user_email] != 'undefined') {
       //check if entered password matches the stored password
-      if (users[user_email].password == the_password) {
-         //matches
-         qty_data_obj['email'] = user_email;
-         qty_data_obj['fullname'] = users[user_email].name;
-         //direct to invoice page **need to keep data
-         let params = new URLSearchParams(qty_data_obj);
-         response.redirect('./invoice.html?' + params.toString());
-         // remove quantities purchased from inventory quantities
-         for (i in products) {
-            products[products_key][i].quantity_available -= Number(quantities[i]);
-         }
+      if (users[user_email].password == the_password) { //copied from momoka F20, changed the contents in the cookie
+         var user_cookie = { "email": user_email, "fullname": users[user_email]['name'] };
+         response.cookie('user_cookie', JSON.stringify(user_cookie), { maxAge: 900 * 1000 }); // expires in 15 mins
+         request.session.email = request.body['email'].toLowerCase();
+         console.log(request.session.email)
+         // back to the products
+         response.redirect('./shop.html');
          return;
       } else {
          //doesn't match
@@ -72,7 +69,7 @@ app.post("/process_login", function (request, response) {
    }
    //redirect to login with error message
    let params = new URLSearchParams(errors);
-   params.append('email', user_email); //put username into params
+   params.append('email', user_email); //put email into params
    response.redirect(`./login.html?` + params.toString());
 });
 
@@ -121,7 +118,7 @@ app.post("/register", function (request, response) {
       registration_errors['fullname'] = `Please enter less than 30 characters`;
    }
 
-   //assignment 2 code examples
+   //assignment 2 code examples         Need to change this to route to login, also HOW TO GO TO Cart (checkout) => Login => INVOICE
    //save new registration data to user_data.json
    if (Object.keys(registration_errors).length == 0) {
       console.log('no registration errors')//store user data in json file
@@ -131,14 +128,11 @@ app.post("/register", function (request, response) {
 
       fs.writeFileSync(filename, JSON.stringify(users), "utf-8");
 
-      qty_data_obj['email'] = reg_email;
-      qty_data_obj['fullname'] = users[reg_email].name;
-      let params = new URLSearchParams(qty_data_obj);
-      response.redirect('./invoice.html?' + params.toString()); //all good! => to invoice w/data
+      response.redirect('./login.html'); //all good! => to invoice w/data
    } else {
       request.body['registration_errors'] = JSON.stringify(registration_errors);
       let params = new URLSearchParams(request.body);
-      response.redirect("./registration.html?" + params.toString());
+      response.redirect("./registration.html" + params.toString());
    }
 });
 
@@ -191,11 +185,7 @@ app.post("/newpw", function (request, response) { //form and nested if statement
       //Writes user information into file
       fs.writeFileSync(filename, JSON.stringify(users), "utf-8");
 
-      //Add email to query
-      qty_data_obj['email'] = login_email;
-      qty_data_obj['fullname'] = users[login_email].name;
-      let params = new URLSearchParams(qty_data_obj);
-      response.redirect('./login.html?' + params.toString()); //all good! => to invoice w/data
+      response.redirect('./login.html'); //all good! => to invoice w/data
       return;
    } else {
       //If there are errors, send back to page with errors
@@ -215,47 +205,198 @@ app.get("/products.js", function (request, response, next) {
 // monitor all requests
 app.all('*', function (request, response, next) {
    console.log(request.method + ' to ' + request.path);
+   // make session cart at any request
+   // anytime it's used
+   if (typeof request.session.cart == 'undefined') {
+      request.session.cart = {};
+   }
+   if (typeof request.session.email == 'undefined') { //session for email
+      request.session.email = {};
+   }
    next();
 });
 
-app.post("/get_products_data", function (request, response) {
-   response.json(products);
-});
-
-/*            PURCHASE              */
+/*                        add to cart                            */
 // process purchase request (validate quantities, check quantity available)
-app.post('/process_form', function (request, response, next) {
+app.post('/add_to_cart', function (request, response, next) {
 
    //assume no errors or no quantity
    var products_key = request.body['products_key'];
    var errors = {};
-   var check_quantities = true;
+   var check_quantities = false;
+   //var no_quantities = true;
    //check for NonNegInt
-   for (let i in products[products_key]) {
-      var quantities = request.body['quantity'][i];
-      if (isNonNegInt(quantities) == false) { //check i quantity
+   for (i in products[products_key]) {
+      var quantities = request.body['quantity'];
+      if (isNonNegInt(quantities[i]) == false) { //check i quantity
          errors['quantity_' + i] = `Please choose a valid quantity for ${products[products_key][i].item}.`;
       }
-      if (quantities > products[products_key][i].quantity_available) { //check if quantity is available
-         errors['quantity_available' + i] = `We don't have ${quantities} ${products[products_key][i].item} available.`;
+      if (quantities[i] > 0) { //check if any quantity is selected
+         check_quantities = true;
       }
-      if (request.body['quantity'][i] > 0) { //check if no quantity selected
-         check_quantities = false;
-      } else if ((typeof errors['quantity_' + i] != 'undefined') && (check_quantities = false)) {
-         errors['no_quantities'] = `Please select a quantity`;
+      if (quantities[i] > products[products_key][i].quantity_available) { //check if quantity is available
+         errors['quantity_available' + i] = `We don't have ${(quantities[i])} ${products[products_key][i].item} available.`;
       }
    }
+   /* Check to see if quantity is selected */
+   if (!check_quantities) {
+      errors['no_quantities'] = `Please select a quantity`;
+   }
+   let params = new URLSearchParams();
+   params.append('products_key', products_key);
+   //ask if the object is empty or not
+   if (Object.keys(errors).length > 0) {//if i have errors, take the errors and go back to products_display.html
 
-   if (Object.keys(errors).length > 0) {
-      let params = new URLSearchParams();
-      params.append('errMsg', JSON.stringify(errors));
-      response.redirect(`./shop.html?` + params.toString());
+      params.append('errors', JSON.stringify(errors));
+      response.redirect('./shop.html?' + params.toString());
       return;
-   } else {
-      //placeholder
-      response.redirect('login.html');
    }
+   else {
+      if (typeof request.session.cart[products_key] == 'undefined') {//make array for each product category
+         request.session.cart[products_key] = [];
+      }
+      var quantities = request.body['quantity'].map(Number); // Get quantities from the form post and convert strings from form post to numbers
+      request.session.cart[products_key] = quantities; // store the quantities array in the session cart object with the same products_key. 
+      response.redirect('./cart.html');
+      console.log(request.session.cart);
+   }
+});
 
+app.post('/fav_to_cart', function (request, response, next) {
+   var products_key = request.body['products_key'];
+   var quantities = request.body['quantity'].map(Number); // Get quantities from the form post and convert strings from form post to numbers
+   request.session.cart[products_key] = quantities; // store the quantities array in the session cart object with the same products_key. 
+   response.redirect('./cart.html');
+});
+
+app.post("/update_cart", function (request, response) {
+   for (let pkey in request.session.cart) { //loop through cart products
+      for (let i in request.session.cart[pkey]) { //loop through product's selected quantity
+         if (typeof request.body[`qty_${pkey}_${i}`] != 'undefined') {
+            // add/remove updated quantities from inventory in the textbox
+            request.session.cart[pkey][i].quantity_available -= request.session.cart[pkey][i];
+            // update cart data with new quantity
+            request.session.cart[pkey][i] = Number(request.body[`qty_${pkey}_${i}`]);
+
+         }
+      }
+   }
+   response.redirect("./cart.html"); // goes to shopping cart
+});
+
+app.get("/checkout", function (request, response) {
+   var errors = {};//check errors
+   if (typeof request.cookie["email"] == 'undefined') { //check if logged in by checking for the cookie
+      response.redirect(`./login.html`);
+      return;
+   }
+   if (JSON.stringify(errors) === '{}') { //error object is empty => to invoice
+      // send to invoice.html 
+      let login_email = request.cookie['email'];
+      //put their username and email in the URL/string
+      let params = new URLSearchParams();
+      params.append('fullname', users[login_email]['fullname']); //append fullname in order to get it for the personalization
+      response.redirect(`./invoice.html?` + params.toString()); //direct to invoice
+      console.log(user_cookie);
+   } else {
+      response.redirect(`./cart.html`);
+   }
+});
+
+app.post("/get_products_data", function (request, response) {//taken from assignment 3 code examples
+   response.json(products);
+});
+
+app.post("/get_favorites", function (request, response) {//help from professor port
+   if (typeof request.session.favorite == 'undefined') {
+      request.session.favorite = {};
+   }
+   response.json(request.session.favorite);
+});
+
+app.post("/add_to_fav", function (request, response) {//help from professor port
+   if (typeof request.session.favorite == 'undefined') {
+      request.session.favorite = {};
+   }
+   if (typeof request.session.favorite[request.query.pkey] == 'undefined') {//help from professor port
+      request.session.favorite[request.query.pkey] = [];
+   }
+   request.session.favorite[request.query.pkey][request.query.pindex] = (request.query.favorite.toLowerCase() === 'true');
+   response.json({});
+   console.log(request.session.favorite);
+});
+
+
+app.post("/get_cart", function (request, response) {//taken from assignment 3 code examples
+   response.json(request.session.cart);
+   console.log(request.session.cart);
+});
+
+app.post("/complete_purchase", function (request, response) {//taken from assignment 3 code examples
+   // Generate HTML invoice string
+   var sub_total = 0;
+   var invoice_str = `Thank you for your order!
+<table border><th style="width:10%">Item</th>
+<th class="text-right" style="width:15%">Quantity</th>
+<th class="text-right" style="width:15%">Price</th>
+<th class="text-right" style="width:15%">Extended Price</th>`;
+   var shopping_cart = request.session.cart;
+   for (product_key in shopping_cart) {
+      for (i = 0; i < shopping_cart[product_key].length; i++) {
+         if (typeof shopping_cart[product_key] == 'undefined') continue;
+         qty = shopping_cart[product_key][i];
+         let extended_price = qty * products[product_key][i].price;
+         sub_total += extended_price;
+         if (qty > 0) {
+            invoice_str += `<tr><td>${products[product_key][i].item}</td>
+            <td>${qty}</td>
+            <td>${products[product_key][i].price}</td>
+            <td>${extended_price}
+            <tr>`;
+         }
+      }
+   }
+   invoice_str += '</table>';
+   // Set up mail server. Only will work on UH Network due to security restrictions
+   var transporter = nodemailer.createTransport({
+      host: "mail.hawaii.edu",
+      port: 25,
+      secure: false, // use TLS
+      tls: {
+         // do not fail on invalid certs
+         rejectUnauthorized: false
+      }
+   });
+
+   var user_email = request.session.email;
+   var mailOptions = {
+      from: 'tyoung24@hawaii.edu',
+      to: user_email,
+      subject: 'Your invoice from Tiffany\'s Boba shop',
+      html: invoice_str
+   };
+
+   transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+         invoice_str += '<br>There was an error and your invoice could not be emailed :(';
+      } else {
+         invoice_str += `<br>Your invoice was mailed to ${user_email}`;
+      }
+      response.clearCookie("user_cookie"); //log out
+      response.send(`<script>alert('Invoice has been sent'); location.href="/index.html"</script>`);
+      //response.send(invoice_str);
+      request.session.destroy(); //clear cart
+
+   });
+
+});
+
+//logout button
+app.get("/logout", function (request, response, next) {
+   response.clearCookie("user_cookie");
+   request.session.destroy();
+   //redirect to the index.html page when user logs out
+   response.send(`<script>alert('Logged Out'); location.href="/index.html"</script>`);
 });
 
 // route all other GET requests to files in public 
