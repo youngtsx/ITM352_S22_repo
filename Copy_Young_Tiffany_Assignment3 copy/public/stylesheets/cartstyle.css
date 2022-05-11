@@ -17,6 +17,9 @@ body {
     color: rgb(250, 233, 233);
     padding: 15px 15px 15px 0px;
 }
+input[type=checkbox], input[type=radio] {
+    margin-left: 10px;
+}
 
 .text-right {
     text-align: right;

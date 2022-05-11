@@ -41,6 +41,15 @@ assignment 3 code examples-->
         checkQuantityTextbox(quantity_form[`quantity[${i}]`]);// and checks it
       }
     }
+    loadJSON('./get_favorites', function (response) {
+      // Parsing JSON string into object
+      favorites = JSON.parse(response);
+      if (typeof favorites[products_key] != 'undefined') {
+        for (let i in favorites[products_key]) {
+          document.getElementById(`fav${i}`).checked = favorites[products_key][i];
+        }
+      }
+    });
   }
 </script>
 
@@ -56,7 +65,7 @@ assignment 3 code examples-->
       products_key = "Milk Tea" //auto direct to milk tea page
     }
     var products;
-    loadJSON('get_products_data', function (response) {
+    loadJSON('./get_products_data', function (response) {
       // Parsing JSON string into object
       products = JSON.parse(response);
     });
@@ -67,6 +76,7 @@ assignment 3 code examples-->
         total += shopping_cart[pk].reduce((a, b) => a + b);
       }
     });
+
     function getCookie(cname) { //w3schools cookies
       let name = cname + "=";
       let decodedCookie = decodeURIComponent(document.cookie);
@@ -115,7 +125,7 @@ assignment 3 code examples-->
         <ul class="nav navbar-nav navbar-right">
           <!-- <li><a href="login.html" id="login"><span class="glyphicon glyphicon-user"></span> Account</a></li>-->
           <script>
-             if (getCookie('user_cookie') != false) {
+            if (getCookie('user_cookie') != false) {
               var user_cookie = JSON.parse(getCookie('user_cookie'));
               document.write(`<li><a href="/logout" id="login"><span class="glyphicon glyphicon-user"></span> Logout</a></li>`);
               login.onclick = function () {
@@ -124,7 +134,7 @@ assignment 3 code examples-->
             } else {
               document.write(`<li><a href="login.html" id="login"><span class="glyphicon glyphicon-user"></span> Account</a></li>`);
             }
-            </script>
+          </script>
           <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart (<span
                 id="cart_total">0</span>)</a></li>
         </ul>
@@ -146,8 +156,8 @@ assignment 3 code examples-->
                     <div class="col-sm-4">
                       <div class="panel panel-primary">
 
-                      <div class="panel-heading">${products[products_key][i].item}<button type="button" name="fav[${i}]" id="fav[${i}]" 
-                      onmousedown="addToFav(this)" onclick="document.cookie='favorite${i}=fav[${i}];expires=Wed, 18 Dec 2026 12:00:00 GMT'">&star;</button></div>
+                      <div class="panel-heading">${products[products_key][i].item}<input type="checkbox" name="fav[${i}]" id="fav${i}" 
+                      onclick="addToFav('${products_key}','${i}', this)"></div>
 
                       <div class="panel-body"><img src="${products[products_key][i].image}" style="width:100%" class="img-responsive" alt="Image"></div>
                       <div class="panel-footer">
@@ -159,10 +169,10 @@ assignment 3 code examples-->
                   </div>
         </div>
         `);
-        }   
-        
+        }
+
       </script>
-      
+
     </form>
   </main>
 </body>
@@ -170,16 +180,14 @@ assignment 3 code examples-->
   </br>
   <p>&copy; Tiffany Young 2022</p>
 </div>
+
 </html>
 <script>
-  function addToFav(thefav) {
-    document.getElementById(thefav.name).innerHTML = '&starf;'
- /*   
-  if (xxx) {
-      document.getElementById(thefav.name).innerHTML = '&starf;'
-  } else {
-    document.getElementById(thefav.name).innerHTML = '&star;'
-  }*/
-    
+  function addToFav(pkey, pindex, fav) {
+    console.log(pkey, pindex, fav.checked);
+
+    loadJSON(`./add_to_fav?pkey=${pkey}&pindex=${pindex}&favorite=${fav.checked}`, function (response) {
+
+    });
   }
 </script>
