@@ -1,16 +1,13 @@
 /* AUTHOR: TIFFANY YOUNG S22 
    server for ecommerce website*/
-/*referenced assignment 2 code examples, reece nagaoka F21, momoka michimotoF21, lab 12
- (and looked at li xinfeiF21 & joshua chun for inspiration)*/
+/*referenced assignment 2 + 3 code examples, reece nagaoka F21 + momoka michimotoF21 for inspiration, lab 12
+and help from professor port for IR4(add to favorites) */
 
 /*load product data*/
 var products = require(__dirname + '/products.json');
 var express = require('express');
 var app = express();
 var fs = require('fs')
-
-/* Initialize QueryString package
-const qs = require('query-string'); */
 
 //get session
 var session = require('express-session');
@@ -26,9 +23,6 @@ var nodemailer = require('nodemailer');
 
 //user data file
 var filename = 'user_data.json';
-
-//store the data from purchase 
-//var qty_data_obj = {};
 
 //lab 13 ex2b
 if (fs.existsSync(filename)) {
@@ -51,8 +45,8 @@ app.post("/process_login", function (request, response) {
    //check if username exists, then if entered password matches, lab 13 ex3-4
    if (typeof users[user_email] != 'undefined') {
       //check if entered password matches the stored password
-      if (users[user_email].password == the_password) { //copied from momoka F20, changed the contents in the cookie
-         var user_cookie = { "email": user_email, "fullname": users[user_email]['name'] };
+      if (users[user_email].password == the_password) { 
+         var user_cookie = { "email": user_email, "fullname": users[user_email]['name'] }; //modeled the cookie and response from chloekam line152. Added the session email for invoice use
          response.cookie('user_cookie', JSON.stringify(user_cookie), { maxAge: 900 * 1000 }); // expires in 15 mins
          request.session.email = request.body['email'].toLowerCase();
          console.log(request.session.email)
@@ -207,7 +201,7 @@ app.all('*', function (request, response, next) {
    console.log(request.method + ' to ' + request.path);
    // make session cart at any request
    // anytime it's used
-   if (typeof request.session.cart == 'undefined') {
+   if (typeof request.session.cart == 'undefined') { //cart
       request.session.cart = {};
    }
    if (typeof request.session.email == 'undefined') { //session for email
@@ -218,13 +212,13 @@ app.all('*', function (request, response, next) {
 
 /*                        add to cart                            */
 // process purchase request (validate quantities, check quantity available)
+//modified from purchase from asst2 server
 app.post('/add_to_cart', function (request, response, next) {
 
    //assume no errors or no quantity
    var products_key = request.body['products_key'];
-   var errors = {};
+   var errors = {}; // empty
    var check_quantities = false;
-   //var no_quantities = true;
    //check for NonNegInt
    for (i in products[products_key]) {
       var quantities = request.body['quantity'];
@@ -238,12 +232,12 @@ app.post('/add_to_cart', function (request, response, next) {
          errors['quantity_available' + i] = `We don't have ${(quantities[i])} ${products[products_key][i].item} available.`;
       }
    }
-   /* Check to see if quantity is selected */
+   //check if quantity is selected
    if (!check_quantities) {
       errors['no_quantities'] = `Please select a quantity`;
    }
    let params = new URLSearchParams();
-   params.append('products_key', products_key);
+   params.append('products_key', products_key); //for cart page
    //ask if the object is empty or not
    if (Object.keys(errors).length > 0) {//if i have errors, take the errors and go back to products_display.html
 
@@ -265,9 +259,9 @@ app.post('/add_to_cart', function (request, response, next) {
 app.post("/update_cart", function (request, response) {
    for (let pkey in request.session.cart) { //loop through cart products
       for (let i in request.session.cart[pkey]) { //loop through product's selected quantity
-         if (typeof request.body[`qty${pkey}${i}`] != 'undefined') {
+         if (typeof request.body[`qty${pkey}${i}`] != 'undefined') { //get quantity input
             // update cart data
-            request.session.cart[pkey][i] = Number(request.body[`qty${pkey}${i}`]);
+            request.session.cart[pkey][i] = Number(request.body[`qty${pkey}${i}`]); //assign quantity to product key and index
 
          }
       }
@@ -275,7 +269,24 @@ app.post("/update_cart", function (request, response) {
    response.redirect("./cart.html"); // goes to shopping cart
 });
 
-app.post("/fav_to_cart", function (request, response) {//?????
+app.post("/add_to_fav", function (request, response) {//help from professor port
+   if (typeof request.session.favorite == 'undefined') {
+      request.session.favorite = {};
+   }
+   if (typeof request.session.favorite[request.query.pkey] == 'undefined') {
+      request.session.favorite[request.query.pkey] = [];
+   }
+   request.session.favorite[request.query.pkey][request.query.pindex] = (request.query.favorite.toLowerCase() === 'true');
+   response.json({});
+   console.log(request.session.favorite);
+});
+
+app.post("/fav_to_cart", function (request, response) {//?????????????????? o-o
+   /*var products_key = request.body['products'];
+   var quantities = request.body['quantity'].map(Number);
+   request.session.cart[x] = quantities;
+   response.redirect('./cart.html');
+   console.log(request.session.cart);*/
 
 });
 
@@ -308,21 +319,6 @@ app.post("/get_favorites", function (request, response) {//help from professor p
    }
    response.json(request.session.favorite);
 });
-
-
-
-app.post("/add_to_fav", function (request, response) {//help from professor port
-   if (typeof request.session.favorite == 'undefined') {
-      request.session.favorite = {};
-   }
-   if (typeof request.session.favorite[request.query.pkey] == 'undefined') {//help from professor port
-      request.session.favorite[request.query.pkey] = [];
-   }
-   request.session.favorite[request.query.pkey][request.query.pindex] = (request.query.favorite.toLowerCase() === 'true');
-   response.json({});
-   console.log(request.session.favorite);
-});
-
 
 app.post("/get_cart", function (request, response) {//taken from assignment 3 code examples
    response.json(request.session.cart);

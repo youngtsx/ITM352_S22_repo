@@ -4,11 +4,11 @@
 <script src="./products.js" type="text/javascript"></script>
 <script src="./functions.js"></script>
 <script>
-  var products_data;
+  var products;
   var total = 0;
   loadJSON('./get_products_data', function (response) {
     // Parsing JSON string into object
-    products_data = JSON.parse(response);
+    products = JSON.parse(response);
   });
   loadJSON('./get_cart', function (response) {
     // Parsing JSON string into object
@@ -18,7 +18,7 @@
   let params = (new URL(document.location)).searchParams;
   if (params.has('products_key')) {
     var products_key = params.get('products_key');
-  }
+  } 
   loadJSON('./get_favorites', function (response) {
     // Parsing JSON string into object
     favorites = JSON.parse(response);
@@ -68,12 +68,12 @@
           <li id="logotext">Tiffany's Boba Shop</li>
           <li><a href="index.html">Home</a></li>
           <script>
-            nav_bar(products_key, products_data);</script>
+            nav_bar(products_key, products);</script>
           </script>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <script>
-            if (getCookie('user_cookie') != false) {
+            if (getCookie('user_cookie') != false) { //modified momokaf20: used document.write() with if statements.
               var user_cookie = JSON.parse(getCookie('user_cookie'));
               document.write(`<li><a href="/logout" id="login"><span class="glyphicon glyphicon-user"></span> Logout</a></li>`);
               login.onclick = function () {
@@ -169,25 +169,27 @@
             <th><b>FAVORITED ITEMS:</b></th>
             <th></th>
           </tr>
-          <form action="./add_to_cart" method="POST">
+          
             <script>
-              document.write(`<input type= "hidden" name="products_key" value="${products_key}">`);
-              for (let products_key in favorites) {
-                if (typeof favorites[products_key] != 'undefined') {
-                  for (let i in favorites[products_key]) {
-                    extended_price = favorites[products_key][i] * products[products_key][i].price
+              
+              console.log(products_key);
+              for (let pkey in favorites) {
+                  for (let i in favorites[pkey]) {
+                    if (typeof favorites[pkey] != 'undefined') {
+                    extended_price = favorites[pkey][i] * products[pkey][i].price
                     subtotal += extended_price;
-                    document.write(`<tr><td><img src="${products[products_key][i].image}"
+                    document.write(`<form action="./" method="POST"><tr><td><img src="${products[pkey][i].image}"
                           class="d-block ui-w-40 ui-bordered mr-4" alt=""></td>
-                              <td>${products[products_key][i].item}</td>
-                              <td>${products[products_key][i].price}</td>
-                              <td><input type="number" value="1" min="0" max="${products[products_key][i].quantity_available}" name="quantity[${i}]" id="quantity[${i}]"></td><td>
-                                <input type="submit" class="btn btn-md btn-default md-btn-flat mt-2 mr-3" value="Add To Cart"></td></tr>`);
+                              <td>${products[pkey][i].item}</td>
+                              <td>\$${products[pkey][i].price}</td>
+                              <td><input type="number" value="1" min="0" max="${products[pkey][i].quantity_available}" name="quantity[${i}]" id="quantity[${i}]"></td><td>
+                                <input type="submit" class="btn btn-md btn-default md-btn-flat mt-2 mr-3" value="Add To Cart"></td></tr>
+                                </form>`);
                   }
                 }
               }
             </script>
-            </form>
+            
           </tr>
         </table>
         <!--  Shopping cart table  -->

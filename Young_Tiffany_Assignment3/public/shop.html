@@ -64,6 +64,7 @@ assignment 3 code examples-->
     } else {
       products_key = "Milk Tea" //auto direct to milk tea page
     }
+    
     var products;
     loadJSON('./get_products_data', function (response) {
       // Parsing JSON string into object
@@ -124,8 +125,9 @@ assignment 3 code examples-->
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <!-- <li><a href="login.html" id="login"><span class="glyphicon glyphicon-user"></span> Account</a></li>-->
-          <script>
-            if (getCookie('user_cookie') != false) {
+          <script>/*if-statement and onclick referenced from momoka F20, 
+                  changed to an if-else statement that utilizes document.write to insert the list object.*/
+            if (getCookie('user_cookie') != false) { 
               var user_cookie = JSON.parse(getCookie('user_cookie'));
               document.write(`<li><a href="/logout" id="login"><span class="glyphicon glyphicon-user"></span> Logout</a></li>`);
               login.onclick = function () {
