@@ -1,7 +1,4 @@
-<!--AUTHOR: TIFFANY YOUNG
-    
-    
-    TEMPLATE FROM https://www.bootdey.com/snippets/view/bs4-cart-->
+<!--AUTHOR: TIFFANY YOUNG TEMPLATE FROM https://www.bootdey.com/snippets/view/bs4-cart-->
 <!DOCTYPE html>
 <html lang="en">
 <script src="./products.js" type="text/javascript"></script>
@@ -132,7 +129,7 @@
                       </div>
                     </td>
                     <td class="text-center font-weight-semibold align-middle p-4">\$${products[pkey][i].price.toFixed(2)}</td>
-                    <td class="align-middle p-4"><input type="number" id="qty_${pkey}_${i}" name="qty_${pkey}_${i}" class="form-control text-center" 
+                    <td class="align-middle p-4"><input type="number" id="qty${pkey}${i}" name="qty${pkey}${i}" class="form-control text-center" 
                     value="${quantities}" min="0" max="${products[pkey][i].quantity_available}"><input type="submit" class="btn btn-md btn-default md-btn-flat mt-2 mr-3" value="Update Cart"></td>
                     <td class="text-center font-weight-semibold align-middle p-4">\$${extended_price.toFixed(2)}</td>
                   </tr>`)
@@ -156,7 +153,7 @@
                       delivery = 5;
                     }
                     else {
-                      delivery = 0.05 * subtotal; // 5% of subtotal
+                      delivery = 0.20 * subtotal; // 15% of subtotal
                     }
 
                     // Compute grand total
@@ -172,16 +169,19 @@
             <th><b>FAVORITED ITEMS:</b></th>
             <th></th>
           </tr>
-          <form action="./fav_to_cart" method="POST">
+          <form action="./add_to_cart" method="POST">
             <script>
+              document.write(`<input type= "hidden" name="products_key" value="${products_key}">`);
               for (let products_key in favorites) {
                 if (typeof favorites[products_key] != 'undefined') {
                   for (let i in favorites[products_key]) {
+                    extended_price = favorites[products_key][i] * products[products_key][i].price
+                    subtotal += extended_price;
                     document.write(`<tr><td><img src="${products[products_key][i].image}"
                           class="d-block ui-w-40 ui-bordered mr-4" alt=""></td>
                               <td>${products[products_key][i].item}</td>
-                              <td>\$${products[products_key][i].price}</td>
-                              <td><input type="number" value="1" min="0" max="${products[products_key][i].quantity_available}"></td><td>
+                              <td>${products[products_key][i].price}</td>
+                              <td><input type="number" value="1" min="0" max="${products[products_key][i].quantity_available}" name="quantity[${i}]" id="quantity[${i}]"></td><td>
                                 <input type="submit" class="btn btn-md btn-default md-btn-flat mt-2 mr-3" value="Add To Cart"></td></tr>`);
                   }
                 }
@@ -217,7 +217,7 @@
               </b>
               <p>A subtotal $0 - $9.99 will be $2 fee</p>
               <p>A subtotal $10 - $29.99 will be $5 fee</p>
-              <p>Subtotals over $30 will be charged 5% of the subtotal amount </p>
+              <p>Subtotals over $30 will be charged 20% of the subtotal amount </p>
               <p>All orders will not be able to be cancelled after order confirmation. <br> If you feel your
                 experience with us has been unsatisfactory, contact us at itm352@hawaii.edu</p>
             </div>

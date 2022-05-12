@@ -265,14 +265,18 @@ app.post('/add_to_cart', function (request, response, next) {
 app.post("/update_cart", function (request, response) {
    for (let pkey in request.session.cart) { //loop through cart products
       for (let i in request.session.cart[pkey]) { //loop through product's selected quantity
-         if (typeof request.body[`qty_${pkey}_${i}`] != 'undefined') {
+         if (typeof request.body[`qty${pkey}${i}`] != 'undefined') {
             // update cart data
-            request.session.cart[pkey][i] = Number(request.body[`qty_${pkey}_${i}`]);
+            request.session.cart[pkey][i] = Number(request.body[`qty${pkey}${i}`]);
 
          }
       }
    }
    response.redirect("./cart.html"); // goes to shopping cart
+});
+
+app.post("/fav_to_cart", function (request, response) {//?????
+
 });
 
 app.get("/checkout", function (request, response) {
@@ -305,9 +309,7 @@ app.post("/get_favorites", function (request, response) {//help from professor p
    response.json(request.session.favorite);
 });
 
-app.post("/fav_to_cart", function (request, response) {//?????
 
-});
 
 app.post("/add_to_fav", function (request, response) {//help from professor port
    if (typeof request.session.favorite == 'undefined') {
