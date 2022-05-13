@@ -45,7 +45,7 @@ app.post("/process_login", function (request, response) {
    //check if username exists, then if entered password matches, lab 13 ex3-4
    if (typeof users[user_email] != 'undefined') {
       //check if entered password matches the stored password
-      if (users[user_email].password == the_password) { 
+      if (users[user_email].password == the_password) {
          response.cookie('user_cookie', users[user_email]['name'], { maxAge: 900 * 1000 }); // expires in 15 mins
          request.session.email = request.body['email'].toLowerCase(); //email for sending invoice
          console.log(request.session.email)
@@ -265,9 +265,13 @@ app.post("/update_cart", function (request, response) {
          }
       }
    } //same 
+
    for (let pkey in request.session.favorite) { //loop through cart products
       for (let i in request.session.favorite[pkey]) { //loop through product's selected quantity
          if (typeof request.body[`qty_${pkey}_${i}`] != 'undefined') { //get quantity input
+   if (typeof request.session.cart[pkey] == 'undefined') {//make array for each product category
+      request.session.cart[pkey] = [];
+   }
             // update cart data
             request.session.cart[pkey][i] = Number(request.body[`qty_${pkey}_${i}`]); //assign quantity to cart product key and index
             console.log(request.session.cart[pkey][i]);
@@ -365,7 +369,7 @@ app.post("/complete_purchase", function (request, response) {//taken from assign
    }
    // Compute grand total
    var grand_total = subtotal + tax + delivery;
-   
+
    invoice_str += `<tr>
                      <tr><td colspan="4" align="right">Subtotal: $${subtotal.toFixed(2)}</td></tr>
                      <tr><td colspan="4" align="right">Delivery: $${delivery.toFixed(2)}</td></tr>

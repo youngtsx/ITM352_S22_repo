@@ -33,14 +33,7 @@ assignment 3 code examples-->
       }
       alert(err_str);
     }
-    if (params.has('quantities')) { //STICKY; 
-      var quantities = JSON.parse(params.get('quantities')); //turns string in object
-      // put quantities in quantity textboxes
-      for (i in quantities) { //THIS IS TAKEN FROM MOMOKA MICHIMOTO
-        quantity_form[`quantity[${i}]`].value = quantities[i];//loops through the quantity array collected in the server 
-        checkQuantityTextbox(quantity_form[`quantity[${i}]`]);// and checks it
-      }
-    }
+  
     loadJSON('./get_favorites', function (response) {
       // Parsing JSON string into object
       favorites = JSON.parse(response);
@@ -50,7 +43,13 @@ assignment 3 code examples-->
         }
       }
     });
-  }
+    if (typeof shopping_cart[products_key] != 'undefined') { //cart quantity sticky referenced from assignment 3 workshop during lecture
+        for (let i in shopping_cart[products_key]) {
+            document.getElementById(`quantity[${i}]`).value = shopping_cart[products_key][i];
+        }
+      }
+    }
+  
 </script>
 
 <head>
@@ -126,8 +125,8 @@ assignment 3 code examples-->
         <ul class="nav navbar-nav navbar-right">
           <!-- <li><a href="login.html" id="login"><span class="glyphicon glyphicon-user"></span> Account</a></li>-->
           <script>
-            if (getCookie('user_cookie') != false) { /*onclick functionality referenced from momoka F20, products_display.html line 124 
-                  changed to an if-else statement that utilizes document.write to insert the list object rather than an onclick function.*/
+            if (getCookie('user_cookie') != false) { /*onclick functionality inspired from momoka F20 products_display.html line 124 
+                  changed to an if-else statement that utilizes document.write to insert the list object and change the element+href rather than an onclick function.*/
               var user_cookie = getCookie('user_cookie');
               document.write(`<li><a href="/logout" id="login"><span class="glyphicon glyphicon-user"></span> Logout</a></li>`);
               login.onclick = function () {
