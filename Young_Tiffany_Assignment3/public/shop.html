@@ -62,7 +62,7 @@ assignment 3 code examples-->
     if (params.has('products_key')) { //assignment 3 code examples modified
       var products_key = params.get('products_key');
     } else {
-      products_key = "Milk Tea" //auto direct to milk tea page
+      products_key = "Milk Tea" //auto direct to milk tea page instead of error string
     }
     
     var products;
@@ -78,7 +78,7 @@ assignment 3 code examples-->
       }
     });
 
-    function getCookie(cname) { //w3schools cookies
+    function getCookie(cname) { //w3schools cookies https://www.w3schools.com/js/js_cookies.asp to read the value of a specific cookie
       let name = cname + "=";
       let decodedCookie = decodeURIComponent(document.cookie);
       let ca = decodedCookie.split(';');
@@ -125,10 +125,10 @@ assignment 3 code examples-->
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <!-- <li><a href="login.html" id="login"><span class="glyphicon glyphicon-user"></span> Account</a></li>-->
-          <script>/*if-statement and onclick referenced from momoka F20, 
-                  changed to an if-else statement that utilizes document.write to insert the list object.*/
-            if (getCookie('user_cookie') != false) { 
-              var user_cookie = JSON.parse(getCookie('user_cookie'));
+          <script>
+            if (getCookie('user_cookie') != false) { /*onclick functionality referenced from momoka F20, products_display.html line 124 
+                  changed to an if-else statement that utilizes document.write to insert the list object rather than an onclick function.*/
+              var user_cookie = getCookie('user_cookie');
               document.write(`<li><a href="/logout" id="login"><span class="glyphicon glyphicon-user"></span> Logout</a></li>`);
               login.onclick = function () {
                 document.cookie = "user_cookie=; expires=Sat, 26 Jan 2002 00:00:00 UTC; path=/;";
@@ -144,7 +144,9 @@ assignment 3 code examples-->
     </div>
   </nav>
   <main>
-    <script>document.write(`<div class="container4"><h4><b>Welcome, ${user_cookie['fullname']}! </b><h4></div>`);</script>
+    <script>if(getCookie('user_cookie') != false) {
+      document.write(`<div class="container4"><h4><b>Welcome, ${user_cookie}! </b><h4></div>`)
+      };</script>
     <form name="quantity_form" action="./add_to_cart" method="POST">
       <script>  cart_total.innerHTML = total; </script>
       <script>
@@ -166,7 +168,7 @@ assignment 3 code examples-->
                         <p><strong>$${products[products_key][i].price.toFixed(2)}</strong></p>
                         <p id="quantity[${i}]_label">Quantity:</p>
                         <input type="text" placeholder="We have ${products[products_key][i].quantity_available} available" name="quantity[${i}]" id="quantity[${i}]" onkeyup="checkQuantityTextbox(this);">
-                        <h3><input type="submit" class="button" value="Add to Cart"></h3>
+                        
                         </div>
                   </div>
         </div>
@@ -174,7 +176,7 @@ assignment 3 code examples-->
         }
 
       </script>
-
+<h3><input type="submit" class="button" value="Add to Cart"></h3>
     </form>
   </main>
 </body>

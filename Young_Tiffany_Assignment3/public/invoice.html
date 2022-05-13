@@ -34,9 +34,8 @@
   }
   // if user is not logged in, send them to login
   if (getCookie('user_cookie') != '') {
-    var user_cookie = JSON.parse(getCookie('user_cookie'));
-    var name = user_cookie['fullname'];
-    var email = user_cookie['email'];
+    var user_cookie = getCookie('user_cookie');
+    var name = user_cookie;
   } else {
     location.href = './login.html';
     window.stop;

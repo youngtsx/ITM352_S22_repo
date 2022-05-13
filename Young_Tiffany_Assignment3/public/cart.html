@@ -73,8 +73,9 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <script>
-            if (getCookie('user_cookie') != false) { //modified momokaf20: used document.write() with if statements.
-              var user_cookie = JSON.parse(getCookie('user_cookie'));
+            if (getCookie('user_cookie') != false) { /*onclick referenced from momoka F20, products_display.html line 124 
+                  changed to an if-else statement that utilizes document.write to insert the list object rather than an onclick function.*/
+              var user_cookie = getCookie('user_cookie');
               document.write(`<li><a href="/logout" id="login"><span class="glyphicon glyphicon-user"></span> Logout</a></li>`);
               login.onclick = function () {
                 document.cookie = "user_cookie=; expires=Sat, 26 Jan 2002 00:00:00 UTC; path=/;";
@@ -155,7 +156,6 @@
                     else {
                       delivery = 0.20 * subtotal; // 15% of subtotal
                     }
-
                     // Compute grand total
                     var grand_total = subtotal + tax + delivery;
                   }
@@ -163,35 +163,35 @@
               </tbody>
             </table>
         </div>
-        <table>
+        <table class="table-condensed table-hover">
           </form>
           <tr>
             <th><b>FAVORITED ITEMS:</b></th>
-            <th></th>
           </tr>
-
           <script>
             for (let pkey in favorites) {
               for (let i in favorites[pkey]) {
                 if (typeof favorites[pkey] != 'undefined') {
-                  extended_price = favorites[pkey][i] * products[pkey][i].price
-                  subtotal += extended_price;
-                  document.write(`<form action="./update_cart" method="POST">
+                  if (favorites[pkey][i] === true) { //check if checked
+                    extended_price = favorites[pkey][i] * products[pkey][i].price
+                    subtotal += extended_price;
+                    document.write(`<form action="./update_cart" method="POST">
                           <tr><td><img src="${products[pkey][i].image}"
                           class="d-block ui-w-40 ui-bordered mr-4" alt=""></td>
                               <td>${products[pkey][i].item}</td>
-                              <td>\$${products[pkey][i].price}</td>
+                              <td>\$${products[pkey][i].price.toFixed(2)}</td>
                               <td><input type="number" value="1" min="0" max="${products[pkey][i].quantity_available}" id="qty_${pkey}_${i}" name="qty_${pkey}_${i}"></td><td>
                                 <input type="submit" class="btn btn-md btn-default md-btn-flat mt-2 mr-3" value="Add To Cart"></td></tr>
                                 </form>`);
+                  }
                 }
               }
             }
-            
           </script>
 
           </tr>
         </table>
+
         <!--  Shopping cart table  -->
         <div class="d-flex">
           <div class="text-right mt-4 mr-5">

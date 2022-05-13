@@ -1,5 +1,5 @@
 body {
-    background: rgb(250, 233, 233);
+    background: rgb(248, 239, 239);
 }
 /* for logo text on left part of header*/
 #logotext {
@@ -60,6 +60,11 @@ h4 {
         margin-left: 45%;
         margin-bottom: 25px;
 }
+
+input[type=checkbox] {
+        margin-left: 10px;
+}
+
 button {
         background-color: rgb(178, 209, 245);
         border-width: 1px;
@@ -71,7 +76,7 @@ button {
         background-color: white;
         padding: 10px 30px;
         border-width: 1px;
-
+        margin-left: 15px;
 
 }
 .button:hover {

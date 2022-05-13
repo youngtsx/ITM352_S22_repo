@@ -46,9 +46,8 @@ app.post("/process_login", function (request, response) {
    if (typeof users[user_email] != 'undefined') {
       //check if entered password matches the stored password
       if (users[user_email].password == the_password) { 
-         var user_cookie = { "email": user_email, "fullname": users[user_email]['name'] }; //modeled the cookie and response from chloekam line152. Added the session email for invoice use
-         response.cookie('user_cookie', JSON.stringify(user_cookie), { maxAge: 900 * 1000 }); // expires in 15 mins
-         request.session.email = request.body['email'].toLowerCase();
+         response.cookie('user_cookie', users[user_email]['name'], { maxAge: 900 * 1000 }); // expires in 15 mins
+         request.session.email = request.body['email'].toLowerCase(); //email for sending invoice
          console.log(request.session.email)
          // back to the products
          response.redirect('./shop.html');
@@ -270,8 +269,8 @@ app.post("/update_cart", function (request, response) {
       for (let i in request.session.favorite[pkey]) { //loop through product's selected quantity
          if (typeof request.body[`qty_${pkey}_${i}`] != 'undefined') { //get quantity input
             // update cart data
-            request.session.cart[pkey][i] = Number(request.body[`qty_${pkey}_${i}`]); //assign quantity to product key and index
-
+            request.session.cart[pkey][i] = Number(request.body[`qty_${pkey}_${i}`]); //assign quantity to cart product key and index
+            console.log(request.session.cart[pkey][i]);
          }
       }
    }
