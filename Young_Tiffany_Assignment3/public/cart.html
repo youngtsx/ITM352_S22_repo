@@ -18,7 +18,7 @@
   let params = (new URL(document.location)).searchParams;
   if (params.has('products_key')) {
     var products_key = params.get('products_key');
-  } 
+  }
   loadJSON('./get_favorites', function (response) {
     // Parsing JSON string into object
     favorites = JSON.parse(response);
@@ -169,27 +169,27 @@
             <th><b>FAVORITED ITEMS:</b></th>
             <th></th>
           </tr>
-          
-            <script>
-              
-              console.log(products_key);
-              for (let pkey in favorites) {
-                  for (let i in favorites[pkey]) {
-                    if (typeof favorites[pkey] != 'undefined') {
-                    extended_price = favorites[pkey][i] * products[pkey][i].price
-                    subtotal += extended_price;
-                    document.write(`<form action="./" method="POST"><tr><td><img src="${products[pkey][i].image}"
+
+          <script>
+            for (let pkey in favorites) {
+              for (let i in favorites[pkey]) {
+                if (typeof favorites[pkey] != 'undefined') {
+                  extended_price = favorites[pkey][i] * products[pkey][i].price
+                  subtotal += extended_price;
+                  document.write(`<form action="./update_cart" method="POST">
+                          <tr><td><img src="${products[pkey][i].image}"
                           class="d-block ui-w-40 ui-bordered mr-4" alt=""></td>
                               <td>${products[pkey][i].item}</td>
                               <td>\$${products[pkey][i].price}</td>
-                              <td><input type="number" value="1" min="0" max="${products[pkey][i].quantity_available}" name="quantity[${i}]" id="quantity[${i}]"></td><td>
+                              <td><input type="number" value="1" min="0" max="${products[pkey][i].quantity_available}" id="qty_${pkey}_${i}" name="qty_${pkey}_${i}"></td><td>
                                 <input type="submit" class="btn btn-md btn-default md-btn-flat mt-2 mr-3" value="Add To Cart"></td></tr>
                                 </form>`);
-                  }
                 }
               }
-            </script>
+            }
             
+          </script>
+
           </tr>
         </table>
         <!--  Shopping cart table  -->

@@ -265,6 +265,15 @@ app.post("/update_cart", function (request, response) {
 
          }
       }
+   } //same 
+   for (let pkey in request.session.favorite) { //loop through cart products
+      for (let i in request.session.favorite[pkey]) { //loop through product's selected quantity
+         if (typeof request.body[`qty_${pkey}_${i}`] != 'undefined') { //get quantity input
+            // update cart data
+            request.session.cart[pkey][i] = Number(request.body[`qty_${pkey}_${i}`]); //assign quantity to product key and index
+
+         }
+      }
    }
    response.redirect("./cart.html"); // goes to shopping cart
 });
@@ -281,14 +290,6 @@ app.post("/add_to_fav", function (request, response) {//help from professor port
    console.log(request.session.favorite);
 });
 
-app.post("/fav_to_cart", function (request, response) {//?????????????????? o-o
-   /*var products_key = request.body['products'];
-   var quantities = request.body['quantity'].map(Number);
-   request.session.cart[x] = quantities;
-   response.redirect('./cart.html');
-   console.log(request.session.cart);*/
-
-});
 
 app.get("/checkout", function (request, response) {
    var errors = {};//check errors
