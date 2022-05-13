@@ -269,9 +269,9 @@ app.post("/update_cart", function (request, response) {
    for (let pkey in request.session.favorite) { //loop through cart products
       for (let i in request.session.favorite[pkey]) { //loop through product's selected quantity
          if (typeof request.body[`qty_${pkey}_${i}`] != 'undefined') { //get quantity input
-   if (typeof request.session.cart[pkey] == 'undefined') {//make array for each product category
-      request.session.cart[pkey] = [];
-   }
+            if (typeof request.session.cart[pkey] == 'undefined') {//make array for each product category
+               request.session.cart[pkey] = [];
+            }
             // update cart data
             request.session.cart[pkey][i] = Number(request.body[`qty_${pkey}_${i}`]); //assign quantity to cart product key and index
             console.log(request.session.cart[pkey][i]);
