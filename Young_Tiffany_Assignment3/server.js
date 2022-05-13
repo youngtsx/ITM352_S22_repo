@@ -266,12 +266,13 @@ app.post("/update_cart", function (request, response) {
       }
    } //same 
 
-   for (let pkey in request.session.favorite) { //loop through cart products
+   for (let pkey in request.session.favorite) { //loop through fav products
       for (let i in request.session.favorite[pkey]) { //loop through product's selected quantity
          if (typeof request.body[`qty_${pkey}_${i}`] != 'undefined') { //get quantity input
             if (typeof request.session.cart[pkey] == 'undefined') {//make array for each product category
                request.session.cart[pkey] = [];
             }
+            request.session[pkey] = request.session.favorite[pkey]; //set session product key bc favorites has no products key in cart
             // update cart data
             request.session.cart[pkey][i] = Number(request.body[`qty_${pkey}_${i}`]); //assign quantity to cart product key and index
             console.log(request.session.cart[pkey][i]);
