@@ -21,7 +21,7 @@ assignment 3 code examples-->
     if (the_textbox.value.trim() == '') errs = ['Quantity'];
     document.getElementById(the_textbox.name + '_label').innerHTML = errs.join(", ");
   }
-  //from Assignment 1 example/reece nagaoka FW21:
+  //from Assignment 1 example/reece nagaoka FW21 store.html:
   let params = (new URL(document.location)).searchParams; // get the query string which has the form data
   window.onload = function () {
     // form was submitted, check that quantities are valid then redirect to invoice if ok.
@@ -58,7 +58,7 @@ assignment 3 code examples-->
     var shopping_cart;
     var total = 0;
     // get the query string
-    if (params.has('products_key')) { //assignment 3 code examples modified
+    if (params.has('products_key')) { //assignment 3 code examples modified  VVVVVVVV
       var products_key = params.get('products_key');
     } else {
       products_key = "Milk Tea" //auto direct to milk tea page instead of error string
@@ -124,9 +124,9 @@ assignment 3 code examples-->
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <!-- <li><a href="login.html" id="login"><span class="glyphicon glyphicon-user"></span> Account</a></li>-->
-          <script>
-            if (getCookie('user_cookie') != false) { /*onclick functionality inspired from momoka F20 products_display.html line 124 
-                  changed to an if-else statement that utilizes document.write to insert the list object and change the element+href rather than an onclick function.*/
+          <script>/*onclick function inspired from momoka F20 products_display.html line 124: changed to an if-else statement
+           that uses document.write to print the list object with corresponding href and value rather than having the if statement change dom elements itself.*/
+            if (getCookie('user_cookie') != false) { 
               var user_cookie = getCookie('user_cookie');
               document.write(`<li><a href="/logout" id="login"><span class="glyphicon glyphicon-user"></span> Logout</a></li>`);
               login.onclick = function () {
@@ -186,7 +186,7 @@ assignment 3 code examples-->
 
 </html>
 <script>
-  function addToFav(pkey, pindex, fav) {
+  function addToFav(pkey, pindex, fav) { //help from professor port: sends a query string with the info from the onclick to the server
     console.log(pkey, pindex, fav.checked);
 
     loadJSON(`./add_to_fav?pkey=${pkey}&pindex=${pindex}&favorite=${fav.checked}`, function (response) {

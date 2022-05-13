@@ -60,7 +60,7 @@
 
 <body>
 
-  <script> //borrowed from li xinfei F21 | gets full name and displays it
+  <script> //modified from li xinfei asst2 invoice F21 line50 | gets full name and displays it using cookies
     if (name != 'undefined' && name != '') {
       document.write(`<div class="center"><h4><b>Mahalo, ${name}! Here is your invoice:</b><h4></div>`)
     }
@@ -91,7 +91,7 @@
                               // Compute sub-total
                               var subtotal = 0;
 
-                              for (let pkey in shopping_cart) { //same as cart
+                              for (let pkey in shopping_cart) { //same as cart code example
                                 for (let i in shopping_cart[pkey]) {
                                   let quantities = shopping_cart[pkey][i];
                                   if (quantities > 0) {
