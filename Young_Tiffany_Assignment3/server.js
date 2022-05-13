@@ -327,7 +327,6 @@ app.post("/get_favorites", function (request, response) {//help from professor p
 
 app.post("/get_cart", function (request, response) {//taken from assignment 3 code examples
    response.json(request.session.cart);
-   console.log(request.session.cart);
 });
 
 app.post("/complete_purchase", function (request, response) {//taken from assignment 3 code examples
