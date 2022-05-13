@@ -111,7 +111,7 @@ app.post("/register", function (request, response) {
       registration_errors['fullname'] = `Please enter less than 30 characters`;
    }
 
-   //assignment 2 code examples         Need to change this to route to login, also HOW TO GO TO Cart (checkout) => Login => INVOICE
+   //assignment 2 code examples      
    //save new registration data to user_data.json
    if (Object.keys(registration_errors).length == 0) {
       console.log('no registration errors')//store user data in json file
@@ -125,7 +125,7 @@ app.post("/register", function (request, response) {
    } else {
       request.body['registration_errors'] = JSON.stringify(registration_errors);
       let params = new URLSearchParams(request.body);
-      response.redirect("./registration.html" + params.toString());
+      response.redirect("./registration.html?" + params.toString());
    }
 });
 
