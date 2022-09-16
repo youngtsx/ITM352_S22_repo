@@ -264,8 +264,8 @@ app.post("/update_cart", function (request, response) {
 
          }
       }
-   } //same 
-
+   }  
+//same
    for (let pkey in request.session.favorite) { //loop through fav products
       for (let i in request.session.favorite[pkey]) { //loop through product's selected quantity
          if (typeof request.body[`qty_${pkey}_${i}`] != 'undefined') { //get quantity input

@@ -139,7 +139,10 @@
                   }
                   if (subtotal == 0) {
                     alert(`No items in cart`)
-                    window.location.href = 'shop.html?'
+                    //window.location.href = 'shop.html?'
+                    var tax = 0;
+                    var delivery = 0;
+                    var grand_total = 0;
                   }
                   else {
                     // Compute tax

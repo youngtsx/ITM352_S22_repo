@@ -1,11 +1,7 @@
 body {
   background: rgb(248, 239, 239);
 }
-/* for logo text on left part of header*/
-#logotext {
-        color: rgb(250, 233, 233);
-        padding: 15px 15px 15px 0px;
-}
+
 /* Add a hover effect (blue shadow) */
 img:hover {
     box-shadow: 0 0 5px 1px black;

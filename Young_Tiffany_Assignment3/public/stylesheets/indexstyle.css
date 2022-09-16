@@ -14,9 +14,10 @@ body {
          /* Set a small width */
 }
 /*color of logo text*/
-#logotext {
-        color: rgb(250, 233, 233);
-        padding: 15px 15px 15px 0px;
+.navbar-inverse .navbar-nav>li>a.home {
+        color: #f9e8e8;
+        /*padding: 15px 15px 15px 0px;
+        font-weight: 100;*/
 }
 
 h3 {
