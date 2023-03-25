@@ -44,6 +44,8 @@ the first three packages are the essentials, kernel, and firmware. Grub is the b
 
 >arch-chroot /mnt
 It will give errors if /mnt is not mounted to the file system like during the previous steps.
+*chroot failed to run command ‘/bin/bash’ permission denied*
+Ensure /mnt is mounted and umount when rebooting or powering off.
 
 Localization
 >echo LANG=en_US.UTF-8 > /etc/locale.conf
@@ -61,3 +63,33 @@ It will reboot into the gnu grub. During my first installation, when I rebooted 
 
 I trashed that VM because I wasn’t sure if I had done something irredeemable during my trial and errors of throwing commands. I had successfully made it to the reboot but I wasn’t sure if it worked so I started over. 
 ## VM Modifications
+Install a desktop Environment
+We are no longer using pacstrap, pacman is the proper package manager now. 
+>pacman -S lxde lxdm
+>systemctl enable lxdm
+This will enable lxde to boot
+
+Add user accounts
+>useradd
+>passwd
+>passwd -e sal
+- to force him to change his password
+
+Install packages
+>pacman -S openssh
+>pacman -Syu firefox
+
+If public key is not found when using pacman
+1. Install public keys
+2. pacman-key --init
+3. pacman-key --populate archlinux
+4. pacman -Sc
+4. pacman -Syyu
+
+Color coding terminal
+
+Aliases
+
+Ip info
+Need to install net-tools
+>pacman -S net-tools
