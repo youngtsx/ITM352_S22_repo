@@ -69,7 +69,6 @@ I trashed that VM because I wasn’t sure if I had done something irredeemable d
 Install a desktop Environment
 
 We are no longer using pacstrap, pacman is the proper package manager now. 
-
 <sub>-S is for sync</sub>
 
 >pacman -S lxde lxdm
