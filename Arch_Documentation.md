@@ -82,8 +82,7 @@ Add user accounts
 
 >passwd ***
 
->passwd -e sal
-- to force him to change his password
+>passwd -e sal | to force him to change his password
 
 Install packages
 >pacman -S openssh | ssh
