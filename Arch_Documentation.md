@@ -60,7 +60,7 @@ Host
 Root password
 >passwd
 
-### Reboot
+### Reboot 
 >exit
 >umount -a
 >reboot
