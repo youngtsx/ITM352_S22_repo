@@ -69,10 +69,9 @@ It will reboot into the gnu grub. During my first installation, when I rebooted 
 
 I trashed that VM because I wasn’t sure if I had done something irredeemable during my trial and errors of throwing commands. I had successfully made it to the reboot but I wasn’t sure if it worked so I started over. 
 ## VM Modifications
-Install a desktop environment
-
 We are no longer using pacstrap, pacman is the proper package manager now. 
 
+### Install a desktop environment
 <sub>-S is for sync</sub>
 
 >pacman -S lxde lxdm
@@ -81,7 +80,7 @@ We are no longer using pacstrap, pacman is the proper package manager now.
 
 This will enable lxde to boot
 
-Add user accounts
+### Add user accounts
 
 >useradd tiffany/sal
 
@@ -89,12 +88,15 @@ Add user accounts
 
 >passwd -e sal | to force him to change his password
 
-Install packages
+### Install packages
 >pacman -S openssh | ssh
 
 >pacman -Syu firefox | browser
 
 >pacman -S zsh | zsh shell
+
+>pacman -S net-tools | to see ip info
+
 
 If public key is not found when using pacman
 1. Install public keys
@@ -107,6 +109,3 @@ Color coding terminal
 
 Aliases
 
-Ip info
-Need to install net-tools
->pacman -S net-tools
