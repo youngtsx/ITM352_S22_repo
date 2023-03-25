@@ -17,8 +17,8 @@ Verifying bootmode with ls will not list anything because we are in BIOS. Contin
 ### Partition and format the disk
 >cfdisk /dev/sda
 - 1M to BIOS
-- 4 GB to swap 
-- Rest of drive for root 
+- 4 GB to swap partition
+- Remaining goes to root partition
 
 Create Ext4 file system on root partition
 >mkfs.ext4 /dev/sda3
