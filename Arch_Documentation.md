@@ -67,8 +67,10 @@ It will reboot into the gnu grub. During my first installation, when I rebooted 
 I trashed that VM because I wasn’t sure if I had done something irredeemable during my trial and errors of throwing commands. I had successfully made it to the reboot but I wasn’t sure if it worked so I started over. 
 ## VM Modifications
 Install a desktop Environment
+
 We are no longer using pacstrap, pacman is the proper package manager now. 
--S is for sync
+
+<sub>-S is for sync</sub>
 
 >pacman -S lxde lxdm
 
