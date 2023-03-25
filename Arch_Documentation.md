@@ -6,17 +6,19 @@
 
 ## Arch Installation
 Download .iso file 
-Insert file into new VM. It will not detect which OS so choose most recent other linux kernel version.
+Insert file into new VM. It will not detect which OS so choose most recent *'other linux kernel'* version.
 
 Give hard disk size (around 20 GB min) and memory (2 GB).
 
 Run pre-installation checks
 
+Verifying bootmode with ls will not list anything because we are in BIOS. Continue
+
 ### Partition and format the disk
 >cfdisk /dev/sda
--1M to BIOS
--4 GB to swap 
--Rest of drive for root 
+- 1M to BIOS
+- 4 GB to swap 
+- Rest of drive for root 
 
 Create Ext4 file system on root partition
 >mkfs.ext4 /dev/sda3
