@@ -80,7 +80,7 @@ We are no longer using pacstrap, pacman is the proper package manager now.
 
 This will enable lxde to boot
 
-### Add user accounts
+### Add user accounts with sudo permissions
 
 >useradd tiffany/sal
 
@@ -88,10 +88,16 @@ This will enable lxde to boot
 
 >passwd -e sal | to force him to change his password
 
+>pacman -S sudo
+
+>EDITOR=vim visudo 
+
+uncomment sudo 
+
 ### Install packages
 >pacman -S openssh | ssh
 
->pacman -Syu firefox | browser
+>pacman -Syu firefox | browser, -Syu is needed when there are url request errors.
 
 >pacman -S zsh | zsh shell
 
