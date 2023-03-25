@@ -1,7 +1,7 @@
 # Arch Linux Installation Documentation 
 
 
-
+Insert video link here
 
 
 ## Arch Installation
