@@ -69,19 +69,27 @@ I trashed that VM because I wasn’t sure if I had done something irredeemable d
 Install a desktop Environment
 We are no longer using pacstrap, pacman is the proper package manager now. 
 -S is for sync
+
 >pacman -S lxde lxdm
+
 >systemctl enable lxdm
+
 This will enable lxde to boot
 
 Add user accounts
+
 >useradd tiffany/sal
+
 >passwd ***
+
 >passwd -e sal
 - to force him to change his password
 
 Install packages
 >pacman -S openssh | ssh
+
 >pacman -Syu firefox | browser
+
 >pacman -S zsh | zsh shell
 
 If public key is not found when using pacman
