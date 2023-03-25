@@ -37,14 +37,17 @@ enable swap volume
 
 It is crucial for the previous steps including mounting the filesystems to /mnt for this to work. 
 
-the first three packages are the essentials, kernel, and firmware. Grub is the bootloader.
+The first three packages are the essentials, kernel, and firmware. Grub is the bootloader.
 
 ### Configure
 >genfstab -UI /mnt >> /mnt/etc/fstab
 
 >arch-chroot /mnt
+
 It will give errors if /mnt is not mounted to the file system like during the previous steps.
+
 *chroot failed to run command ‘/bin/bash’ permission denied*
+
 Ensure /mnt is mounted and umount when rebooting or powering off.
 
 Localization
@@ -66,7 +69,7 @@ It will reboot into the gnu grub. During my first installation, when I rebooted 
 
 I trashed that VM because I wasn’t sure if I had done something irredeemable during my trial and errors of throwing commands. I had successfully made it to the reboot but I wasn’t sure if it worked so I started over. 
 ## VM Modifications
-Install a desktop Environment
+Install a desktop environment
 
 We are no longer using pacstrap, pacman is the proper package manager now. 
 
