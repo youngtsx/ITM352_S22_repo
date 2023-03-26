@@ -114,4 +114,4 @@ If public key is not found when using pacman
 Color coding terminal
 
 Aliases
-
+>alias c='clear'
