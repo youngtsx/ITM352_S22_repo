@@ -90,6 +90,8 @@ This will enable lxde to boot
 
 >pacman -S sudo
 
+create group for sudo 
+
 >EDITOR=vim visudo 
 
 uncomment sudo 
