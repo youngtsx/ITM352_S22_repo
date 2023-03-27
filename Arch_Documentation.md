@@ -12,7 +12,7 @@ Give hard disk size (around 20 GB min) and memory (2 GB).
 
 Run pre-installation checks
 
-Verifying bootmode with ls will not list anything because we are in BIOS. Continue
+Verifying bootmode with ls will not list anything because we are in BIOS. 
 
 ### Partition and format the disk
 >cfdisk /dev/sda
@@ -26,7 +26,6 @@ Create Ext4 file system on root partition
 Initialize swap partition
 >mkswap /dev/sda2
 
-
 Mount file systems
 >mount /dev/sda3 /mnt
 enable swap volume
@@ -34,6 +33,8 @@ enable swap volume
 
 ### Install
 >pacstrap -K /mnt base linux linux-firmware grub 
+
+pacstrap is only used during the install phase. 
 
 It is crucial for the previous steps including mounting the filesystems to /mnt for this to work. 
 
