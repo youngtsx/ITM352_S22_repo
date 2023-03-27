@@ -116,4 +116,11 @@ If public key is not found when using pacman
 Color coding terminal
 
 Aliases
+
+made permanent by editing the ~./bash.rc file
+
 >alias c='clear'
+
+>alias ping='ping -c 3'
+
+>alias ls='ls -l -h'
