@@ -125,3 +125,13 @@ made permanent by editing the ~./bash.rc file
 >alias ping='ping -c 3'
 
 >alias ls='ls -l -h'
+
+install a package from AUR
+
+>download base-devel
+
+>ls packagename
+
+> makepkg -si
+
+>pacman -U packagename
