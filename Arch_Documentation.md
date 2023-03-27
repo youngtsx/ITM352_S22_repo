@@ -130,6 +130,8 @@ install a package from AUR
 
 >download base-devel
 
+>git clone url
+
 >ls packagename
 
 > makepkg -si
