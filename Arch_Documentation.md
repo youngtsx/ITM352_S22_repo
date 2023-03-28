@@ -140,8 +140,13 @@ install a package from AUR
 
 >git clone url
 
->ls packagename
+>cd packagename
 
 >makepkg -si
 
->pacman -U packagename
+
+ssh
+
+public key permission denied
+
+need to use sudo for editing files bc they are read only
