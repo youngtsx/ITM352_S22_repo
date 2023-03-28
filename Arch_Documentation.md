@@ -97,6 +97,8 @@ create group for sudo
 
 uncomment sudo 
 
+sudo usermod -aG sudo sal/tiffany
+
 ### Install packages
 >pacman -S openssh | ssh
 
@@ -118,7 +120,13 @@ Color coding terminal
 
 Aliases
 
-made permanent by editing the ~./bash.rc file
+made permanent by appending alias the /etc/bash.bashrc file. Close and reopen terminal after saving.
+
+error couldn't write to file when using vim ~./bashrc so instead:
+
+>sudo nano /etc/bash.bashrc
+
+append aliases to the end of the file
 
 >alias c='clear'
 
@@ -134,6 +142,6 @@ install a package from AUR
 
 >ls packagename
 
-> makepkg -si
+>makepkg -si
 
 >pacman -U packagename
