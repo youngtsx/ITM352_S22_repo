@@ -116,9 +116,9 @@ If public key is not found when using pacman
 4. pacman -Sc
 4. pacman -Syyu
 
-Color coding terminal
+### Color coding terminal
 
-Aliases
+### Aliases
 
 made permanent by appending alias the /etc/bash.bashrc file. Close and reopen terminal after saving.
 
@@ -134,7 +134,9 @@ append aliases to the end of the file
 
 >alias ls='ls -l -h'
 
-install a package from AUR
+>alias sudoers="grep -Po '^sudo.+:\K.*$' /etc/group" |||grep prints lines matching regex, -po prints in perl-style and only the matched string. 
+
+### Install a package from AUR
 
 >download base-devel
 
@@ -144,7 +146,7 @@ install a package from AUR
 
 >makepkg -si
 
+### ssh
+install openssh
 
-ssh
-
-host key verification failed ,need to type yes with digital ocean open ~_~
+host key verification failed ,need to type yes to prompt with digital ocean open ~_~
