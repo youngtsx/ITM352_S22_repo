@@ -150,3 +150,5 @@ append aliases to the end of the file
 install openssh
 
 host key verification failed ,need to type yes to prompt with digital ocean open ~_~
+
+>ssh root@137.184.118.57
