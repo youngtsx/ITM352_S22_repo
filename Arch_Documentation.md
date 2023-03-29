@@ -147,6 +147,4 @@ install a package from AUR
 
 ssh
 
-public key permission denied
-
-need to use sudo for editing files bc they are read only
+host key verification failed ,need to type yes with digital ocean open ~_~
