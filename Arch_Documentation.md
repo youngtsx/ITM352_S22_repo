@@ -14,9 +14,7 @@ Run pre-installation checks
 
 Verifying bootmode with ls will not list anything because we are in BIOS. 
 
-Timezone issues with syncing, minutes were also wrong sometimes.
-
-this fixes the permissions 
+Timezone issues with syncing, minutes were also wrong sometimes, this fixes the permissions 
 > sudo chmod 0700 /var/lib/private
 
 > sudo systemctl restart systemd-timesyncd
