@@ -14,6 +14,15 @@ Run pre-installation checks
 
 Verifying bootmode with ls will not list anything because we are in BIOS. 
 
+Timezone issues with syncing, minutes were also wrong sometimes.
+
+this fixes the permissions 
+> sudo chmod 0700 /var/lib/private
+
+> sudo systemctl restart systemd-timesyncd
+
+> sudo timedatectl status
+
 ### Partition and format the disk
 >cfdisk /dev/sda
 - 1M to BIOS
@@ -117,6 +126,8 @@ If public key is not found when using pacman
 4. pacman -Syyu
 
 ### Color coding terminal
+>chatgpt
+
 
 ### Aliases
 
@@ -136,6 +147,8 @@ append aliases to the end of the file
 
 >alias sudoers="grep -Po '^sudo.+:\K.*$' /etc/group" |||grep prints lines matching regex, -po prints in perl-style and only the matched string. 
 
+>cat /etc/passwd
+
 ### Install a package from AUR
 
 >download base-devel
@@ -146,6 +159,7 @@ append aliases to the end of the file
 
 >makepkg -si
 
+>sudo pacman -U package.tar.zst
 ### ssh
 install openssh
 
