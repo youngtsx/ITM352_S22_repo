@@ -126,8 +126,10 @@ If public key is not found when using pacman
 4. pacman -Syyu
 
 ### Color coding terminal
->chatgpt
 
+>ls --color=auto
+
+edit /.bashrc file to color code
 
 ### Aliases
 
@@ -145,24 +147,22 @@ append aliases to the end of the file
 
 >alias ls='ls -l -h'
 
->alias sudoers="grep -Po '^sudo.+:\K.*$' /etc/group" |||grep prints lines matching regex, -po prints in perl-style and only the matched string. 
+### install a package from AUR
 
->cat /etc/passwd
+>install base-devel | aur packages assume the system has this installed
 
-### Install a package from AUR
-
->download base-devel
-
->git clone url
+>git clone [url]
 
 >cd packagename
 
->makepkg -si
+>makepkg -si 
 
->sudo pacman -U package.tar.zst
-### ssh
-install openssh
+>sudo pacman -U packagename.tar.zst
 
-host key verification failed ,need to type yes to prompt with digital ocean open ~_~
+### host key verification failed ,need to type yes to prompt with digital ocean open ~_~
 
 >ssh root@137.184.118.57
+
+need to use sudo for editing files bc they are read only
+
+make sure server has clients key
