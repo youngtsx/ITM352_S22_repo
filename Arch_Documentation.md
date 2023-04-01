@@ -1,7 +1,7 @@
 # Arch Linux Installation Documentation 
 
 
-Insert video link here
+[Walkthrough](https://youtu.be/h8iPbtUfVOk)
 
 
 ## Arch Installation
