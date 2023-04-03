@@ -160,7 +160,7 @@ append aliases to the end of the file
 ### SSH
 host key verification failed ,need to type yes to prompt with digital ocean open ~_~
 
->ssh root@137.184.118.57
+>ssh (-p 22/41235) root@137.184.118.57
 
 need to use sudo for editing files bc they are read only
 
