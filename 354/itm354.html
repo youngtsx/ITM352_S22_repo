@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ITM354</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="itm354.css">
+<style>
+    table, th, td {
+      border:1px solid black;
+    }
+    .pagination {
+        float: right;
+        margin-right: 75px;
+        display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse" margin="0" style="margin-bottom: 0;">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#"><span class="glyphicon glyphicon-menu-hamburger"></span></a></li>
+<select id="dropdown">
+    <option>INC_number</option>
+</select>
+      <input id="searchbar" type="text" placeholder="Search.." name="search">  
+    </ul>
+  </div>
+</nav>
+
+  <!-- Sidebar -->
+<div class="w3-sidebar w3-bar-block" style="width:18%">
+    <a href="#" class="w3-bar-item w3-button">Incidents</a>
+    <a href="#" class="w3-bar-item w3-button">MTR</a>
+    <a href="#" class="w3-bar-item w3-button">Reports</a>
+
+  </div>
+
+  <div style="margin-left:14%">
+<div class="container">
+  <h3>Incidents</h3>
+  <table style="width:100%">
+    <tr>
+      <th scope="col" style="text-align:center">INC_number</th>
+      <th scope="col" style="text-align:center">INC_type</th>
+      <th scope="col" style="text-align:center">Created_by</th>
+      <th scope="col" style="text-align:center">Open_duration</th>
+      <th scope="col" style="text-align:center">INC_description</th>
+      <th scope="col" style="text-align:center"></th>
+    </tr>
+    <tr style="height:70px;" style="text-align:center">
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td><span class="glyphicon glyphicon-edit"></span> <span class="glyphicon glyphicon-trash"></span></td>
+    </tr>
+    <tr style="height:70px;">
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td><span class="glyphicon glyphicon-edit"></span> <span class="glyphicon glyphicon-trash"></span></td>
+    </tr>
+    <tr style="height:70px;">
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td><span class="glyphicon glyphicon-edit"></span> <span class="glyphicon glyphicon-trash"></span></td>
+    </tr>
+    <tr style="height:70px;">
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td><span class="glyphicon glyphicon-edit"></span> <span class="glyphicon glyphicon-trash"></span></td>
+    </tr>
+    <tr style="height:70px;">
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td><span class="glyphicon glyphicon-edit"></span> <span class="glyphicon glyphicon-trash"></span></td>
+    </tr>
+    <tr style="height:70px;">
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td><span class="glyphicon glyphicon-edit"></span> <span class="glyphicon glyphicon-trash"></span></td>
+    </tr>
+  </table>
+
+</div>
+</div>
+
+
+<div class="pagination">
+    <a href="#">&laquo;</a>
+    <a href="#">1</a>
+    <a href="#" class="active">2</a>
+    <a href="#">3</a>
+    <a href="#">4</a>
+    <a href="#">5</a>
+    <a href="#">6</a>
+    <a href="#">&raquo;</a>
+  </div>
+</body>
+</html>
