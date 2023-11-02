@@ -1,15 +1,23 @@
 .w3-sidebar {
-    background-color: #c6c0c7;
+    background-color: #c0abc4;
+    border-color: black;
 }
 
 #searchbar {
     margin: 10px;
+    
 }
 
 #dropdown {
-    height:22.500px;
-    padding-top: 1px;
-    padding-bottom: 1px;
+    height:29.00px;
+    margin-left: 9px;
+    padding-top: 2px;
+    padding-bottom: 2px;
     padding-left: 2px;
     padding-right: 2px;
+}
+
+#NEW {
+    margin-left: 9px;
+    background-color:#c6c0c7;
 }
