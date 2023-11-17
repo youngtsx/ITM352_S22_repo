@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ITM354</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="itm354.css">
+<style>
+    table, th, td {
+      border:1px solid black;
+    }
+    .pagination {
+        float: right;
+        margin-right: 75px;
+        display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: rgb(173, 140, 187);
+  color: white;
+  border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+img {
+  border: 1px solid #232323;
+  height: 296px;
+}
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse" margin="0" style="margin-bottom: 0;">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#"><span class="glyphicon glyphicon-menu-hamburger"></span></a></li>
+      <button id="NEW">NEW</button>
+<select id="dropdown">
+    <option>Report_id</option>
+</select>
+      <input id="searchbar" type="text" placeholder="Search.." name="search">  
+    </ul>
+  </div>
+</nav>
+
+  <!-- Sidebar -->
+<div class="w3-sidebar w3-bar-block" style="width:245.68px; text-align: center;">
+<div style="text-align:left; display: inline-block">
+  <a href="#" class="w3-bar-item w3-button">Incidents</a>
+  <a href="#" class="w3-bar-item w3-button">MTR</a>
+  <a href="#" class="w3-bar-item w3-button">Reports</a>
+  <a href="#" class="w3-bar-item w3-button">Settings</a>
+</div>
+  </div>
+
+  <div style="margin-left:14%">
+<div class="container">
+  <h3>Report Preview</h3>
+</br>
+  <h4>Title</h4>
+  <img src="./graphs/heatmap.png">
+    <img src="./graphs/device.png" style="margin-left: 90px;">
+</div>
+</br>
+<p style="margin-left: 8%;">This is sample text. 
+    Down time incidents pose a significant challenge to operational continuity, 
+    as highlighted in the recent analysis of our organization's performance metrics. 
+    Over the past quarter, we observed a noticeable increase in downtime incidents across various departments, 
+    adversely impacting </br>overall productivity.</p>
+</div>
+
+
+
+<div class="pagination">
+    <a href="#">&laquo;</a>
+    <a href="#">1</a>
+    <a href="#" class="active">2</a>
+    <a href="#">3</a>
+    <a href="#">4</a>
+    <a href="#">5</a>
+    <a href="#">6</a>
+    <a href="#">&raquo;</a>
+  </div>
+</body>
+</html>
