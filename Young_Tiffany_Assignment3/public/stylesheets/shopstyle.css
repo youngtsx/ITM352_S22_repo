@@ -92,11 +92,8 @@ button {
 .footer {
         background-color: #f2f2f2;
         text-align: center;
-        margin-top: 34px;
-        padding-top: 19x;
-        padding-bottom: 15px;
         width: 100%;
-        /*position not fixed so it doesn't block the products x_x */
+        position: fixed;
         left: 0;
         bottom: 0;
 }
