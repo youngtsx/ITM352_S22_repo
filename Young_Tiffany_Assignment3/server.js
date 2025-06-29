@@ -7,7 +7,11 @@ and help from professor port for IR4(add to favorites) */
 var products = require(__dirname + '/products.json');
 var express = require('express');
 var app = express();
+var myParser = require("body-parser");
 var fs = require('fs')
+var qs = require('qs');
+const res = require('express/lib/response');
+//var mysql = require('mysql');
 
 //get session
 var session = require('express-session');
@@ -21,10 +25,25 @@ app.use(cookieParser());
 //node mailer
 var nodemailer = require('nodemailer');
 
-//user data file
+//user data file. Defines file in variable for later usage
 var filename = 'user_data.json';
 
-//lab 13 ex2b
+/*console.log("Connecting to localhost..."); 
+var con = mysql.createConnection({
+  host: '127.0.0.1',
+  user: "root",
+  port: 3306,
+  database: "Boba_DB",
+  password: ""
+});
+
+con.connect(function (err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
+*/
+
+//lab 13 ex2b, checks for file
 if (fs.existsSync(filename)) {
    var data = fs.readFileSync(filename, 'utf-8');
    var users = JSON.parse(data);
