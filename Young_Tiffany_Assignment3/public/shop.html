@@ -145,7 +145,8 @@ assignment 3 code examples-->
   <main>
     <script>if(getCookie('user_cookie') != false) {
       document.write(`<div class="container4"><h4><b>Welcome, ${user_cookie}! </b><h4></div>`)
-      };</script>
+      };
+      </script>
     <form name="quantity_form" action="./add_to_cart" method="POST">
       <script>  cart_total.innerHTML = total; </script>
       <script>
@@ -167,7 +168,6 @@ assignment 3 code examples-->
                         <p><strong>$${products[products_key][i].price.toFixed(2)}</strong></p>
                         <p id="quantity[${i}]_label">Quantity:</p>
                         <input type="text" placeholder="We have ${products[products_key][i].quantity_available} available" name="quantity[${i}]" id="quantity[${i}]" onkeyup="checkQuantityTextbox(this);">
-                        
                         </div>
                   </div>
         </div>
