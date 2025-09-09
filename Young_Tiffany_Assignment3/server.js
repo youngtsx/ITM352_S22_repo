@@ -230,7 +230,7 @@ app.all('*', function (request, response, next) {
 
 /*                        add to cart                            */
 // process purchase request (validate quantities, check quantity available)
-//modified from purchase from asst2 server
+// modified from purchase from asst2 server
 app.post('/add_to_cart', function (request, response, next) {
 
    //assume no errors or no quantity
