@@ -34,11 +34,11 @@ body>.item>.row {
         float: right;
         margin: 0px;
         top: -4px;
-        position:relative;
+        position: relative;
 }
 
 .panel-footer {
-        margin-bottom: 10px;
+        margin: auto;
 }
 
 /* styling the item headers*/
